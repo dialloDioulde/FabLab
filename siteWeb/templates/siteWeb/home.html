@@ -1,0 +1,42 @@
+{% extends 'siteWeb/header.html' %}
+
+{% block content %}
+
+{% if materials.paginator.num_pages > 1 %}
+    <!-- start -->
+    {% include "siteWeb/includes/pagination.html" %}
+    <!-- end -->
+{% endif %}
+
+
+
+<div class="row">
+    {% if not materials %}
+        <p>No Match Found.</p>
+    {% endif %}
+  {% for material in materials %}
+      <div class="col s12 m6">
+        <div class="card blue-grey lighten-5 hoverable">
+          <div class="card-content black-text">
+            <span class="card-title">{{material.name}}</span>
+             <p class="card-title" style="font-size:70%">Barcode: {{material.barcode}}</p>
+             <p style="font-size:70%"> Created at: {{material.creation_date_mat}}</p>
+             <p style="font-size:70%">{{material.type|safe}}</p>
+<!--             <p>{{  material.material_picture }} Foto</p>-->
+             <img src="images/{{material.material_picture}}" width="240">
+<!--             <p style="font-size:80%"><b>Description:</b> {{material.description|safe}}</p>-->
+           </div>
+          <div class="card-action">
+          </div>
+        </div>
+      </div>
+  {% endfor %}
+</div>
+
+{% if materials.paginator.num_pages > 1 %}
+    <!-- start -->
+    {% include "siteWeb/includes/pagination.html" %}
+    <!-- end -->
+{% endif %}
+
+{% endblock %}
