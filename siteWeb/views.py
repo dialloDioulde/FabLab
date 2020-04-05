@@ -12,6 +12,8 @@ from django.core.paginator import Paginator
 from django.shortcuts import render
 from .models import Material, Type
 from django.core.paginator import Paginator
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
 
 from siteWeb.models import LoanMaterial,Loaner,Loan,Material,Type,UserProfile
 from siteWeb.forms import formLoan,formType,formLoaner,formLoanMaterial,formMaterial
@@ -39,7 +41,57 @@ def homepage(request):
                   template_name="siteWeb/home.html",
                   context={"materials": materials, "search_term": search_term})
 
+def register(request):
+    # automatically, it's a GET request
 
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            # things are filled out like theyre supposed to
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"New Account Created:{username}")
+            login(request, user)
+            messages.info(request, f"Logged in as  {username}")
+            return redirect("main:homepage")
+        else:
+            for message in form.error_messages:
+                # print(form.error_messages[message])
+                messages.error(request, f"{message} : {form.error_messages[message]}")
+    form = NewUserForm
+    return render(request,
+                  "main/register.html",
+                  context={"form": form}
+                  )
+
+
+def logout_request(request):
+    logout(request)
+    messages.info(request, "Logged out successfully!")
+    return redirect("main:homepage")
+
+
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"Logged in as  {username}")
+                return redirect("main:homepage")
+            else:
+                messages.error(request, "Invalid username or password")
+        else:
+            messages.error(request, "Invalid username or password")
+
+    form = AuthenticationForm()
+    return render(request,
+                  "main/login.html",
+                  {"form": form}
+                  )
 
 # Borrower registration
 # @login_required # You will need to be logged in
