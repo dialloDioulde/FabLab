@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import *
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from .models import Material, Type
 from django.core.paginator import Paginator
@@ -22,6 +23,11 @@ def homepage(request):
 # Welcome Page d'Acceuil
 def welcome(request):
     return render(request,'siteWeb/base.html')
+
+#Homepace
+def homepage(request):
+    search_term = ""
+    materials = Material.objects.all()
 
 
 
@@ -53,3 +59,16 @@ def addLoaner(request):
     return render(request=request,
                   template_name="siteWeb/home.html",
                   context={"materials": materials, "search_term": search_term})
+
+
+
+# Borrower registration
+# @login_required # You will need to be logged in
+def addLoaner(request):
+    if request.method == 'POST':
+        form = formLoaner(request.POST)
+        form.save()
+        print(form.instance)
+    else:
+        form = formLoaner()
+    return render(request, 'siteWeb/addLoaner.html', {'form': form})
