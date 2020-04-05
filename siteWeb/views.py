@@ -16,14 +16,6 @@ from django.core.paginator import Paginator
 from siteWeb.models import LoanMaterial,Loaner,Loan,Material,Type,UserProfile
 from siteWeb.forms import formLoan,formType,formLoaner,formLoanMaterial,formMaterial
 
-# Create your views here.
-def homepage(request):
-    materials = Material.objects.all()
-
-# Welcome Page d'Acceuil
-def welcome(request):
-    return render(request,'siteWeb/base.html')
-
 #Homepace
 def homepage(request):
     materials = Material.objects.all()
