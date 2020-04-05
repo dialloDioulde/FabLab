@@ -1,0 +1,32 @@
+<div class="pagination" align="center" >
+     <ul class="pagination pg-blue">
+     {% if materials.has_previous %}
+          <li class="pagination pg-blue">
+              <a class="page-link" href="?page=1">
+              <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+              </a>
+          </li>
+          <li class="pagination pg-blue">
+              <a class="page-link" href="?page={{ materials.previous_page_number }}">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+             </a>
+          </li>
+    {% endif %}
+    {% for num in materials.paginator.page_range %}
+        {% if materials.number == num %}
+              <li class="page-item"><span class="pagination-number pagination-current">{{ num }}</span>  <li class="page-item">
+        {% elif num > materials.number|add:'-3' and num < materials.number|add:'3' %}
+              <li class="page-item"><a class="pagination-number" href="?page={{ num }}">{{ num }}</a>  <li class="page-item">
+        {% endif %}
+    {% endfor %}
+    {% if materials.has_next %}
+        <li class="page-item"><a class="pagination-action" href="?page={{ materials.next_page_number }}">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="page-item"><a class="pagination-action" href="?page={{ materials.paginator.num_pages }}">
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+        </a></li>
+    {% endif %}
+     </ul>
+</div>
