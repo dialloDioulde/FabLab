@@ -26,12 +26,6 @@ urlpatterns = [
     path('addLoaner/', views.addLoaner, name= 'addLoaner'),
     path('addType/', views.addType, name='addType'),
     path('addMaterial/', views.addMateriel, name='addMaterial'),
-    path('addLoan/', views.addLoan, name='addLoan'),
     path('addLoanMaterial', views.addLoanMaterial, name='addLoanMaterial'),
-]
-
-    path("register/", views.register, name="register"),
-    path("logout/", views.logout_request, name="logout"),
-    path("login/", views.login_request, name="login"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
