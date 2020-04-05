@@ -107,3 +107,31 @@ def addLoaner(request):
     else:
         form = formLoaner()
     return render(request, 'siteWeb/addLoaner.html', {'form': form})
+
+
+# Add Material
+# @login_required
+def addType(request):
+    sauvegarde = False
+    if request.method == 'POST':
+        form = formType(request.POST)
+        form.save()
+        sauvegarde = True
+    else:
+        form = formType()
+    return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
+
+
+
+# Add Material
+def addMaterial(request):
+    sauvegarde = False
+    if request.method == 'POST':
+        form = formMaterial(request.POST)
+        form.save()
+        sauvegarde = True
+    else:
+        form = formMaterial()
+    return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
+
+
