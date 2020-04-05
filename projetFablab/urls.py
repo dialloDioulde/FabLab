@@ -23,6 +23,11 @@ from django.conf import settings # new
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.homepage, name="homepage"),
+
+    path("register/", views.register, name="register"),
+    path("logout/", views.logout_request, name="logout"),
+    path("login/", views.login_request, name="login"),
+
     path('addLoaner/', views.addLoaner, name= 'addLoaner'),
     path('addType/', views.addType, name='addType'),
     path('addMaterial/', views.addMaterial, name='addMaterial'),
