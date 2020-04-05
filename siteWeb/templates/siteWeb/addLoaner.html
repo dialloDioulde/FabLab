@@ -1,0 +1,49 @@
+{% extends 'siteWeb/base.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="card border">
+        <div class="container-fluid">
+        <title>FabMSTIC</title>
+
+        <form method="POST" class="post-form" action="{% url 'addLoaner' %}" novalidate>
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-3">
+                    {{ form.last_name|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    {{ form.first_name|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    {{ form.email|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    {{ form.establishment|as_crispy_field }}
+                </div>
+            </div>
+
+
+             <div class="row">
+                <div class="col-3">
+                     <input type="submit" value="Inscrire" class="btn btn-info"/>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    </div>
+{% endblock %}
+
