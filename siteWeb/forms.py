@@ -1,5 +1,8 @@
 from django import forms
-from siteWeb.models import Loan,Loaner,Material,LoanMaterial,Type,UserProfile
+from siteWeb.models import Loan,Loaner,Material,LoanMaterial,Type
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 
 
 # Formualire d'Insciption d'Utilisateur
@@ -34,3 +37,20 @@ class formLoan(forms.ModelForm):
     class Meta:
         model = Loan
         fields = ['loaner','materials','expected_return_date', 'return_date']
+
+
+class NewUserForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    establishment = forms.CharField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "establishment", "password1", "password2")
+
+    def save(self, commit=True):
+        user = super(NewUserForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.establishment = self.cleaned_data['establishment']
+        if commit:
+            user.save()
+        return user

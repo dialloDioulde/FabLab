@@ -13,13 +13,14 @@ from django.shortcuts import render
 from .models import Material, Type
 from django.core.paginator import Paginator
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib import messages
+from .forms import NewUserForm
+
+from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
+from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial
 
 
-from siteWeb.models import LoanMaterial,Loaner,Loan,Material,Type,UserProfile
-from siteWeb.forms import formLoan,formType,formLoaner,formLoanMaterial,formMaterial
-
-
-#Homepace
+# Homepace
 def homepage(request):
     materials = Material.objects.all()
     search_term = ""
@@ -41,6 +42,7 @@ def homepage(request):
                   template_name="siteWeb/home.html",
                   context={"materials": materials, "search_term": search_term})
 
+
 def register(request):
     # automatically, it's a GET request
 
@@ -51,24 +53,24 @@ def register(request):
             user = form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f"New Account Created:{username}")
-            login(request, user)
-            messages.info(request, f"Logged in as  {username}")
-            return redirect("main:homepage")
+            # login(request, user)
+            # messages.info(request, f"Logged in as  {username}")
+            return redirect("homepage")
         else:
             for message in form.error_messages:
                 # print(form.error_messages[message])
                 messages.error(request, f"{message} : {form.error_messages[message]}")
     form = NewUserForm
     return render(request,
-                  "main/register.html",
+                  "siteWeb/register.html",
                   context={"form": form}
                   )
 
-
+#@login_required
 def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
-    return redirect("main:homepage")
+    return redirect("homepage")
 
 
 def login_request(request):
@@ -81,7 +83,7 @@ def login_request(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"Logged in as  {username}")
-                return redirect("main:homepage")
+                return redirect("homepage")
             else:
                 messages.error(request, "Invalid username or password")
         else:
@@ -89,9 +91,10 @@ def login_request(request):
 
     form = AuthenticationForm()
     return render(request,
-                  "main/login.html",
+                  "siteWeb/login.html",
                   {"form": form}
                   )
+
 
 # Borrower registration
 # @login_required # You will need to be logged in
@@ -99,36 +102,8 @@ def addLoaner(request):
     if request.method == 'POST':
         form = formLoaner(request.POST)
         form.save()
-        print(form.instance)
+        messages.success(request, f"Loaner saved successfully!")
+        return redirect("homepage")
     else:
         form = formLoaner()
     return render(request, 'siteWeb/addLoaner.html', {'form': form})
-
-
-# Add Material Type
-def addType(request):
-    sauvegarde = False
-    if request.method == 'POST':
-        form = formType(request.POST)
-        form.save()
-        sauvegarde = True
-    else:
-        form = formType()
-    return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
-
-
-
-# Add Material
-def addMateriel(request):
-    sauvegarde = False
-    if request.method == 'POST':
-        form = formMaterial(request.POST)
-        form.save()
-        sauvegarde = True
-    else:
-        form = formMaterial()
-    return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
-
-
-
-
