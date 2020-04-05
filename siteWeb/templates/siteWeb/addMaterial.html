@@ -1,7 +1,9 @@
 {% extends 'siteWeb/home.html'%}
 
 {% load crispy_forms_tags %}
+{% block content %}
 
+<div class="container-fluid">
     <form method="POST" action="{% url 'addMaterial' %}">
         <table>
             {% csrf_token %}
@@ -36,10 +38,10 @@
             </div>
 
 
-            <input type="submit" value="Ajouter" class="btn btn-info" />
+            <input type="submit" value="ADD MATERIAL" class="btn btn-info" />
         </table>
     </form>
-
 </div>
+
 
 {% endblock %}

@@ -16,6 +16,7 @@ from django.core.paginator import Paginator
 from siteWeb.models import LoanMaterial,Loaner,Loan,Material,Type,UserProfile
 from siteWeb.forms import formLoan,formType,formLoaner,formLoanMaterial,formMaterial
 
+
 #Homepace
 def homepage(request):
     materials = Material.objects.all()
@@ -50,3 +51,32 @@ def addLoaner(request):
     else:
         form = formLoaner()
     return render(request, 'siteWeb/addLoaner.html', {'form': form})
+
+
+# Add Material Type
+def addType(request):
+    sauvegarde = False
+    if request.method == 'POST':
+        form = formType(request.POST)
+        form.save()
+        sauvegarde = True
+    else:
+        form = formType()
+    return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
+
+
+
+# Add Material
+def addMateriel(request):
+    sauvegarde = False
+    if request.method == 'POST':
+        form = formMaterial(request.POST)
+        form.save()
+        sauvegarde = True
+    else:
+        form = formMaterial()
+    return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
+
+
+
+

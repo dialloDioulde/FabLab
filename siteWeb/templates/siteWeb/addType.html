@@ -1,0 +1,33 @@
+{% extends 'siteWeb/home.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container-fluid">
+        <form method="POST" action="{% url 'addType' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-3">
+                        {{ form.material_type|as_crispy_field }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3">
+                        {{ form.name_type|as_crispy_field }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-5">
+                        {{ form.description|as_crispy_field }}
+                        </div>
+                    </div>
+
+                    <input type="submit" value="ADD TYPE" class="btn btn-info mb-2" />
+        </form>
+    </p>
+</div>
+
+{% endblock %}

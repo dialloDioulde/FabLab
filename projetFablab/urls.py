@@ -20,4 +20,9 @@ from siteWeb import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.homepage, name="homepage"),
+    path('addLoaner/', views.addLoaner, name= 'addLoaner'),
+    path('addType/', views.addType, name='addType'),
+    path('addMaterial/', views.addMateriel, name='addMaterial'),
+    path('addLoan/', views.addLoan, name='addLoan'),
+    path('addLoanMaterial', views.addLoanMaterial, name='addLoanMaterial'),
 ]
