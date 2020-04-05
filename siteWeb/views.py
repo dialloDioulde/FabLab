@@ -8,11 +8,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import *
+from django.core.paginator import Paginator
 
 from siteWeb.models import LoanMaterial,Loaner,Loan,Material,Type,UserProfile
 from siteWeb.forms import formLoan,formType,formLoaner,formLoanMaterial,formMaterial
 
+
+#Homepace
+def homepage(request):
     search_term = ""
+    materials = Material.objects.all()
 
     if 'search' in request.GET:
         search_term = request.GET['search']
@@ -30,10 +35,6 @@ from siteWeb.forms import formLoan,formType,formLoaner,formLoanMaterial,formMate
     return render(request=request,
                   template_name="siteWeb/home.html",
                   context={"materials": materials, "search_term": search_term})
-
-# Welcome Page d'Acceuil
-def welcome(request):
-    return render(request,'siteWeb/base.html')
 
 
 
