@@ -26,21 +26,7 @@ def welcome(request):
 
 #Homepace
 def homepage(request):
-    search_term = ""
     materials = Material.objects.all()
-
-
-
-# Borrower registration
-# @login_required # You will need to be logged in
-def addLoaner(request):
-    if request.method == 'POST':
-        form = formLoaner(request.POST)
-        form.save()
-        print(form.instance)
-    else:
-        form = formLoaner()
-    return render(request, 'siteWeb/addLoaner.html', {'form': form})
     search_term = ""
 
     if 'search' in request.GET:
