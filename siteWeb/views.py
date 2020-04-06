@@ -101,9 +101,10 @@ def login_request(request):
 def addLoaner(request):
     if request.method == 'POST':
         form = formLoaner(request.POST)
-        form.save()
-        messages.success(request, f"Loaner saved successfully!")
-        return redirect("homepage")
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Loaner saved successfully!")
+            return redirect("homepage")
     else:
         form = formLoaner()
     return render(request, 'siteWeb/addLoaner.html', {'form': form})
