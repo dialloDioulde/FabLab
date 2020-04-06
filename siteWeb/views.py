@@ -110,14 +110,15 @@ def addLoaner(request):
     return render(request, 'siteWeb/addLoaner.html', {'form': form})
 
 
-# Add Material
+
 # @login_required
 def addType(request):
     sauvegarde = False
     if request.method == 'POST':
         form = formType(request.POST)
-        form.save()
-        sauvegarde = True
+        if form.is_valid():
+            form.save()
+            sauvegarde = True
     else:
         form = formType()
     return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
@@ -129,10 +130,62 @@ def addMaterial(request):
     sauvegarde = False
     if request.method == 'POST':
         form = formMaterial(request.POST)
-        form.save()
-        sauvegarde = True
+        if form.is_valid():
+            form.save()
+            sauvegarde = True
     else:
         form = formMaterial()
     return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
+# Show Loaner
+def showLoaner(request):
+    loaner_liste = Loaner.objects.all()
+    return render(request,'siteWeb/showLoaner.html', {'loaners' : loaner_liste})
+
+
+# Show Type
+def showType(request):
+    type_liste = Type.objects.all()
+    return render(request,'siteWeb/showType.html', {'types' : type_liste})
+
+
+# Show Material
+def showMaterial(request):
+    material_liste = Material.objects.all()
+    return render(request,'siteWeb/showMaterial.html', {'materials' : material_liste})
+
+
+# Edit Loaner
+def editLoaner(request, id):
+    loaner_edit = Loaner.objects.get(id=id)
+    return render(request, 'siteWeb/editLoaner.html', {'loaner_edit' : loaner_edit})
+
+
+
+# Update Loaner
+def updateLoaner(request, id):
+    loaner_update = Loaner.objects.get(id=id)
+    form = formLoaner(request.POST, instance=loaner_update)
+    if form.is_valid():
+        form.save()
+        return redirect(showLoaner)
+    return render(request, 'siteWeb/editLoaner.html', {'user_update' : form})
+
+
+
+# Edit Type
+def editType(request, id):
+    type_edit = Type.objects.get(id=id)
+    return render(request, 'siteWeb/editType.html', {'type_edit' : type_edit})
+
+
+
+# Update Type
+def updateType(request, id):
+    type_update = Type.objects.get(id=id)
+    form = formType(request.POST, instance=type_update)
+    if form.is_valid():
+        form.save()
+        return redirect(showType)
+    return render(request, 'siteWeb/editType.html', {'type_update' : form})

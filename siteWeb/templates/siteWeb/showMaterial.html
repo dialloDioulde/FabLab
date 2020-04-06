@@ -1,0 +1,36 @@
+{% extends 'siteWeb/home.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <table class="table table-bordered responsive">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">NAME</th>
+                <th scope="col">BARCODE</th>
+                <th scope="col">TYPE</th>
+                 <th scope="col">DESCRIPTION</th>
+                <th scope="col">CREATION DATE</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+
+        {% for material in materials %}
+        <tbody>
+        <tr>
+            <td>{{material.name}}</td>
+            <td>{{material.barcode}}</td>
+            <td>{{material.slug}}</td>
+            <td>{{material.type }}</td>
+            <td>{{material.creation_date_mat}}</td>
+            <td>
+                <a href="#"><span>Edit</span></a>
+                <a href="#">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+{% endblock %}

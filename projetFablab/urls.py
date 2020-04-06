@@ -31,5 +31,15 @@ urlpatterns = [
     path('addLoaner/', views.addLoaner, name= 'addLoaner'),
     path('addType/', views.addType, name='addType'),
     path('addMaterial/', views.addMaterial, name='addMaterial'),
+
+    path('showLoaner', views.showLoaner, name='showLoaner'),
+    path('showType', views.showType, name='showType'),
+    path('showMaterial', views.showMaterial, name='showMaterial'),
+
+    path('editLoaner/<int:id>',views.editLoaner, name='editUsers'),
+    path('updateLoaner/<int:id>',views.updateLoaner, name='updateLoaner'),
+
+    path('editType/<int:id>',views.editType, name='editType'),
+    path('updateType/<int:id>',views.updateType, name='updateType'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

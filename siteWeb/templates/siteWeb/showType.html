@@ -1,0 +1,34 @@
+{% extends 'siteWeb/home.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <table class="table table-bordered responsive">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">TYPE</th>
+                <th scope="col">NAME</th>
+                 <th scope="col">DESCRIPTION</th>
+                <th scope="col">CREATION DATE</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+
+        {% for type in types %}
+        <tbody>
+        <tr>
+            <td>{{type.material_type}}</td>
+            <td>{{type.name_type}}</td>
+            <td>{{type.description}}</td>
+            <td>{{type.description}}</td>
+            <td>
+                <a href="/editType/{{type.id}}"><span>Edit</span></a>
+                <a href="#">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+{% endblock %}

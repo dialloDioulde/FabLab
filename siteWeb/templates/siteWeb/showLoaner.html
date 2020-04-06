@@ -1,0 +1,36 @@
+{% extends 'siteWeb/home.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <table class="table table-bordered responsive">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">LAST NAME</th>
+                <th scope="col">FIRST NAME</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">ESTABLISHMENT</th>
+                <th scope="col">CREATION DATE</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+
+        {% for loaner in loaners %}
+        <tbody>
+        <tr>
+            <td>{{loaner.last_name}}</td>
+            <td>{{loaner.first_name}}</td>
+            <td>{{loaner.email}}</td>
+            <td>{{loaner.establishment}}</td>
+            <td>{{loaner.creation_date}}</td>
+            <td>
+                <a href="/editLoaner/{{loaner.id}}"><span>Edit</span></a>
+                <a href="#">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+{% endblock %}

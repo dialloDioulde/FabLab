@@ -1,0 +1,47 @@
+{% extends 'siteWeb/home.html'%}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+        <div class="container-fluid">
+        <title>FabMSTIC</title>
+
+        <form method="POST"  action="/updateLoaner/{{loaner_edit.id}}" novalidate class="my-3">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="last_namee">LAST NAME : </label>
+                    <input type="text" class="form-control" name="last_name" id="last_namee" value="{{loaner_edit.last_name}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="first_namee">LAST NAME : </label>
+                    <input type="text" class="form-control" name="first_name" id="first_namee" value="{{loaner_edit.first_name}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="eemail">EMAIL : </label>
+                    <input type="email" class="form-control" name="email" id="eemail" value="{{loaner_edit.email}}">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="eestablishment">ESTABLISHMENT : </label>
+                    <input type="text" class="form-control" name="establishment" id="eestablishment" value="{{loaner_edit.establishment}}">
+                </div>
+            </div>
+
+             <div class="form-group row">
+                 <div class="col-sm-8">
+                     <button type="submit" class="btn btn-primary col-sm-2">EDIT LOANER</button>
+                 </div>
+             </div>
+        </form>
+    </div>
+
+{% endblock %}
