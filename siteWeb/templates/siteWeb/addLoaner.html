@@ -1,49 +1,23 @@
-{% extends 'siteWeb/home.html'%}
+{% include "siteWeb/includes/navbar-secondary.html" %}
 
-{% load crispy_forms_tags %}
-
+{% include "siteWeb/includes/messaging.html" %}
 {% block content %}
-
-    <div class="">
-        <div class="container-fluid">
-        <title>FabMSTIC</title>
-
-        <form method="POST" class="post-form" action="{% url 'addLoaner' %}" novalidate>
-            {% csrf_token %}
-
-            <div class="row">
-                <div class="col-3">
-                    {{ form.last_name|as_crispy_field }}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    {{ form.first_name|as_crispy_field }}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    {{ form.email|as_crispy_field }}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-3">
-                    {{ form.establishment|as_crispy_field }}
-                </div>
-            </div>
-
-
-             <div class="row">
-                <div class="col-3">
-                     <input type="submit" value="ADD LOANER" class="btn btn-info"/>
-                </div>
-            </div>
-        </form>
-    </div>
-
+    <div class = "container">
+            {% if user.is_authenticated %}
+                <br>
+                <h3> <span class="badge badge-secondary">Add a Loaner</span></h3>
+                <br>
+                <form method = "POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <br>
+                    <button class="btn btn-dark" type = "submit">Add Loaner</button>
+                </form>
+                If you already have an account, <strong><a href = 'login/'>login</a></strong>.
+        {% else %}
+            <p>You don't have permission to access this page. Return Home.</p>
+        {% endif %}
     </div>
 {% endblock %}
+
 

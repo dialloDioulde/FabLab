@@ -66,6 +66,7 @@ def register(request):
                   context={"form": form}
                   )
 
+
 #@login_required
 def logout_request(request):
     logout(request)
@@ -110,7 +111,6 @@ def addLoaner(request):
     return render(request, 'siteWeb/addLoaner.html', {'form': form})
 
 
-
 # @login_required
 def addType(request):
     sauvegarde = False
@@ -124,15 +124,23 @@ def addType(request):
     return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
-
 # Add Material
 def addMaterial(request):
     sauvegarde = False
     if request.method == 'POST':
-        form = formMaterial(request.POST)
+        form = formMaterial(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            sauvegarde = True
+            from django.core.exceptions import ObjectDoesNotExist
+            try:
+                material_unique = form.cleaned_data.get('type')
+                Material.objects.get(type=material_unique)
+                messages.error(request, f"Existing unique type.")
+            except ObjectDoesNotExist:
+                form.save()
+                form = formMaterial()
+                messages.success(request, f"New Material created")
+                return redirect("homepage")
+                sauvegarde = True
     else:
         form = formMaterial()
     return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
