@@ -98,44 +98,57 @@ def login_request(request):
 
 
 # Borrower registration
-# @login_required # You will need to be logged in
+#@login_required # You will need to be logged in
 def addLoaner(request):
+    sauvegarde = False
     if request.method == 'POST':
         form = formLoaner(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f"Loaner saved successfully!")
-            return redirect("homepage")
+        form.save()
+        form = formLoaner()
+        messages.success(request, f"New Loaner created")
+        return redirect("main:homepage")
+        sauvegarde = True
     else:
         form = formLoaner()
     return render(request, 'siteWeb/addLoaner.html', {'form': form})
 
 
-# @login_required
+#Add Type
+#@login_required
 def addType(request):
     sauvegarde = False
     if request.method == 'POST':
         form = formType(request.POST)
-        if form.is_valid():
-            form.save()
-            sauvegarde = True
+        form.save()
+        form = formType()
+        messages.success(request, f"New Type created")
+        return redirect("homepage")
+        sauvegarde = True
     else:
         form = formType()
     return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
 # Add Material
+#@login_required
 def addMaterial(request):
     sauvegarde = False
     if request.method == 'POST':
         form = formMaterial(request.POST, request.FILES)
         if form.is_valid():
-            from django.core.exceptions import ObjectDoesNotExist
-            try:
-                material_unique = form.cleaned_data.get('type')
-                Material.objects.get(type=material_unique)
-                messages.error(request, f"Existing unique type.")
-            except ObjectDoesNotExist:
+            type = form.cleaned_data.get('type')
+            if type.material_type == 'unique':
+                from django.core.exceptions import ObjectDoesNotExist
+                try:
+                    Material.objects.get(type=type)
+                    messages.error(request, f"Existing unique type.")
+                except ObjectDoesNotExist:
+                    form.save()
+                    form = formMaterial()
+                    messages.success(request, f"New Material created")
+                    return redirect("homepage")
+                    sauvegarde = True
+            else:
                 form.save()
                 form = formMaterial()
                 messages.success(request, f"New Material created")
@@ -170,7 +183,6 @@ def editLoaner(request, id):
     return render(request, 'siteWeb/editLoaner.html', {'loaner_edit' : loaner_edit})
 
 
-
 # Update Loaner
 def updateLoaner(request, id):
     loaner_update = Loaner.objects.get(id=id)
@@ -181,12 +193,10 @@ def updateLoaner(request, id):
     return render(request, 'siteWeb/editLoaner.html', {'user_update' : form})
 
 
-
 # Edit Type
 def editType(request, id):
     type_edit = Type.objects.get(id=id)
     return render(request, 'siteWeb/editType.html', {'type_edit' : type_edit})
-
 
 
 # Update Type

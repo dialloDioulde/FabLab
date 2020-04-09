@@ -1,16 +1,17 @@
 <head>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" media="screen">
-    <style type="text/css">
-            .asteriskField{
-                display: none;}
-        </style>
+    <!-- Prism CSS -->
+    <link href="{% static 'tinymce/css/prism.css' %}" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'main/css/materialize.css' %}">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
 
     {% include "siteWeb/includes/navbar.html" %}
 
-    {% include "siteWeb/includes/messaging.html" %}
+    {% include 'siteWeb/includes/messaging.html' %}
 
   <div class = "container">
       <br>

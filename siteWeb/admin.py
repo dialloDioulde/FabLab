@@ -1,4 +1,5 @@
 from django.contrib import admin
+from tinymce import TinyMCE
 
 # Register your models here.
 
