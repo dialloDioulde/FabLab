@@ -47,7 +47,11 @@ def homepage(request):
                   context={"materials": materials, "search_term": search_term})
 
 
-#show single material
+def dashboard(request):
+    return render(request, "siteWeb/dashboard.html")
+
+
+# show single material
 class MaterialDetailView(DetailView):
     model = Material
     template_name = "siteWeb/material.html"
@@ -77,7 +81,7 @@ def register(request):
                   )
 
 
-#@login_required
+# @login_required
 def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
@@ -108,7 +112,7 @@ def login_request(request):
 
 
 # Borrower registration
-#@login_required # You will need to be logged in
+# @login_required # You will need to be logged in
 def addLoaner(request):
     sauvegarde = False
     if request.method == 'POST':
@@ -123,8 +127,8 @@ def addLoaner(request):
     return render(request, 'siteWeb/addLoaner.html', {'form': form})
 
 
-#Add Type
-#@login_required
+# Add Type
+# @login_required
 def addType(request):
     sauvegarde = False
     if request.method == 'POST':
@@ -140,7 +144,7 @@ def addType(request):
 
 
 # Add Material
-#@login_required
+# @login_required
 def addMaterial(request):
     sauvegarde = False
     if request.method == 'POST':
@@ -169,29 +173,28 @@ def addMaterial(request):
     return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
-
 # Show Loaner
 def showLoaner(request):
     loaner_liste = Loaner.objects.all()
-    return render(request,'siteWeb/showLoaner.html', {'loaners' : loaner_liste})
+    return render(request, 'siteWeb/showLoaner.html', {'loaners': loaner_liste})
 
 
 # Show Type
 def showType(request):
     type_liste = Type.objects.all()
-    return render(request,'siteWeb/showType.html', {'types' : type_liste})
+    return render(request, 'siteWeb/showType.html', {'types': type_liste})
 
 
 # Show Material
 def showMaterial(request):
     material_liste = Material.objects.all()
-    return render(request,'siteWeb/showMaterial.html', {'materials' : material_liste})
+    return render(request, 'siteWeb/showMaterial.html', {'materials': material_liste})
 
 
 # Edit Loaner
 def editLoaner(request, id):
     loaner_edit = Loaner.objects.get(id=id)
-    return render(request, 'siteWeb/editLoaner.html', {'loaner_edit' : loaner_edit})
+    return render(request, 'siteWeb/editLoaner.html', {'loaner_edit': loaner_edit})
 
 
 # Update Loaner
@@ -201,13 +204,13 @@ def updateLoaner(request, id):
     if form.is_valid():
         form.save()
         return redirect(showLoaner)
-    return render(request, 'siteWeb/editLoaner.html', {'user_update' : form})
+    return render(request, 'siteWeb/editLoaner.html', {'user_update': form})
 
 
 # Edit Type
 def editType(request, id):
     type_edit = Type.objects.get(id=id)
-    return render(request, 'siteWeb/editType.html', {'type_edit' : type_edit})
+    return render(request, 'siteWeb/editType.html', {'type_edit': type_edit})
 
 
 # Update Type
@@ -217,7 +220,7 @@ def updateType(request, id):
     if form.is_valid():
         form.save()
         return redirect(showType)
-    return render(request, 'siteWeb/editType.html', {'type_update' : form})
+    return render(request, 'siteWeb/editType.html', {'type_update': form})
 
 
 @login_required
