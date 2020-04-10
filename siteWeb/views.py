@@ -229,10 +229,10 @@ def add_to_loan(request, slug):
         loan = material_query[0]
         # check if the order item is in the order
         if loan.materials.filter(material__slug=material.slug).exists():
-            loan_material.quantity += 1
+            # loan_material.quantity += 1
             loan_material.save()
-            messages.info(request, loan_material)
-            return redirect("loan-summary")
+            messages.info(request, "Material Already exists in Loan.")
+            return redirect("/")
         else:
             loan.materials.add(loan_material)
             messages.info(request, loan_material)

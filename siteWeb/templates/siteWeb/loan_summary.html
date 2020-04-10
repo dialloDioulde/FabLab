@@ -23,9 +23,14 @@
                     <td>{{ loan_material.material.name }}</td>
                     <td>{{ loan_material.material.barcode }}</td>
                     <td>
+                        {% if loan_material.material.type.material_type != 'unique' %}
                         <a href="{% url 'remove-material-from-loan' loan_material.material.slug  %}"><i class="material-icons">remove_circle</i></a>
+                        {% endif %}
                         {{ loan_material.quantity }}
-                        <a href="{% url 'add-to-loan' loan_material.material.slug  %}"><i class="material-icons right">add_circle</i></a></td>
+                        {% if loan_material.material.type.material_type != 'unique' %}
+                        <a href="{% url 'add-to-loan' loan_material.material.slug  %}"><i class="material-icons right">add_circle</i></a>
+                        {% endif %}
+                    </td>
                     <td>
                         <a href="{% url 'remove-from-loan' loan_material.material.slug  %}"><i class="material-icons right">delete</i></a>
                     </td>

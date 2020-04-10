@@ -29,18 +29,7 @@
             <li><a href="/admin">Admin</a></li>
 
             {% endif %}
-            {% if user.is_authenticated %}
-                <li>
 
-                <a class = "btn dropdown-button blue-grey darken-4" href = "#" data-activates = "dropdown">ADD
-                <i class="material-icons right">arrow_drop_down</i></a>
-
-                <ul id = "dropdown" class = "dropdown-content">
-                    <li><a href = "/material">Add Material</a></li>
-                    <li><a href = "/type">Add Type</a></li>
-                    <li><a href = "/loaner">Add Loaner</a></li>
-                </ul>
-            {% endif %}
         </ul>
         <ul class = 'right'>
             {% if user.is_authenticated %}

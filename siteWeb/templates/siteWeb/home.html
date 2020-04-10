@@ -27,7 +27,8 @@
             <!-- <p style="font-size:80%"><b>Description:</b> {{material.description|safe}}</p>-->
            </div>
           <div class="card-action">
-            <a href="{{ material.get_absolute_url }}">View Material</a>
+            <a href="{{ material.get_absolute_url }}" class = "btn dropdown-button blue-grey darken-4">View Material</a>
+            <a href="{{ material.get_add_to_loan_url }}" class = "btn dropdown-button green darken-4">Add to Loan</a>
           </div>
         </div>
       </div>
