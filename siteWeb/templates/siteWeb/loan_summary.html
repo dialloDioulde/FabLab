@@ -28,7 +28,7 @@
                         {% endif %}
                         {{ loan_material.quantity }}
                         {% if loan_material.material.type.material_type != 'unique' %}
-                        <a href="{% url 'add-to-loan' loan_material.material.slug  %}"><i class="material-icons right">add_circle</i></a>
+                        <a href="{% url 'add-one-material' loan_material.material.slug  %}"><i class="material-icons right">add_circle</i></a>
                         {% endif %}
                     </td>
                     <td>

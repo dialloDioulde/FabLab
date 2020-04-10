@@ -250,6 +250,32 @@ def add_to_loan(request, slug):
 
 
 @login_required
+def add_one_material(request, slug):
+    material = get_object_or_404(Material, slug=slug)
+    loan_material, created = LoanMaterial.objects.get_or_create(material=material, user=request.user, ordered=False)
+    material_query = Loan.objects.filter(user=request.user, ordered=False)
+    if material_query.exists():
+        loan = material_query[0]
+        # check if the order item is in the order
+        if loan.materials.filter(material__slug=material.slug).exists():
+            loan_material.quantity += 1
+            loan_material.save()
+            messages.info(request, "+1 Material Added.")
+            return redirect("loan-summary")
+        else:
+            loan.materials.add(loan_material)
+            messages.info(request, loan_material)
+            return redirect("material", slug=slug)
+
+    else:
+        loan_date = timezone.now()
+        loan = Loan.objects.create(user=request.user, creation_date_loan=loan_date)
+        loan.materials.add(loan_material)
+        messages.info(request, "This item was added to your cart.")
+        return redirect("material", slug=slug)
+
+
+@login_required
 def remove_from_loan(request, slug):
     material = get_object_or_404(Material, slug=slug)
     material_query = Loan.objects.filter(user=request.user, ordered=False)

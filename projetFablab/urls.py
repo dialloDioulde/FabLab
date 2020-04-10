@@ -30,13 +30,13 @@ urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('admin/', admin.site.urls),
     path("", views.homepage, name="homepage"),
+
     path('dashboard/', views.dashboard, name="dashboard"),
     path("material/<slug>/", MaterialDetailView.as_view(), name='material'),
 
-
-
     path("add-to-loan/<slug>", views.add_to_loan, name='add-to-loan'),
     path("remove-from-loan/<slug>", views.remove_from_loan, name='remove-from-loan'),
+    path("add-one-material/<slug>", views.add_one_material, name='add-one-material'),
     path("remove-material-from-loan/<slug>", views.remove_single_item_from_loan, name='remove-material-from-loan'),
     path("loan-summary/", LoanSummaryView.as_view(), name="loan-summary"),
     path("loan/", loan_form.as_view(), name="loan"),
