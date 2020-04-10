@@ -2,7 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.shortcuts import reverse
 from django.conf import settings
-
+from django.db.models.signals import pre_save
+from projetFablab.utils import unique_slug_generator
 # Create your models here.
 
 
@@ -48,7 +49,7 @@ class Material(models.Model):
     name = models.CharField(max_length=250)
     barcode = models.IntegerField(blank=False, primary_key=True)
     creation_date_mat = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=250, null=True, blank=True)
 
     material_picture = models.ImageField(blank=True, upload_to='media/', default='None/no-img.jpg', null=True)
 
@@ -58,19 +59,27 @@ class Material(models.Model):
         return self.name + " (barcode:  " + str(self.barcode) + ")"
 
     def get_absolute_url(self):
-        return reverse("main:material", kwargs={
+        return reverse("material", kwargs={
             'slug': self.slug
         })
 
     def get_add_to_loan_url(self):
-        return reverse("main:add-to-loan", kwargs={
+        return reverse("add-to-loan", kwargs={
             'slug': self.slug
         })
 
     def get_remove_from_loan_url(self):
-        return reverse("main:remove-from-loan", kwargs={
+        return reverse("remove-from-loan", kwargs={
             'slug': self.slug
         })
+
+
+def slug_generator(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+
+pre_save.connect(slug_generator, sender=Material)
 
 
 class LoanMaterial(models.Model):

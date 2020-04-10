@@ -23,7 +23,7 @@ class formType(forms.ModelForm):
 class formMaterial(forms.ModelForm):
     class Meta:
         model = Material
-        fields = ['name','barcode','slug','material_picture','type']
+        fields = ['name','barcode','material_picture','type']
 
 
 
