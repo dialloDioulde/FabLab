@@ -55,8 +55,14 @@ class NewUserForm(UserCreationForm):
         return user
 
 
+class DateInput(forms.DateInput):
+    input_type =  'date'
+
+
 #Ajouter Loaner to Loan
 class formLoan(forms.ModelForm):
+    expected_return_date = forms.DateField(widget=DateInput)
+
     class Meta:
         model = Loan
         fields = ('loaner', 'expected_return_date')
