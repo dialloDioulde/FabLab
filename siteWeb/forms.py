@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
-
 # Formualire d'Insciption d'Utilisateur
 class formLoaner(forms.ModelForm):
     class Meta:
@@ -26,11 +25,11 @@ class formMaterial(forms.ModelForm):
         fields = ['name','barcode','material_picture','type']
 
 
-
 class formLoanMaterial(forms.ModelForm):
     class Meta:
         model = LoanMaterial
         fields = ['material','quantity']
+
 
 # Formulaire d'Ajout d'un Emprunt
 class formLoan(forms.ModelForm):
@@ -54,3 +53,10 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+#Ajouter Loaner to Loan
+class formLoan(forms.ModelForm):
+    class Meta:
+        model = Loan
+        fields = ('loaner', 'expected_return_date')

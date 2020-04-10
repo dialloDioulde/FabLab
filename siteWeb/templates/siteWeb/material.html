@@ -1,0 +1,16 @@
+{% extends "siteWeb/header.html" %}
+{% block content %}
+<div class = "container">
+    <div class="card-content black-text">
+        <span class="card-title" style="font-size:270%">{{ object.name }}</span>
+        <p class="card-title" style="font-size:100%">Barcode: {{ object.barcode }}</p>
+        <p style="font-size:120%">{{ object.type }}</p>
+        <p> Description: {{ object.type.description }}</p>
+        <img src="../../images/{{object.material_picture}}" width="300">
+        {% if user.is_authenticated %}
+            <br><br><a href="{{ object.get_add_to_loan_url }}" class = "btn dropdown-button green darken-4">Add to Loan</a>
+            <a href="{{ object.get_remove_from_loan_url }}" class = "btn dropdown-button red darken-4">Remove From Cart</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

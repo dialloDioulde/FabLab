@@ -1,5 +1,5 @@
 <head>
-
+    {% load loan_template_tags %}
     {% load static %}
     <link rel ="stylesheet" href = "{% static 'css/materialize.min.css' %}" type = "text/css" media = "screen">
     <link rel ="stylesheet" href = "{% static 'css/materialize.css' %}" type = "text/css" media = "screen">
@@ -8,7 +8,6 @@
     {% block title %}
 
     <title>FabMSTIC</title>
-
 
     {% endblock %}
 
@@ -46,7 +45,7 @@
         <ul class = 'right'>
             {% if user.is_authenticated %}
                 <li><a href="../../loan-summary">
-                        <span class="trigger red darken-4">   </span>
+                        <span class="trigger red darken-4">  {{ request.user|loan_materials_count }}   </span>
                         <i class="material-icons right">add_shopping_cart</i>
                         <span class="clear fix d-none d-sm-inline-block">   Loan</span>
                     </a>

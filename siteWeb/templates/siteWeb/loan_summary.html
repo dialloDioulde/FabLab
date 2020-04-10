@@ -1,0 +1,59 @@
+{% include "siteWeb/header_secondary.html" %}
+
+{% block content %}
+  <main>
+    <div class="container">
+
+        <div class="table-responsive text-nowrap">
+            <h2>Loan Summary</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Material Name</th>
+                    <th scope="col">Barcode</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Commands</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for loan_material in object.materials.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ loan_material.material.name }}</td>
+                    <td>{{ loan_material.material.barcode }}</td>
+                    <td>
+                        <a href="{% url 'remove-material-from-loan' loan_material.material.slug  %}"><i class="material-icons">remove_circle</i></a>
+                        {{ loan_material.quantity }}
+                        <a href="{% url 'add-to-loan' loan_material.material.slug  %}"><i class="material-icons right">add_circle</i></a></td>
+                    <td>
+                        <a href="{% url 'remove-from-loan' loan_material.material.slug  %}"><i class="material-icons right">delete</i></a>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan='5'>Your cart is empty</td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <a class="btn btn-warning float-right" href="/">Continue Adding</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                     <tr>
+                    <td colspan="5">
+                        <a class="btn btn-primary float-right" href="../loan">Proceed to Checkout</a>
+                        <a class="btn btn-warning float-right" href="/">Continue Adding</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+  </main>
+{% endblock %}
+
+

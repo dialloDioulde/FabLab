@@ -20,11 +20,23 @@ from django.conf.urls.static import static
 from django.conf import settings # new
 from tinymce.widgets import TinyMCE
 
+from siteWeb.views import(
+    MaterialDetailView,
+    LoanSummaryView,
+    loan_form,
+)
 
 urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('admin/', admin.site.urls),
     path("", views.homepage, name="homepage"),
+    path("material/<slug>/", MaterialDetailView.as_view(), name='material'),
+
+    path("add-to-loan/<slug>", views.add_to_loan, name='add-to-loan'),
+    path("remove-from-loan/<slug>", views.remove_from_loan, name='remove-from-loan'),
+    path("remove-material-from-loan/<slug>", views.remove_single_item_from_loan, name='remove-material-from-loan'),
+    path("loan-summary/", LoanSummaryView.as_view(), name="loan-summary"),
+    path("loan/", loan_form.as_view(), name="loan"),
 
     path("register/", views.register, name="register"),
     path("logout/", views.logout_request, name="logout"),

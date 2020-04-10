@@ -6,6 +6,7 @@ from django.core.files import File
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from django.conf import settings
 from django.http import *
 from django.core.paginator import Paginator
@@ -15,9 +16,12 @@ from django.core.paginator import Paginator
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib import messages
 from .forms import NewUserForm
+from django.views.generic import ListView, DetailView, View
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
-from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial
+from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan
 
 
 # Homepace
@@ -41,6 +45,12 @@ def homepage(request):
     return render(request=request,
                   template_name="siteWeb/home.html",
                   context={"materials": materials, "search_term": search_term})
+
+
+#show single material
+class MaterialDetailView(DetailView):
+    model = Material
+    template_name = "siteWeb/material.html"
 
 
 def register(request):
@@ -106,7 +116,7 @@ def addLoaner(request):
         form.save()
         form = formLoaner()
         messages.success(request, f"New Loaner created")
-        return redirect("main:homepage")
+        return redirect("homepage")
         sauvegarde = True
     else:
         form = formLoaner()
@@ -159,6 +169,7 @@ def addMaterial(request):
     return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
+
 # Show Loaner
 def showLoaner(request):
     loaner_liste = Loaner.objects.all()
@@ -207,3 +218,136 @@ def updateType(request, id):
         form.save()
         return redirect(showType)
     return render(request, 'siteWeb/editType.html', {'type_update' : form})
+
+
+@login_required
+def add_to_loan(request, slug):
+    material = get_object_or_404(Material, slug=slug)
+    loan_material, created = LoanMaterial.objects.get_or_create(material=material, user=request.user, ordered=False)
+    material_query = Loan.objects.filter(user=request.user, ordered=False)
+    if material_query.exists():
+        loan = material_query[0]
+        # check if the order item is in the order
+        if loan.materials.filter(material__slug=material.slug).exists():
+            loan_material.quantity += 1
+            loan_material.save()
+            messages.info(request, loan_material)
+            return redirect("loan-summary")
+        else:
+            loan.materials.add(loan_material)
+            messages.info(request, loan_material)
+            return redirect("material", slug=slug)
+
+    else:
+        loan_date = timezone.now()
+        loan = Loan.objects.create(user=request.user, creation_date_loan=loan_date)
+        loan.materials.add(loan_material)
+        messages.info(request, "This item was added to your cart.")
+        return redirect("material", slug=slug)
+
+
+@login_required
+def remove_from_loan(request, slug):
+    material = get_object_or_404(Material, slug=slug)
+    material_query = Loan.objects.filter(user=request.user, ordered=False)
+
+    if material_query.exists():
+        loan = material_query[0]
+        # check if the order item is in the order
+        if loan.materials.filter(material__slug=material.slug).exists():
+            loan_material = LoanMaterial.objects.filter(material=material, user=request.user, ordered=False)[0]
+            loan.materials.remove(loan_material)
+            loan_material.delete()
+            messages.info(request, "This item was removed from your cart.")
+            return redirect("loan-summary")
+        else:
+            messages.info(request, "This item was not in your cart")
+            return redirect("material", slug=slug)
+    else:
+        messages.info(request, "You do not have an active order")
+        return redirect("material", slug=slug)
+
+
+@login_required
+def remove_single_item_from_loan(request, slug):
+    material = get_object_or_404(Material, slug=slug)
+    material_query = Loan.objects.filter(user=request.user, ordered=False)
+    if material_query.exists():
+        loan = material_query[0]
+        # check if the order item is in the order
+        if loan.materials.filter(material__slug=material.slug).exists():
+            loan_material = LoanMaterial.objects.filter(
+                material=material,
+                user=request.user,
+                ordered=False)[0]
+            if loan_material.quantity > 1:
+                loan_material.quantity -= 1
+                loan_material.save()
+            else:
+                loan.materials.remove(loan_material)
+            messages.info(request, "This item quantity was updated.")
+            return redirect("loan-summary")
+        else:
+            messages.info(request, "This item was not in your cart")
+            return redirect("material", slug=slug)
+    else:
+        messages.info(request, "You do not have an active order")
+        return redirect("material", slug=slug)
+
+
+class LoanSummaryView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            loan = Loan.objects.get(user=self.request.user, ordered=False)
+            context = {
+                'object': loan
+            }
+            return render(self.request, 'siteWeb/loan_summary.html', context)
+        except ObjectDoesNotExist:
+            messages.warning(self.request, "You do not have an active order")
+            return redirect("/")
+
+
+class loan_form(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            form = formLoan()
+            context = {
+                'formLoan': form,
+            }
+            return render(self.request, 'siteWeb/loanForm.html', context)
+        except ObjectDoesNotExist:
+            messages.warning(self.request, "You do not have an active order")
+            return redirect("/")
+
+    def post(self, *args, **kwargs):
+        form = formLoan(self.request.POST or None)
+        loan = Loan.objects.get(user=self.request.user, ordered=False)
+        try:
+            if form.is_valid():
+                expected_return = form.cleaned_data.get('expected_return_date')
+
+                loan.ordered = True
+                loan.save()
+
+                loan.expected_return_date = expected_return
+                loan.save()
+
+                loan.loaner = form.cleaned_data.get('loaner')
+                loan.save()
+
+                loan.user = self.request.user
+                loan.save()
+
+                loan_materials = loan.materials.all()
+                loan_materials.update(ordered=True)
+                for material in loan_materials:
+                    material.save()
+
+                messages.success(self.request, f" Loan saved successfully")
+                return redirect("homepage")
+            else:
+                messages.info(self.request, "Please fill in the required fields")
+        except ObjectDoesNotExist:
+            messages.warning(self.request, "You do not have an active loan")
+        return redirect("loan-summary")
