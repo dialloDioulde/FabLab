@@ -1,11 +1,11 @@
-{% extends 'siteWeb/home.html'%}
+{% include "siteWeb/dashboard.html" %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
         <div class="container-fluid">
         <title>FabMSTIC</title>
-
+        <h3>Edit Loaner</h3>
         <form method="POST"  action="/updateLoaner/{{loaner_edit.id}}" novalidate class="my-3">
             {% csrf_token %}
             <div class="form-row">

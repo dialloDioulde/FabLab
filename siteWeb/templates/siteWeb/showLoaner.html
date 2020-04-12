@@ -1,10 +1,19 @@
-{% extends 'siteWeb/home.html'%}
+{% include "siteWeb/dashboard.html" %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
 
     <table class="table table-bordered responsive">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Table of Loaners</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
         <thead class="thead-dark">
             <tr>
                 <th scope="col">LAST NAME</th>

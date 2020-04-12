@@ -1,15 +1,24 @@
-{% extends 'siteWeb/home.html'%}
+{% include "siteWeb/dashboard.html" %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
-
+<div>
     <table class="table table-bordered responsive">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Table of Types</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
         <thead class="thead-dark">
             <tr>
                 <th scope="col">TYPE</th>
                 <th scope="col">NAME</th>
-                 <th scope="col">DESCRIPTION</th>
+                <th scope="col">DESCRIPTION</th>
                 <th scope="col">CREATION DATE</th>
                 <th scope="col">ACTIONS</th>
             </tr>
@@ -30,5 +39,6 @@
         </tbody>
         {% endfor %}
     </table>
+</div>
 
 {% endblock %}

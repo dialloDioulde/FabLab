@@ -1,31 +1,31 @@
-{% extends 'siteWeb/home.html'%}
+{% include "siteWeb/dashboard.html" %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
-        <div class="container-fluid">
+        <div class="container">
+        <h3>Edit Type</h3>
         <title>FabMSTIC</title>
-
         <form method="POST"  action="/updateType/{{type_edit.id}}" novalidate class="my-3">
             {% csrf_token %}
             <div class="form-row">
-                <div class="form-group col-md-3">
-                    <label for="last_namee">LAST NAME : </label>
-                    <input type="text" class="form-control" name="last_name" id="last_namee" value="{{type_edit.material_type}}">
+                 <div class="form-group col-md-3">
+                    <label for="type"> Type: </label>
+                    <input type="text" class="form-control" name="type" id="type" value="{{type_edit.material_type}}">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="first_namee">LAST NAME : </label>
-                    <input type="text" class="form-control" name="first_name" id="first_namee" value="{{type_edit.name_type}}">
+                    <label for="name"> Name: </label>
+                    <input type="text" class="form-control" name="name" id="name" value="{{type_edit.name_type}}">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="eemail">EMAIL : </label>
-                    <input type="email" class="form-control" name="email" id="eemail" value="{{type_edit.description}}">
+                    <label for="description"> Description: </label>
+                    <input type="email" class="form-control" name="description" id="description" value="{{type_edit.description}}">
                 </div>
             </div>
 

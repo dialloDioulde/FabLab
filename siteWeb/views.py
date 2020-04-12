@@ -203,7 +203,9 @@ def updateLoaner(request, id):
     form = formLoaner(request.POST, instance=loaner_update)
     if form.is_valid():
         form.save()
+        messages.success(request, f"Loaner Updated successfully")
         return redirect(showLoaner)
+    messages.error(request, f"Loaner not updated! Try again.")
     return render(request, 'siteWeb/editLoaner.html', {'user_update': form})
 
 
@@ -219,7 +221,9 @@ def updateType(request, id):
     form = formType(request.POST, instance=type_update)
     if form.is_valid():
         form.save()
+        messages.success(request, f"Type Updated successfully")
         return redirect(showType)
+    messages.error(request, f"Type not updated! Try again.")
     return render(request, 'siteWeb/editType.html', {'type_update': form})
 
 
