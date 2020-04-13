@@ -143,39 +143,6 @@ def addType(request):
     return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
-# Add Material
-# @login_required
-def addMaterial(request):
-    sauvegarde = False
-    if request.method == 'POST':
-<<<<<<< Updated upstream
-        form = formMaterial(request.POST, request.FILES)
-=======
-        form = formMaterial(request.POST or None, request.FILES)
->>>>>>> Stashed changes
-        if form.is_valid():
-            type = form.cleaned_data.get('type')
-            if type.material_type == 'unique':
-                from django.core.exceptions import ObjectDoesNotExist
-                try:
-                    Material.objects.get(type=type)
-                    messages.error(request, f"Existing unique type.")
-                except ObjectDoesNotExist:
-                    form.save()
-                    form = formMaterial()
-                    messages.success(request, f"New Material created")
-                    return redirect("homepage")
-                    sauvegarde = True
-            else:
-                form.save()
-                form = formMaterial()
-                messages.success(request, f"New Material created")
-                return redirect("homepage")
-                sauvegarde = True
-    else:
-        form = formMaterial()
-    return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
-
 
 # Show Loaner
 def showLoaner(request):
