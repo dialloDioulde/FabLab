@@ -148,7 +148,11 @@ def addType(request):
 def addMaterial(request):
     sauvegarde = False
     if request.method == 'POST':
+<<<<<<< Updated upstream
         form = formMaterial(request.POST, request.FILES)
+=======
+        form = formMaterial(request.POST or None, request.FILES)
+>>>>>>> Stashed changes
         if form.is_valid():
             type = form.cleaned_data.get('type')
             if type.material_type == 'unique':
