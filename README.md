@@ -48,17 +48,17 @@ If your app has a custom user model, you'll need to create a new superuser for t
 
             -if type of material is UNIQUE: quantity cannot be modified
 
-      6- Add Loaner and expecte Return Date to the Loan
+      6- Add Loaner and expected Return Date to the Loan
 
       7- Create Type/Material/Loaner
 
       8- Display all Type/Material/Loaner on a table
 
-      9- Modify Type
+      9- Modify Loaner
 
 #TO DO:
 
-    1- Modify Material/Loaner
+    1- Modify Material/Type
     
     2- Delete Type/Material/Loaner
     
