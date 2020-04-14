@@ -24,7 +24,7 @@ from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfi
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan
 
 
-# Homepace
+# Homepage
 def homepage(request):
     materials = Material.objects.all()
     search_term = ""
@@ -47,16 +47,14 @@ def homepage(request):
                   context={"materials": materials, "search_term": search_term})
 
 
+# Dashbord
 def dashboard(request):
     return render(request, "siteWeb/dashboard.html")
 
 
-# show single material
-class MaterialDetailView(DetailView):
-    model = Material
-    template_name = "siteWeb/material.html"
+#----------------------------------------------------------------------------------------------------------------------#
 
-
+# Register
 def register(request):
     # automatically, it's a GET request
 
@@ -75,19 +73,11 @@ def register(request):
                 # print(form.error_messages[message])
                 messages.error(request, f"{message} : {form.error_messages[message]}")
     form = NewUserForm
-    return render(request,
-                  "siteWeb/register.html",
-                  context={"form": form}
-                  )
+    return render(request,"siteWeb/register.html", context={"form": form})
 
 
-# @login_required
-def logout_request(request):
-    logout(request)
-    messages.info(request, "Logged out successfully!")
-    return redirect("homepage")
 
-
+# Login
 def login_request(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -105,12 +95,15 @@ def login_request(request):
             messages.error(request, "Invalid username or password")
 
     form = AuthenticationForm()
-    return render(request,
-                  "siteWeb/login.html",
-                  {"form": form}
-                  )
+    return render(request, "siteWeb/login.html", {"form": form})
 
-
+# Logout
+@login_required
+def logout_request(request):
+    logout(request)
+    messages.info(request, "Logged out successfully!")
+    return redirect("homepage")
+#----------------------------------------------------------------------------------------------------------------------#
 # Borrower registration
 # @login_required # You will need to be logged in
 def addLoaner(request):
@@ -126,6 +119,31 @@ def addLoaner(request):
         form = formLoaner()
     return render(request, 'siteWeb/addLoaner.html', {'form': form})
 
+
+
+# Show Loaner
+def showLoaner(request):
+    loaner_liste = Loaner.objects.all()
+    return render(request, 'siteWeb/showLoaner.html', {'loaners': loaner_liste})
+
+
+# Edit Loaner
+def editLoaner(request, id):
+    loaner_edit = Loaner.objects.get(id=id)
+    return render(request, 'siteWeb/editLoaner.html', {'loaner_edit': loaner_edit})
+
+
+# Update Loaner
+def updateLoaner(request, id):
+    loaner_update = Loaner.objects.get(id=id)
+    form = formLoaner(request.POST, instance=loaner_update)
+    if form.is_valid():
+        form.save()
+        messages.success(request, f"Loaner Updated successfully")
+        return redirect(showLoaner)
+    messages.error(request, f"Loaner not updated! Try again.")
+    return render(request, 'siteWeb/editLoaner.html', {'user_update': form})
+#----------------------------------------------------------------------------------------------------------------------#
 
 # Add Type
 # @login_required
@@ -143,6 +161,31 @@ def addType(request):
     return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
+# Show Type
+def showType(request):
+    type_liste = Type.objects.all()
+    return render(request, 'siteWeb/showType.html', {'types': type_liste})
+
+
+# Edit Type
+def editType(request, id):
+    type_edit = Type.objects.get(id=id)
+    return render(request, 'siteWeb/editType.html', {'type_edit': type_edit})
+
+
+# Update Type
+def updateType(request, id):
+    type_update = Type.objects.get(id=id)
+    form = formType(request.POST, instance=type_update)
+    if form.is_valid():
+        form.save()
+        messages.success(request, f"Type Updated successfully")
+        return redirect(showType)
+    messages.error(request, f"Type not updated! Try again.")
+    return render(request, 'siteWeb/editType.html', {'type_update': form})
+
+
+#----------------------------------------------------------------------------------------------------------------------#
 # Add Material
 # @login_required
 def addMaterial(request):
@@ -173,17 +216,6 @@ def addMaterial(request):
     return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
-# Show Loaner
-def showLoaner(request):
-    loaner_liste = Loaner.objects.all()
-    return render(request, 'siteWeb/showLoaner.html', {'loaners': loaner_liste})
-
-
-# Show Type
-def showType(request):
-    type_liste = Type.objects.all()
-    return render(request, 'siteWeb/showType.html', {'types': type_liste})
-
 
 # Show Material
 def showMaterial(request):
@@ -191,43 +223,15 @@ def showMaterial(request):
     return render(request, 'siteWeb/showMaterial.html', {'materials': material_liste})
 
 
-# Edit Loaner
-def editLoaner(request, id):
-    loaner_edit = Loaner.objects.get(id=id)
-    return render(request, 'siteWeb/editLoaner.html', {'loaner_edit': loaner_edit})
+# show single material
+class MaterialDetailView(DetailView):
+    model = Material
+    template_name = "siteWeb/material.html"
 
 
-# Update Loaner
-def updateLoaner(request, id):
-    loaner_update = Loaner.objects.get(id=id)
-    form = formLoaner(request.POST, instance=loaner_update)
-    if form.is_valid():
-        form.save()
-        messages.success(request, f"Loaner Updated successfully")
-        return redirect(showLoaner)
-    messages.error(request, f"Loaner not updated! Try again.")
-    return render(request, 'siteWeb/editLoaner.html', {'user_update': form})
+#----------------------------------------------------------------------------------------------------------------------#
 
-
-# Edit Type
-def editType(request, id):
-    type_edit = Type.objects.get(id=id)
-    return render(request, 'siteWeb/editType.html', {'type_edit': type_edit})
-
-
-# Update Type
-def updateType(request, id):
-    type_update = Type.objects.get(id=id)
-    form = formType(request.POST, instance=type_update)
-    if form.is_valid():
-        form.save()
-        messages.success(request, f"Type Updated successfully")
-        return redirect(showType)
-    messages.error(request, f"Type not updated! Try again.")
-    return render(request, 'siteWeb/editType.html', {'type_update': form})
-
-
-@login_required
+#@login_required
 def add_to_loan(request, slug):
     material = get_object_or_404(Material, slug=slug)
     loan_material, created = LoanMaterial.objects.get_or_create(material=material, user=request.user, ordered=False)
@@ -253,7 +257,7 @@ def add_to_loan(request, slug):
         return redirect("material", slug=slug)
 
 
-@login_required
+#@login_required
 def add_one_material(request, slug):
     material = get_object_or_404(Material, slug=slug)
     loan_material, created = LoanMaterial.objects.get_or_create(material=material, user=request.user, ordered=False)
@@ -279,7 +283,7 @@ def add_one_material(request, slug):
         return redirect("material", slug=slug)
 
 
-@login_required
+#@login_required
 def remove_from_loan(request, slug):
     material = get_object_or_404(Material, slug=slug)
     material_query = Loan.objects.filter(user=request.user, ordered=False)
