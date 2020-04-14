@@ -55,11 +55,19 @@ python ./manage.py runserver
   9- Modify Type
  
 #TO DO:
+
     1- Modify Material/Loaner
+    
     2- Delete Type/Material/Loaner
+    
     3- Display Loans
+    
     4- Modify Loans
+    
     5- Delete Loans
+    
     6- Check Loans as returned
+    
     7- Change Password
+    
     8- Forget Password
