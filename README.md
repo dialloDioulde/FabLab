@@ -17,8 +17,8 @@
 
 5. Initialize your database.
 
-    python ./manage.py syncdb
-    python ./manage.py migrate
+        python ./manage.py syncdb
+        python ./manage.py migrate
 If your app has a custom user model, you'll need to create a new superuser for the admin.
 
     python ./manage.py createsuperuser
@@ -32,30 +32,30 @@ If your app has a custom user model, you'll need to create a new superuser for t
 
 #DONE:
 
-  1- Display materials
-  
-  2- Pagination
-  
-  3- User Levels
-  
-  4- Create a Loan
-  
-  5- Add materials to the loan
-  
-    5.1- Display list of materials on Loan
-    
-    5.2- Modify quantity of material
-    
-        -if type of material is UNIQUE: quantity cannot be modified
-        
-  6- Add Loaner and expecte Return Date to the Loan
-  
-  7- Create Type/Material/Loaner
-  
-  8- Display all Type/Material/Loaner on a table
-  
-  9- Modify Type
- 
+      1- Display materials
+
+      2- Pagination
+
+      3- User Levels
+
+      4- Create a Loan
+
+      5- Add materials to the loan
+
+        5.1- Display list of materials on Loan
+
+        5.2- Modify quantity of material
+
+            -if type of material is UNIQUE: quantity cannot be modified
+
+      6- Add Loaner and expecte Return Date to the Loan
+
+      7- Create Type/Material/Loaner
+
+      8- Display all Type/Material/Loaner on a table
+
+      9- Modify Type
+
 #TO DO:
 
     1- Modify Material/Loaner
