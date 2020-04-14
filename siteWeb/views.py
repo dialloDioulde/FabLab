@@ -143,6 +143,13 @@ def updateLoaner(request, id):
         return redirect(showLoaner)
     messages.error(request, f"Loaner not updated! Try again.")
     return render(request, 'siteWeb/editLoaner.html', {'user_update': form})
+
+
+# destroy Users
+def deleteLoaner(request, id):
+    user_delete = Loaner.objects.get(id=id)
+    user_delete.delete()
+    return redirect(showLoaner)
 #----------------------------------------------------------------------------------------------------------------------#
 
 # Add Type

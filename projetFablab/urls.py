@@ -59,5 +59,8 @@ urlpatterns = [
 
     path('editType/<int:id>',views.editType, name='editType'),
     path('updateType/<int:id>',views.updateType, name='updateType'),
+
+
+    path('deleteLoaner/<int:id>',views.deleteLoaner, name='deleteLoaner'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
