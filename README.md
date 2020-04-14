@@ -41,7 +41,7 @@ python ./manage.py runserver
   7- Create Type/Material/Loaner
   8- Display all Type/Material/Loaner on a table
   9- Modify Type
-  10- 
+ 
 #TO DO:
     1- Modify Material/Loaner
     2- Delete Type/Material/Loaner
