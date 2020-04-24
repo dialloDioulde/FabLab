@@ -32,7 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.homepage, name="homepage"),
 
-    path('dashboard/', views.dashboard, name="dashboard"),
+    # path('dashboard/', views.dashboard, name="dashboard"),
     path("material/<slug>/", MaterialDetailView.as_view(), name='material'),
 
     path("add-to-loan/<slug>", views.add_to_loan, name='add-to-loan'),

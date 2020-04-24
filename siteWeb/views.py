@@ -57,23 +57,25 @@ def dashboard(request):
 # Register
 def register(request):
     # automatically, it's a GET request
-
-    if request.method == "POST":
-        form = NewUserForm(request.POST)
-        if form.is_valid():
-            # things are filled out like theyre supposed to
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f"New Account Created:{username}")
-            # login(request, user)
-            # messages.info(request, f"Logged in as  {username}")
-            return redirect("homepage")
-        else:
-            for message in form.error_messages:
-                # print(form.error_messages[message])
-                messages.error(request, f"{message} : {form.error_messages[message]}")
-    form = NewUserForm
-    return render(request,"siteWeb/register.html", context={"form": form})
+    if not request.user.is_authenticated:
+        return redirect("login")
+    else:
+        if request.method == "POST":
+            form = NewUserForm(request.POST)
+            if form.is_valid():
+                # things are filled out like theyre supposed to
+                user = form.save()
+                username = form.cleaned_data.get('username')
+                messages.success(request, f"New Account Created:{username}")
+                # login(request, user)
+                # messages.info(request, f"Logged in as  {username}")
+                return redirect("homepage")
+            else:
+                for message in form.error_messages:
+                    # print(form.error_messages[message])
+                    messages.error(request, f"{message} : {form.error_messages[message]}")
+        form = NewUserForm
+        return render(request,"siteWeb/register.html", context={"form": form})
 
 
 
@@ -98,7 +100,7 @@ def login_request(request):
     return render(request, "siteWeb/login.html", {"form": form})
 
 # Logout
-@login_required
+# @login_required
 def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
@@ -107,17 +109,20 @@ def logout_request(request):
 # Borrower registration
 # @login_required # You will need to be logged in
 def addLoaner(request):
-    sauvegarde = False
-    if request.method == 'POST':
-        form = formLoaner(request.POST)
-        form.save()
-        form = formLoaner()
-        messages.success(request, f"New Loaner created")
-        return redirect("homepage")
-        sauvegarde = True
+    if not request.user.is_authenticated:
+        return redirect("login")
     else:
-        form = formLoaner()
-    return render(request, 'siteWeb/addLoaner.html', {'form': form})
+        sauvegarde = False
+        if request.method == 'POST':
+            form = formLoaner(request.POST)
+            form.save()
+            form = formLoaner()
+            messages.success(request, f"New Loaner created")
+            return redirect("homepage")
+            sauvegarde = True
+        else:
+            form = formLoaner()
+        return render(request, 'siteWeb/addLoaner.html', {'form': form})
 
 
 
@@ -155,17 +160,20 @@ def deleteLoaner(request, id):
 # Add Type
 # @login_required
 def addType(request):
-    sauvegarde = False
-    if request.method == 'POST':
-        form = formType(request.POST)
-        form.save()
-        form = formType()
-        messages.success(request, f"New Type created")
-        return redirect("homepage")
-        sauvegarde = True
+    if not request.user.is_authenticated:
+        return redirect("login")
     else:
-        form = formType()
-    return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
+        sauvegarde = False
+        if request.method == 'POST':
+            form = formType(request.POST)
+            form.save()
+            form = formType()
+            messages.success(request, f"New Type created")
+            return redirect("homepage")
+            sauvegarde = True
+        else:
+            form = formType()
+        return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
 # Show Type
@@ -196,31 +204,34 @@ def updateType(request, id):
 # Add Material
 # @login_required
 def addMaterial(request):
-    sauvegarde = False
-    if request.method == 'POST':
-        form = formMaterial(request.POST, request.FILES)
-        if form.is_valid():
-            type = form.cleaned_data.get('type')
-            if type.material_type == 'unique':
-                from django.core.exceptions import ObjectDoesNotExist
-                try:
-                    Material.objects.get(type=type)
-                    messages.error(request, f"Existing unique type.")
-                except ObjectDoesNotExist:
+    if not request.user.is_authenticated:
+        return redirect("login")
+    else:
+        sauvegarde = False
+        if request.method == 'POST':
+            form = formMaterial(request.POST, request.FILES)
+            if form.is_valid():
+                type = form.cleaned_data.get('type')
+                if type.material_type == 'unique':
+                    from django.core.exceptions import ObjectDoesNotExist
+                    try:
+                        Material.objects.get(type=type)
+                        messages.error(request, f"Existing unique type.")
+                    except ObjectDoesNotExist:
+                        form.save()
+                        form = formMaterial()
+                        messages.success(request, f"New Material created")
+                        return redirect("homepage")
+                        sauvegarde = True
+                else:
                     form.save()
                     form = formMaterial()
                     messages.success(request, f"New Material created")
                     return redirect("homepage")
                     sauvegarde = True
-            else:
-                form.save()
-                form = formMaterial()
-                messages.success(request, f"New Material created")
-                return redirect("homepage")
-                sauvegarde = True
-    else:
-        form = formMaterial()
-    return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
+        else:
+            form = formMaterial()
+        return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
 
