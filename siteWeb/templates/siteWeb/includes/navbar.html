@@ -25,7 +25,7 @@
             <li><a href="/">Home</a></li>
             {% if user.is_superuser %}
 
-            <li class="green darken-4" ><a href="/register">Register</a></li>
+            <li class="green darken-4" ><a href="/accounts/register">Register</a></li>
             <li><a href="/admin">Admin</a></li>
 
             {% endif %}
@@ -42,7 +42,7 @@
                 <li><a href="/addType" class = "btn dropdown-button red darken-4">{{user.username|title}}</a></li>
                 <li><a href="/logout">Logout</a></li>
             {% else %}
-                 <li><a href="/login">Login</a></li>
+                 <li><a href="/accounts/login">Login</a></li>
           {% endif %}
         </ul>
 
