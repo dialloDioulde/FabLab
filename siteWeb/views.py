@@ -65,7 +65,7 @@ def register(request):
                     # print(form.error_messages[message])
                     messages.error(request, f"{message} : {form.error_messages[message]}")
         form = NewUserForm
-        return render(request,"siteWeb/register.html", context={"form": form})
+        return render(request,"siteWeb/accounts/register.html", context={"form": form})
 
 
 # Login
@@ -86,7 +86,7 @@ def login_request(request):
             messages.error(request, "Invalid username or password")
 
     form = AuthenticationForm()
-    return render(request, "siteWeb/login.html", {"form": form})
+    return render(request, "siteWeb/accounts/login.html", {"form": form})
 
 # Logout
 # @login_required
@@ -107,7 +107,7 @@ def change_password(request):
     else:
         form = PasswordChangeForm(user=request.user)
         args = {'form': form}
-        return render(request, "siteWeb/changePassword.html", args)
+        return render(request, "siteWeb/accounts/changePassword.html", args)
 
 
 #----------------------------------------------------------------------------------------------------------------------#
