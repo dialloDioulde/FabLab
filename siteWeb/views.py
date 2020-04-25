@@ -48,7 +48,7 @@ def dashboard(request):
 def register(request):
     # automatically, it's a GET request
     if not request.user.is_authenticated:
-        return redirect("login")
+        return redirect("../../accounts/login")
     else:
         if request.method == "POST":
             form = NewUserForm(request.POST)
@@ -57,8 +57,6 @@ def register(request):
                 user = form.save()
                 username = form.cleaned_data.get('username')
                 messages.success(request, f"New Account Created:{username}")
-                # login(request, user)
-                # messages.info(request, f"Logged in as  {username}")
                 return redirect("homepage")
             else:
                 for message in form.error_messages:
@@ -97,17 +95,20 @@ def logout_request(request):
 
 
 def change_password(request):
-    if request.method == "POST":
-        form = PasswordChangeForm(data=request.POST, user=request.user)
-        if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.user)
-            messages.success(request, f"Password Changed Successfully!")
-            return redirect("homepage")
+    if not request.user.is_authenticated:
+        return redirect("../../accounts/login")
     else:
-        form = PasswordChangeForm(user=request.user)
-        args = {'form': form}
-        return render(request, "siteWeb/accounts/changePassword.html", args)
+        if request.method == "POST":
+            form = PasswordChangeForm(data=request.POST, user=request.user)
+            if form.is_valid():
+                form.save()
+                update_session_auth_hash(request, form.user)
+                messages.success(request, f"Password Changed Successfully!")
+                return redirect("homepage")
+        else:
+            form = PasswordChangeForm(user=request.user)
+            args = {'form': form}
+            return render(request, "siteWeb/accounts/changePassword.html", args)
 
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -115,7 +116,7 @@ def change_password(request):
 # @login_required # You will need to be logged in
 def addLoaner(request):
     if not request.user.is_authenticated:
-        return redirect("login")
+        return redirect("../../accounts/login")
     else:
         sauvegarde = False
         if request.method == 'POST':
@@ -166,7 +167,7 @@ def deleteLoaner(request, id):
 # @login_required
 def addType(request):
     if not request.user.is_authenticated:
-        return redirect("login")
+        return redirect("../../accounts/login")
     else:
         sauvegarde = False
         if request.method == 'POST':
@@ -210,7 +211,7 @@ def updateType(request, id):
 # @login_required
 def addMaterial(request):
     if not request.user.is_authenticated:
-        return redirect("login")
+        return redirect("../../accounts/login")
     else:
         sauvegarde = False
         if request.method == 'POST':
