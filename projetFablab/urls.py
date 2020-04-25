@@ -45,6 +45,7 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("logout/", views.logout_request, name="logout"),
     path("login/", views.login_request, name="login"),
+    path("change-password/", views.change_password, name="change-password"),
 
     path('addLoaner/', views.addLoaner, name= 'addLoaner'),
     path('addType/', views.addType, name='addType'),
@@ -53,6 +54,7 @@ urlpatterns = [
     path('showLoaner', views.showLoaner, name='showLoaner'),
     path('showType', views.showType, name='showType'),
     path('showMaterial', views.showMaterial, name='showMaterial'),
+    path('showLoan', views.showLoan, name='showLoan'),
 
     path('editLoaner/<int:id>',views.editLoaner, name='editUsers'),
     path('updateLoaner/<int:id>',views.updateLoaner, name='updateLoaner'),

@@ -1,0 +1,46 @@
+{% include "siteWeb/includes/dashboard.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <table class="table table-bordered responsive">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Table of Loans</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">LAST NAME</th>
+                <th scope="col">FIRST NAME</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">CREATION DATE</th>
+                <th scope="col">EXPECTED RETURN DATE</th>
+                <th scope="col">ACTIONS</th>
+            </tr>
+        </thead>
+
+        {% for loan in loans %}
+        <tbody>
+        <tr>
+            <td>{{loan.loaner.last_name}}</td>
+            <td>{{loan.loaner.first_name}}</td>
+            <td>{{loan.loaner.email}}</td>
+            <td>{{loan.creation_date_loan}}</td>
+            <td>{{loan.expected_return_date}}</td>
+            <td>
+                <a href="/editLoaner/{{loaner.id}}"><span>Edit</span></a>
+                <a href="/deleteLoaner/{{loaner.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+{% endblock %}

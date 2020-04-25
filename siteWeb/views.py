@@ -1,25 +1,15 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.http import HttpResponse
-from django.template import loader
-from django.contrib.auth.forms import UserCreationForm
-from django.core.files import File
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.conf import settings
-from django.http import *
-from django.core.paginator import Paginator
 from django.shortcuts import render
-from .models import Material, Type
 from django.core.paginator import Paginator
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib import messages
 from .forms import NewUserForm
 from django.views.generic import ListView, DetailView, View
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan
 
@@ -78,7 +68,6 @@ def register(request):
         return render(request,"siteWeb/register.html", context={"form": form})
 
 
-
 # Login
 def login_request(request):
     if request.method == "POST":
@@ -105,6 +94,22 @@ def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("homepage")
+
+
+def change_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, f"Password Changed Successfully!")
+            return redirect("homepage")
+    else:
+        form = PasswordChangeForm(user=request.user)
+        args = {'form': form}
+        return render(request, "siteWeb/changePassword.html", args)
+
+
 #----------------------------------------------------------------------------------------------------------------------#
 # Borrower registration
 # @login_required # You will need to be logged in
@@ -232,7 +237,6 @@ def addMaterial(request):
         else:
             form = formMaterial()
         return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
-
 
 
 # Show Material
@@ -406,3 +410,10 @@ class loan_form(LoginRequiredMixin, View):
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active loan")
         return redirect("loan-summary")
+
+
+# Show Material
+def showLoan(request):
+    loan_liste = Loan.objects.all()
+    return render(request, 'siteWeb/showLoan.html', {'loans': loan_liste})
+

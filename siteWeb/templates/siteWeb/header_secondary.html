@@ -1,14 +1,15 @@
 <head>
     {% load static %}
     {% load crispy_forms_tags %}
-
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" media="screen">
+    <!-- Prism CSS -->
+    <link href="{% static 'tinymce/css/prism.css' %}" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="{% static 'css/materialize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <style type="text/css">
-            .asteriskField{
-                display: none;}
-        </style>
 </head>
 <body>
 
@@ -22,6 +23,3 @@
       {% endblock %}
   </div>
 </body>
-
-<!-- Prism JS -->
-<script src="{% static 'tinymce/js/prism.js' %}"></script>
