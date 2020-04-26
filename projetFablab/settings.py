@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'siteWeb',
     'crispy_forms',
     'tinymce',
-    'webpack_loader',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -160,20 +159,9 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/images/'
 
-<<<<<<< HEAD
 
-# Webpack Loader
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'CACHE': not DEBUG,
-        'BUNDLE_DIR_NAME': '',
-        'STATS_FILE': os.path.join(BASE_DIR, 'FrontendApp/webpack-stats.json'),
-        'POLL_INTERVAL': 0.1,
-        'TIMEOUT': None,
-        'IGNORE': ['.+\.hot-update.js', '.+\.map']
-    }
-}
-=======
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
->>>>>>> master
+

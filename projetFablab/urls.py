@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from siteWeb import views
 from siteWeb.crudAjaxLoanerViews import LoanerView, CreateCrudLoaner, DeleteCrudLoaner, UpdateCrudLoaner
+from siteWeb.crudAjaxTypeViews import TypeView, CreateCrudType, UpdateCrudType, DeleteCrudType
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -87,6 +88,12 @@ urlpatterns = [
     path('CreateCrudLoaner', CreateCrudLoaner.as_view(), name='CreateCrudLoaner'),
     path('DeleteCrudLoaner', DeleteCrudLoaner.as_view(), name='DeleteCrudLoaner'),
     path('UpdateCrudLoaner', UpdateCrudLoaner.as_view(), name='UpdateCrudLoaner'),
+
+
+    path('TypeView', TypeView.as_view(), name='TypeView'),
+    path('CreateCrudType', CreateCrudType.as_view(), name='CreateCrudType'),
+    path('UpdateCrudType', UpdateCrudType.as_view(), name='UpdateCrudType'),
+    path('DeleteCrudType', DeleteCrudType.as_view(), name='DeleteCrudType'),
 
 
 
