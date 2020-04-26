@@ -82,6 +82,7 @@ urlpatterns = [
 
     path('loan_id/<int:id>',views.loan, name='loan_id'),
     path('updateLoan/<int:id>',views.updateLoan, name='updateLoan'),
+    path('deleteLoan/<int:id>', views.deleteLoan, name='deleteLoan'),
 
     #---------------------------- Ajax CRUD --------------------------------------------------------------------------#
     path('LoanerView', LoanerView.as_view(), name='LoanerView'),

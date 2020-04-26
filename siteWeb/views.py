@@ -445,3 +445,10 @@ def updateLoan(request, id):
     loan.save()
     return redirect('showLoan')
 
+
+def deleteLoan(request, id):
+    loan = Loan.objects.get(id=id)
+    loan.delete()
+    messages.success(request, f"Loan Deleted successfully")
+    return redirect('showLoan')
+
