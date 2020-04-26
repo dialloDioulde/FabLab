@@ -20,6 +20,7 @@
                 <th scope="col">LAST NAME</th>
                 <th scope="col">FIRST NAME</th>
                 <th scope="col">EMAIL</th>
+                <th scope="col">Returned</th>
                 <th scope="col">CREATION DATE</th>
                 <th scope="col">EXPECTED RETURN DATE</th>
                 <th scope="col">ACTIONS</th>
@@ -32,11 +33,13 @@
             <td>{{loan.loaner.last_name}}</td>
             <td>{{loan.loaner.first_name}}</td>
             <td>{{loan.loaner.email}}</td>
+            <td>{{loan.returned}}</td>
             <td>{{loan.creation_date_loan}}</td>
             <td>{{loan.expected_return_date}}</td>
             <td>
-                <a href="/editLoaner/{{loaner.id}}"><span>Edit</span></a>
-                <a href="/deleteLoaner/{{loaner.id}}">Delete</a>
+                <a href="/loan_id/{{loan.id}}"><span>Edit</span></a>
+                <a href="/updateLoan/{{loan.id}}"><span>Returned</span></a>
+                <a href="/deleteLoan/{{loaner.id}}">Delete</a>
             </td>
         </tr>
         </tbody>

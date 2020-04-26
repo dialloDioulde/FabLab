@@ -24,11 +24,11 @@
                     <td>{{ loan_material.material.barcode }}</td>
                     <td>
                         {% if loan_material.material.type.material_type != 'unique' %}
-                        <a href="{% url 'remove-material-from-loan' loan_material.material.slug  %}"><i class="material-icons">remove_circle</i></a>
+                            <a href="{% url 'remove-material-from-loan' loan_material.material.slug  %}"><i class="material-icons">remove_circle</i></a>
                         {% endif %}
                         {{ loan_material.quantity }}
                         {% if loan_material.material.type.material_type != 'unique' %}
-                        <a href="{% url 'add-one-material' loan_material.material.slug  %}"><i class="material-icons right">add_circle</i></a>
+                            <a href="{% url 'add-one-material' loan_material.material.slug  %}"><i class="material-icons right">add_circle</i></a>
                         {% endif %}
                     </td>
                     <td>
@@ -46,10 +46,10 @@
                     </td>
                 </tr>
                 {% endfor %}
-                     <tr>
+                <tr>
                     <td colspan="5">
-                        <a class="btn btn-primary float-right" href="../loan">Proceed to Checkout</a>
-                        <a class="btn btn-warning float-right" href="/">Continue Adding</a>
+                        <a class="btn-large blue-grey darken-1" href="../loan">Proceed to Checkout</a>
+                        <a class="btn grey" href="/">Continue Adding</a>
                     </td>
                 </tr>
                 </tbody>

@@ -27,7 +27,6 @@ from tinymce.widgets import TinyMCE
 from siteWeb.views import(MaterialDetailView,LoanSummaryView,loan_form)
 
 
-
 #----------------------------------------------------------------------------------------------------------------------#
 from django.conf.urls import url
 
@@ -77,12 +76,13 @@ urlpatterns = [
     path('editType/<int:id>',views.editType, name='editType'),
     path('updateType/<int:id>',views.updateType, name='updateType'),
 
-
     path('deleteLoaner/<int:id>',views.deleteLoaner, name='deleteLoaner'),
     path('deleteType/<int:id>',views.deleteType, name='deleteType'),
 
+    path('loan_id/<int:id>',views.loan, name='loan_id'),
+    path('updateLoan/<int:id>',views.updateLoan, name='updateLoan'),
 
-    #---------------------------- Ajax CCRUD --------------------------------------------------------------------------#
+    #---------------------------- Ajax CRUD --------------------------------------------------------------------------#
     path('LoanerView', LoanerView.as_view(), name='LoanerView'),
     path('CreateCrudLoaner', CreateCrudLoaner.as_view(), name='CreateCrudLoaner'),
     path('DeleteCrudLoaner', DeleteCrudLoaner.as_view(), name='DeleteCrudLoaner'),

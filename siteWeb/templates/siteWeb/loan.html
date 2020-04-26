@@ -1,0 +1,15 @@
+{% extends "siteWeb/header_secondary.html" %}
+{% block content %}
+<div class = "container">
+    <div class="card-content black-text">
+
+        {% for material in loan_materials %}
+            {{material}} <br>
+        {% endfor %}
+
+        {% if user.is_authenticated %}
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
