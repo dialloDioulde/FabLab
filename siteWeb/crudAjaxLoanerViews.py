@@ -49,14 +49,23 @@ class DeleteCrudLoaner(View):
 
 # Update Loaner
 class UpdateCrudLoaner(View):
+
     def get(self, request):
         id_loaner = request.GET.get('id_loaner', None)
+
+    def  get(self, request):
+        id = request.GET.get('id_loaner', None)
+
         last_name_e = request.GET.get('last_name', None)
         first_name_e = request.GET.get('first_name', None)
         email_e = request.GET.get('email', None)
         establishment_e = request.GET.get('establishment', None)
 
+
         obj = Loaner.objects.get(id=id_loaner)
+
+        obj = Loaner.objects.get(id = id)
+
         obj.last_name = last_name_e
         obj.first_name = first_name_e
         obj.email = email_e
@@ -64,8 +73,13 @@ class UpdateCrudLoaner(View):
 
         obj.save()
 
+
         loaner = {'id': obj.id_loaner, 'last_name': obj.last_name, 'first_name': obj.first_name, 'email': obj.email,
                   'establishment': obj.establishment}
+
+        loaner = {'id':obj.id,'last_name':obj.last_name,'first_name':obj.first_name,'email':obj.email, 'establishment':obj.establishment}
+
+
 
         data = {
             'loaner': loaner
