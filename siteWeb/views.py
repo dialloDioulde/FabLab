@@ -1,25 +1,15 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from django.http import HttpResponse
-from django.template import loader
-from django.contrib.auth.forms import UserCreationForm
-from django.core.files import File
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.conf import settings
-from django.http import *
-from django.core.paginator import Paginator
 from django.shortcuts import render
-from .models import Material, Type
 from django.core.paginator import Paginator
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib import messages
 from .forms import NewUserForm
 from django.views.generic import ListView, DetailView, View
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan
 
@@ -57,24 +47,23 @@ def dashboard(request):
 # Register
 def register(request):
     # automatically, it's a GET request
-
-    if request.method == "POST":
-        form = NewUserForm(request.POST)
-        if form.is_valid():
-            # things are filled out like theyre supposed to
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f"New Account Created:{username}")
-            # login(request, user)
-            # messages.info(request, f"Logged in as  {username}")
-            return redirect("homepage")
-        else:
-            for message in form.error_messages:
-                # print(form.error_messages[message])
-                messages.error(request, f"{message} : {form.error_messages[message]}")
-    form = NewUserForm
-    return render(request,"siteWeb/register.html", context={"form": form})
-
+    if not request.user.is_authenticated:
+        return redirect("../../accounts/login")
+    else:
+        if request.method == "POST":
+            form = NewUserForm(request.POST)
+            if form.is_valid():
+                # things are filled out like theyre supposed to
+                user = form.save()
+                username = form.cleaned_data.get('username')
+                messages.success(request, f"New Account Created:{username}")
+                return redirect("homepage")
+            else:
+                for message in form.error_messages:
+                    # print(form.error_messages[message])
+                    messages.error(request, f"{message} : {form.error_messages[message]}")
+        form = NewUserForm
+        return render(request,"siteWeb/accounts/register.html", context={"form": form})
 
 
 # Login
@@ -95,29 +84,51 @@ def login_request(request):
             messages.error(request, "Invalid username or password")
 
     form = AuthenticationForm()
-    return render(request, "siteWeb/login.html", {"form": form})
+    return render(request, "siteWeb/accounts/login.html", {"form": form})
 
 # Logout
-@login_required
+# @login_required
 def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("homepage")
+
+
+def change_password(request):
+    if not request.user.is_authenticated:
+        return redirect("../../accounts/login")
+    else:
+        if request.method == "POST":
+            form = PasswordChangeForm(data=request.POST, user=request.user)
+            if form.is_valid():
+                form.save()
+                update_session_auth_hash(request, form.user)
+                messages.success(request, f"Password Changed Successfully!")
+                return redirect("homepage")
+        else:
+            form = PasswordChangeForm(user=request.user)
+            args = {'form': form}
+            return render(request, "siteWeb/accounts/changePassword.html", args)
+
+
 #----------------------------------------------------------------------------------------------------------------------#
 # Borrower registration
 # @login_required # You will need to be logged in
 def addLoaner(request):
-    sauvegarde = False
-    if request.method == 'POST':
-        form = formLoaner(request.POST)
-        form.save()
-        form = formLoaner()
-        messages.success(request, f"New Loaner created")
-        return redirect("homepage")
-        sauvegarde = True
+    if not request.user.is_authenticated:
+        return redirect("../../accounts/login")
     else:
-        form = formLoaner()
-    return render(request, 'siteWeb/addLoaner.html', {'form': form})
+        sauvegarde = False
+        if request.method == 'POST':
+            form = formLoaner(request.POST)
+            form.save()
+            form = formLoaner()
+            messages.success(request, f"New Loaner created")
+            return redirect("homepage")
+            sauvegarde = True
+        else:
+            form = formLoaner()
+        return render(request, 'siteWeb/addLoaner.html', {'form': form})
 
 
 
@@ -160,17 +171,20 @@ def deleteLoaner(request, id):
 # Add Type
 # @login_required
 def addType(request):
-    sauvegarde = False
-    if request.method == 'POST':
-        form = formType(request.POST)
-        form.save()
-        form = formType()
-        messages.success(request, f"New Type created")
-        return redirect("homepage")
-        sauvegarde = True
+    if not request.user.is_authenticated:
+        return redirect("../../accounts/login")
     else:
-        form = formType()
-    return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
+        sauvegarde = False
+        if request.method == 'POST':
+            form = formType(request.POST)
+            form.save()
+            form = formType()
+            messages.success(request, f"New Type created")
+            return redirect("homepage")
+            sauvegarde = True
+        else:
+            form = formType()
+        return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
 # Show Type
@@ -207,32 +221,34 @@ def deleteType(request, id):
 # Add Material
 # @login_required
 def addMaterial(request):
-    sauvegarde = False
-    if request.method == 'POST':
-        form = formMaterial(request.POST, request.FILES)
-        if form.is_valid():
-            type = form.cleaned_data.get('type')
-            if type.material_type == 'unique':
-                from django.core.exceptions import ObjectDoesNotExist
-                try:
-                    Material.objects.get(type=type)
-                    messages.error(request, f"Existing unique type.")
-                except ObjectDoesNotExist:
+    if not request.user.is_authenticated:
+        return redirect("../../accounts/login")
+    else:
+        sauvegarde = False
+        if request.method == 'POST':
+            form = formMaterial(request.POST, request.FILES)
+            if form.is_valid():
+                type = form.cleaned_data.get('type')
+                if type.material_type == 'unique':
+                    from django.core.exceptions import ObjectDoesNotExist
+                    try:
+                        Material.objects.get(type=type)
+                        messages.error(request, f"Existing unique type.")
+                    except ObjectDoesNotExist:
+                        form.save()
+                        form = formMaterial()
+                        messages.success(request, f"New Material created")
+                        return redirect("homepage")
+                        sauvegarde = True
+                else:
                     form.save()
                     form = formMaterial()
                     messages.success(request, f"New Material created")
                     return redirect("homepage")
                     sauvegarde = True
-            else:
-                form.save()
-                form = formMaterial()
-                messages.success(request, f"New Material created")
-                return redirect("homepage")
-                sauvegarde = True
-    else:
-        form = formMaterial()
-    return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
-
+        else:
+            form = formMaterial()
+        return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
 
 
 # Show Material
@@ -406,3 +422,10 @@ class loan_form(LoginRequiredMixin, View):
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active loan")
         return redirect("loan-summary")
+
+
+# Show Material
+def showLoan(request):
+    loan_liste = Loan.objects.all()
+    return render(request, 'siteWeb/showLoan.html', {'loans': loan_liste})
+

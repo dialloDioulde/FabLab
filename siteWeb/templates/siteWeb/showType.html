@@ -1,10 +1,11 @@
-{% include "siteWeb/dashboard.html" %}
+{% include "siteWeb/includes/dashboard.html" %}
 
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div>
-    <table class="table table-bordered responsive">
+
+<div id="wrapper">
+    <table class="table table-bordered responsive" style="height:90vh">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Table of Types</th>

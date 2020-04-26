@@ -7,7 +7,7 @@
     <table class="table table-bordered responsive" style="height:90vh">
         <thead class="thead-dark">
             <tr>
-                <th scope="col">Table of Materials</th>
+                <th scope="col">Table of Loans</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -17,26 +17,26 @@
         </thead>
         <thead class="thead-dark">
             <tr>
-                <th scope="col">NAME</th>
-                <th scope="col">BARCODE</th>
-                <th scope="col">TYPE</th>
-                 <th scope="col">DESCRIPTION</th>
+                <th scope="col">LAST NAME</th>
+                <th scope="col">FIRST NAME</th>
+                <th scope="col">EMAIL</th>
                 <th scope="col">CREATION DATE</th>
+                <th scope="col">EXPECTED RETURN DATE</th>
                 <th scope="col">ACTIONS</th>
             </tr>
         </thead>
 
-        {% for material in materials %}
+        {% for loan in loans %}
         <tbody>
         <tr>
-            <td>{{material.name}}</td>
-            <td>{{material.barcode}}</td>
-            <td>{{material.slug}}</td>
-            <td>{{material.type }}</td>
-            <td>{{material.creation_date_mat}}</td>
+            <td>{{loan.loaner.last_name}}</td>
+            <td>{{loan.loaner.first_name}}</td>
+            <td>{{loan.loaner.email}}</td>
+            <td>{{loan.creation_date_loan}}</td>
+            <td>{{loan.expected_return_date}}</td>
             <td>
-                <a href="#"><span>Edit</span></a>
-                <a href="#">Delete</a>
+                <a href="/editLoaner/{{loaner.id}}"><span>Edit</span></a>
+                <a href="/deleteLoaner/{{loaner.id}}">Delete</a>
             </td>
         </tr>
         </tbody>

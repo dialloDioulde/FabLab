@@ -13,8 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+<<<<<<< HEAD
 from siteWeb import views
 from siteWeb.crudAjaxLoanerViews import LoanerView, CreateCrudLoaner, DeleteCrudLoaner, UpdateCrudLoaner
 from django.conf.urls.static import static
@@ -27,13 +30,25 @@ from siteWeb.views import(MaterialDetailView,LoanSummaryView,loan_form)
 
 
 #----------------------------------------------------------------------------------------------------------------------#
+=======
+from django.conf.urls import url
+
+from django.contrib.auth import views as auth_views
+
+from siteWeb import views
+from siteWeb.views import (
+    MaterialDetailView,
+    LoanSummaryView,
+    loan_form,
+)
+>>>>>>> master
 
 urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
     path('admin/', admin.site.urls),
     path("", views.homepage, name="homepage"),
 
-    path('dashboard/', views.dashboard, name="dashboard"),
+    # path('dashboard/', views.dashboard, name="dashboard"),
     path("material/<slug>/", MaterialDetailView.as_view(), name='material'),
 
     path("add-to-loan/<slug>", views.add_to_loan, name='add-to-loan'),
@@ -43,17 +58,21 @@ urlpatterns = [
     path("loan-summary/", LoanSummaryView.as_view(), name="loan-summary"),
     path("loan/", loan_form.as_view(), name="loan"),
 
-    path("register/", views.register, name="register"),
+    path("accounts/register/", views.register, name="register"),
     path("logout/", views.logout_request, name="logout"),
-    path("login/", views.login_request, name="login"),
+    path("accounts/login/", views.login_request, name="login"),
+    path("accounts/change-password/", views.change_password, name="change-password"),
 
-    path('addLoaner/', views.addLoaner, name= 'addLoaner'),
+    url('^', include('django.contrib.auth.urls')),
+
+    path('addLoaner/', views.addLoaner, name='addLoaner'),
     path('addType/', views.addType, name='addType'),
     path('addMaterial/', views.addMaterial, name='addMaterial'),
 
     path('showLoaner', views.showLoaner, name='showLoaner'),
     path('showType', views.showType, name='showType'),
     path('showMaterial', views.showMaterial, name='showMaterial'),
+    path('showLoan', views.showLoan, name='showLoan'),
 
     path('editLoaner/<int:id>',views.editLoaner, name='editLoaner'),
     path('updateLoaner/<int:id>',views.updateLoaner, name='updateLoaner'),

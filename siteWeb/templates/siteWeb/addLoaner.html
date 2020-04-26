@@ -1,9 +1,9 @@
-{% include "siteWeb/dashboard.html" %}
+{% include "siteWeb/includes/dashboard.html" %}
 {% block content %}
 <div id = "content-wrapper">
     <div class = "container-fluid">
         {% if user.is_authenticated %}
-                <h3> <span class="badge badge-secondary">Add Loaner</span></h3>
+                <h3> <span>Add Loaner</span></h3>
                 <br>
                 <form method = "POST" enctype="multipart/form-data">
                     {% csrf_token %}

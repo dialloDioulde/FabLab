@@ -55,6 +55,12 @@ If your app has a custom user model, you'll need to create a new superuser for t
       8- Display all Type/Material/Loaner on a table
 
       9- Modify Loaner
+      
+      10- Change Password
+    
+      11- Forget Password
+      
+      12 - Display Loans
 
 #TO DO:
 
@@ -62,14 +68,9 @@ If your app has a custom user model, you'll need to create a new superuser for t
     
     2- Delete Type/Material/Loaner
     
-    3- Display Loans
+    3- Mark as Returned Loans
     
-    4- Modify Loans
+    4- Delete Loans
     
-    5- Delete Loans
     
-    6- Check Loans as returned
     
-    7- Change Password
-    
-    8- Forget Password
