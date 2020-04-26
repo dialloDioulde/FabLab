@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Loaner',
+            name='loaner',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('last_name', models.CharField(max_length=255)),
@@ -75,7 +75,7 @@ class Migration(migrations.Migration):
                 ('creation_date_loan', models.DateTimeField(default=django.utils.timezone.now)),
                 ('expected_return_date', models.DateField(blank=True, null=True)),
                 ('return_date', models.DateField(null=True)),
-                ('loaner', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='siteWeb.Loaner')),
+                ('loaner', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='siteWeb.loaner')),
                 ('materials', models.ManyToManyField(to='siteWeb.LoanMaterial')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

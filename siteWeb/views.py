@@ -121,19 +121,19 @@ def addLoaner(request):
 
 
 
-# Show Loaner
+# Show loaner
 def showLoaner(request):
     loaner_liste = Loaner.objects.all()
     return render(request, 'siteWeb/showLoaner.html', {'loaners': loaner_liste})
 
 
-# Edit Loaner
+# Edit loaner
 def editLoaner(request, id):
     loaner_edit = Loaner.objects.get(id=id)
     return render(request, 'siteWeb/editLoaner.html', {'loaner_edit': loaner_edit})
 
 
-# Update Loaner
+# Update loaner
 def updateLoaner(request, id):
     loaner_update = Loaner.objects.get(id=id)
     form = formLoaner(request.POST, instance=loaner_update)
@@ -144,11 +144,16 @@ def updateLoaner(request, id):
     messages.error(request, f"Loaner not updated! Try again.")
     return render(request, 'siteWeb/editLoaner.html', {'user_update': form})
 
+#export PATH=$PATH:/Users/mamadoudiallo/.npm-global/bin Pour ajouter le repertoire dans le dossier Path
+# ls -a voir tous les fichiers
+# ctrl + O -> save
+# ctrl + x -> quitter
 
-# destroy Users
+# destroy loaner
 def deleteLoaner(request, id):
     user_delete = Loaner.objects.get(id=id)
     user_delete.delete()
+    messages.success(request, f"Loaner Deleted successfully")
     return redirect(showLoaner)
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -192,6 +197,12 @@ def updateType(request, id):
     return render(request, 'siteWeb/editType.html', {'type_update': form})
 
 
+
+# destroy Type
+def deleteType(request, id):
+    type_delete = Type.objects.get(id=id)
+    type_delete.delete()
+    return redirect(showType)
 #----------------------------------------------------------------------------------------------------------------------#
 # Add Material
 # @login_required

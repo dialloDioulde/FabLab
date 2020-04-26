@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'siteWeb',
     'crispy_forms',
     'tinymce',
+    'webpack_loader',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -158,3 +159,16 @@ STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'), ]
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/images/'
+
+
+# Webpack Loader
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': '',
+        'STATS_FILE': os.path.join(BASE_DIR, 'FrontendApp/webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    }
+}

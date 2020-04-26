@@ -59,7 +59,7 @@ class DateInput(forms.DateInput):
     input_type =  'date'
 
 
-#Ajouter Loaner to Loan
+#Ajouter loaner to Loan
 class formLoan(forms.ModelForm):
     expected_return_date = forms.DateField(widget=DateInput)
 

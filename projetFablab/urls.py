@@ -16,16 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from siteWeb import views
+from siteWeb.crudAjaxLoanerViews import LoanerView, CreateCrudLoaner, DeleteCrudLoaner, UpdateCrudLoaner
 from django.conf.urls.static import static
 from django.conf import settings
-# new
+
 from tinymce.widgets import TinyMCE
 
-from siteWeb.views import(
-    MaterialDetailView,
-    LoanSummaryView,
-    loan_form,
-)
+from siteWeb.views import(MaterialDetailView,LoanSummaryView,loan_form)
+
+
+
+#----------------------------------------------------------------------------------------------------------------------#
 
 urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
@@ -54,7 +55,7 @@ urlpatterns = [
     path('showType', views.showType, name='showType'),
     path('showMaterial', views.showMaterial, name='showMaterial'),
 
-    path('editLoaner/<int:id>',views.editLoaner, name='editUsers'),
+    path('editLoaner/<int:id>',views.editLoaner, name='editLoaner'),
     path('updateLoaner/<int:id>',views.updateLoaner, name='updateLoaner'),
 
     path('editType/<int:id>',views.editType, name='editType'),
@@ -62,5 +63,17 @@ urlpatterns = [
 
 
     path('deleteLoaner/<int:id>',views.deleteLoaner, name='deleteLoaner'),
+    path('deleteType/<int:id>',views.deleteType, name='deleteType'),
+
+
+    #---------------------------- Ajax CCRUD --------------------------------------------------------------------------#
+    path('LoanerView', LoanerView.as_view(), name='LoanerView'),
+    path('CreateCrudLoaner', CreateCrudLoaner.as_view(), name='CreateCrudLoaner'),
+    path('DeleteCrudLoaner', DeleteCrudLoaner.as_view(), name='DeleteCrudLoaner'),
+    path('UpdateCrudLoaner', UpdateCrudLoaner.as_view(), name='UpdateCrudLoaner'),
+
+
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
