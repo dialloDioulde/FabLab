@@ -17,7 +17,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-<<<<<<< HEAD
 from siteWeb import views
 from siteWeb.crudAjaxLoanerViews import LoanerView, CreateCrudLoaner, DeleteCrudLoaner, UpdateCrudLoaner
 from django.conf.urls.static import static
@@ -30,7 +29,6 @@ from siteWeb.views import(MaterialDetailView,LoanSummaryView,loan_form)
 
 
 #----------------------------------------------------------------------------------------------------------------------#
-=======
 from django.conf.urls import url
 
 from django.contrib.auth import views as auth_views
@@ -41,7 +39,6 @@ from siteWeb.views import (
     LoanSummaryView,
     loan_form,
 )
->>>>>>> master
 
 urlpatterns = [
     path('tinymce/', include('tinymce.urls')),
