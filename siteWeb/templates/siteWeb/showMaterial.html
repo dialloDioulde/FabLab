@@ -2,8 +2,17 @@
 
 {% load crispy_forms_tags %}
 
-{% block content %}
+{% load static %}
 
+{% block content %}
+<head>
+      <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script
+</head>
+<div class="container">
+    <h2>Materials</h2>
+  <p>Type something in the input field to search the table for first names, last names or emails:</p>
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
     <table class="table table-bordered responsive" style="height:90vh">
         <thead class="thead-dark">
             <tr>
@@ -27,7 +36,7 @@
         </thead>
 
         {% for material in materials %}
-        <tbody>
+        <tbody id="myTable">
         <tr>
             <td>{{material.name}}</td>
             <td>{{material.barcode}}</td>

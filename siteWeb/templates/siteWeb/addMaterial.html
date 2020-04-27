@@ -6,7 +6,7 @@
     <br>
         <h3> <span>Add Material</span></h3>
         <br>
-        <form method = "POST" enctype="multipart/form-data" class="form-horizontal">
+        <form method = "POST" enctype="multipart/form-data" >
             {% csrf_token %}
             {{ form.as_p }}
             <br>
