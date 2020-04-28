@@ -100,7 +100,7 @@ urlpatterns = [
 
 
     path('ajaxShowMat', crudAjaxMatViews.crudShowMaterial, name='ajaxShowMat'),
-    #path('ajaxCreateMaterial', crudMaterialViews.crudCreateMaterial, name='ajaxCreateMaterial'),
+    path('ajaxUpdateMat', crudAjaxMatViews.ajaxUpdateMaterial, name='ajaxUpdateMat'),
     path('ajaxCreateMat', crudAjaxMatViews.ajaxCreateMaterial , name='ajaxCreateMat'),
 
 

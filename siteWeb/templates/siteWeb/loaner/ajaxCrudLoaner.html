@@ -46,7 +46,7 @@
 
     <!-- Loaner Table -->
     <div class="container">
-        <button class="btn btn-success offset-12"  data-toggle="modal" data-target="#addLoanerModal">
+        <button class="btn btn-success add-form offset-12">
             <span class="glyphicon glyphicon-plus mr-2">ADD LOANER</span>
         </button>
         <table id="loanerTable" class="table container-fluid table-responsive mt-2">
@@ -68,7 +68,7 @@
                 <td class="loanerEstablishment loanerData" name="establishment">{{loaner.establishment}}</td>
                 <td class="loanerCreation_date loanerData" name="creation_date">{{loaner.creation_date}}</td>
                 <td class="d-flex">
-                    <button class="btn btn-warning mr-2" onClick="editLoaner({{loaner.id}})" data-toggle="modal" data-target="#myModal">
+                    <button class="btn btn-warning edit-form mr-2" onClick="editLoaner({{loaner.id}})">
                         <span class="glyphicon glyphicon-pencil mr-2"></span>EDIT
                     </button>
                     <button class="btn btn-danger ml-2" onClick="deleteLoaner({{loaner.id}})">
@@ -83,7 +83,7 @@
 
 
     <!-- Modal Loaner UPDATE -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="editLoanerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -130,6 +130,14 @@
 <script>
 
 // Create Loaner -----------------------------------------------------------------------------------------------------//
+ $(document).ready(function(){
+    $(".add-form").click(function(){
+        $('#addLoanerModal').modal('show');
+    });
+
+    });
+
+
 $("form#addloaner").submit(function() {
     var last_nameInput = $('input[name="last_name"]').val().trim();
     var first_nameInput = $('input[name="first_name"]').val().trim();
@@ -165,6 +173,13 @@ $("form#addloaner").submit(function() {
 
 
 // Update Loaner -----------------------------------------------------------------------------------------------------//
+ $(document).ready(function(){
+    $(".edit-form").click(function(){
+        $('#editLoanerModal').modal('show');
+    });
+
+    });
+
 $("form#updateLoaner").submit(function() {
     var idInput = $('input[name="loaner_id_e"]').val().trim();
     var last_nameInput = $('input[name="last_name_e"]').val().trim();

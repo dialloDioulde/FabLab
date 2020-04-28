@@ -4,9 +4,8 @@
 
 {% block content %}
 
-
-<div class="container mt-5">
-        <!-- Modal ADD Material -->
+<div class="container">
+    <!-- Modal ADD Material -->
     <div class="modal fade" id="addMatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -33,11 +32,10 @@
 
 
     <!-- Material Table -->
-    <div class="container mt-2">
-        <button class="btn btn-success offset-12"  data-toggle="modal" data-target="#addMatModal">
+    <div class="container mt-5">
+        <button class="btn btn-success offset-12 add-form">
                 <span class="glyphicon glyphicon-plus mr-2">ADD MATERIAL</span>
         </button>
-
         <table id="materialTable" class="table container-fluid table-responsive mt-2">
             <thead class="bg-info">
                 <th scope="col" class="text-center">BARCODE</th>
@@ -53,13 +51,13 @@
                     <td>{{ material.barcode}}</td>
                     <td>{{ material.name}}</td>
                     <td>{{ material.type }}</td>
-                    <td>{{ material.material_picture }}</td>
+                    <td id="pict">{{ material.material_picture }}</td>
                     <td>{{ material.creation_date_mat }}</td>
                     <td class="d-flex">
-                        <button class="btn btn-warning show-form-update" data-url="">
+                        <button class="btn btn-warning edit-form">
                             <span class="glyphicon glyphicon-pencil mr-2"></span>Edit
                         </button>
-                        <button class="btn btn-danger ml-2 show-form-delete" data-url="">
+                        <button class="btn btn-danger ml-2 show-form-delete">
                             <span class="glyphicon glyphicon-trash mr-2"></span>Delete
                         </button>
                     </td>
@@ -71,9 +69,50 @@
             {% endfor %}
             </tbody>
         </table>
-
     </div>
     <!-- END Material Table -->
+
+
+    <!-- Modal EDIT Material -->
+    <div class="modal fade" id="editMatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="editMatModalLabel">EDIT MATERIAL</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editMaterial" action="" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Name : </label>
+                            <input class="form-control" type="text" name="name" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="barcode">Barcode : </label>
+                            <input class="form-control" type="text" name="barcode" id="barcode">
+                        </div>
+                        <div class="form-group">
+                            <label for="picture">Picture : </label>
+                            <input class="form-control" type="file" name="picture" id="picture">
+                        </div>
+                        <div class="form-group">
+                            <label for="type_material">Type : </label>
+                            <input class="form-control" type="text" name="type_material" id="type_material">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="EDIT MATERIAL" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal EDIT Material -->
+
+
 
 </div>
 
@@ -83,6 +122,16 @@
 {% block javascript %}
 <script>
 
+// Create Material ---------------------------------------------------------------------------------------------------//
+    // Show form for the save data
+    $(document).ready(function(){
+    $(".add-form").click(function(){
+        $('#addMatModal').modal('show');
+    });
+
+    });
+
+    // Save data of form
     $('#addMaterial').submit(function(e){
         e.preventDefault();
         $form = $(this)
@@ -101,7 +150,8 @@
                     })
                 }
                 else{
-                    alert(response.message)
+                    alert(response.message);
+                    location.reload(true);
                     //window.location = ""
                 }
             },
@@ -109,6 +159,28 @@
             contentType: false,
             processData: false
         });
+    });
+
+// END Create Material -----------------------------------------------------------------------------------------------//
+
+    // Show form for the edit data
+    $(document).ready(function(){
+        $(".edit-form").click(function(){
+            $('#editMatModal').modal('show');
+            $tr = $(this).closest('tr');
+            var data = $tr.children("td").map(function () {
+                    return $(this).text();
+                }).get();
+                //console.log(data);
+
+            $('#barcode').val(data[0]);
+            $('#name').val(data[1]);
+            $('#type_material').val(data[2]);
+            $('#picture')[0].files[0];
+            console.log(data);
+        });
+
+
     });
 
 </script>
