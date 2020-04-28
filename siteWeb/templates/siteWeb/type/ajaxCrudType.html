@@ -3,22 +3,22 @@
 
 
 {% block content %}
-<div class="container-fluid">
+<div class="container">
     <h1>TYPE CRUD</h1>
     <!-- Modal ADD TYPE -->
     <div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h4 class="modal-title" id="addTypeModalLabel">ADD Type</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="addLoanerModalLabel">ADD Type</h4>
                 </div>
                 <form id="addType" action="">
                     <div class="modal-body">
                         <input class="form-control" id="type_id" type="hidden" name="type_id">
                         <div class="form-group">
                             <label for="material_type">MATERIAL TYPE : </label>
-                            <input class="form-control" type="text" name="material_type" id="material_type">
+                            <input class="form-control" type="text" name="material_type" value="generic" id="material_type">
                         </div>
                         <div class="form-group">
                             <label for="name_type">NAME TYPE : </label>
@@ -42,24 +42,32 @@
 
     <!-- Type Table -->
     <div class="container">
-        <button class="btn btn-success offset-12"  data-toggle="modal" data-target="#addTypeModal">ADD LOANER</button>
-        <table id="typeTable" class="table table-bordered responsive mt-2">
-            <tr>
-                <th scope="col">MATERIAL TYPE</th>
-                <th scope="col">NAME TYPE</th>
-                <th scope="col">DESCRIPTION</th>
-                <th scope="col">CREATION DATE</th>
-                <th scope="col">ACTIONS</th>
-            </tr>
+        <button class="btn btn-success offset-12"  data-toggle="modal" data-target="#addTypeModal">
+            <span class="glyphicon glyphicon-plus mr-2">ADD TYPE</span>
+        </button>
+        <table id="typeTable" class="table container-fluid table-responsive mt-2">
+            <thead class="bg-info">
+                <th scope="row">ID</th>
+                <th scope="col" class="text-center">MATERIAL TYPE</th>
+                <th scope="col" class="text-center">NAME TYPE</th>
+                <th scope="col" class="text-center">DESCRIPTION</th>
+                <th scope="col" class="text-center">CREATION DATE</th>
+                <th scope="col" class="text-center">ACTIONS</th>
+            </thead>
             {% for type in types %}
             <tr id="type-{{type.id}}">
+                <td>{{type.id}}</td>
                 <td class="typeMaterial_type typeData" name="material_type">{{type.material_type}}</td>
                 <td class="typeName_type typeData" name="name_type">{{type.name_type}}</td>
                 <td class="typeDescription typeData" name="description">{{type.description}}</td>
                 <td class="typeCreation_date typeData" name="creation_date">{{type.creation_date_type}}</td>
-                <td class="d-flex">
-                    <button class="btn btn-success mr-2" onClick="editType({{type.id}})" data-toggle="modal" data-target="#myModal">EDIT</button>
-                    <button class="btn btn-danger ml-2" onClick="deleteType({{type.id}})">DELETE</button>
+                <td>
+                    <button class="btn btn-warning mr-2" onClick="editType({{type.id}})" data-toggle="modal" data-target="#myModal">
+                        <span class="glyphicon glyphicon-pencil mr-2"></span>Edit
+                    </button>
+                    <button class="btn btn-danger ml-2" onClick="deleteType({{type.id}})">
+                        <span class="glyphicon glyphicon-trash mr-2"></span>DELETE
+                    </button>
                 </td>
             </tr>
             {% endfor %}
@@ -73,8 +81,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel">Update Type</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Update Type</h4>
                 </div>
                 <form id="updateType" action="">
                     <div class="modal-body">

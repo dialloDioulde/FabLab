@@ -1,0 +1,21 @@
+{% for material in materials %}
+<tr>
+    <td>{{ material.barcode}}</td>
+    <td>{{ material.name}}</td>
+    <td>{{ material.type }}</td>
+    <td>{{ material.material_picture }}</td>
+    <td>{{ material.creation_date_mat }}</td>
+    <td class="d-flex">
+        <button class="btn btn-warning show-form-update" data-url="">
+            <span class="glyphicon glyphicon-pencil mr-2"></span>Edit
+        </button>
+        <button class="btn btn-danger ml-2 show-form-delete" data-url="">
+            <span class="glyphicon glyphicon-trash mr-2"></span>Delete
+        </button>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="7" class="text-center bg-warning">No Material</td>
+</tr>
+{% endfor %}

@@ -20,6 +20,8 @@ from django.urls import path, include
 from siteWeb import views
 from siteWeb.crudAjaxLoanerViews import LoanerView, CreateCrudLoaner, DeleteCrudLoaner, UpdateCrudLoaner
 from siteWeb.crudAjaxTypeViews import TypeView, CreateCrudType, UpdateCrudType, DeleteCrudType
+from siteWeb import crudMaterialViews
+from siteWeb import crudAjaxMatViews
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -94,6 +96,11 @@ urlpatterns = [
     path('CreateCrudType', CreateCrudType.as_view(), name='CreateCrudType'),
     path('UpdateCrudType', UpdateCrudType.as_view(), name='UpdateCrudType'),
     path('DeleteCrudType', DeleteCrudType.as_view(), name='DeleteCrudType'),
+
+
+    path('ajaxShowMat', crudAjaxMatViews.crudShowMaterial, name='ajaxShowMat'),
+    #path('ajaxCreateMaterial', crudMaterialViews.crudCreateMaterial, name='ajaxCreateMaterial'),
+    path('ajaxCreateMat', crudAjaxMatViews.ajaxCreateMaterial , name='ajaxCreateMat'),
 
 
 

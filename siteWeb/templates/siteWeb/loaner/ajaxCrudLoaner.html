@@ -3,15 +3,15 @@
 
 
 {% block content %}
-<div class="container-fluid">
+<div class="container">
     <h1>LOANER CRUD</h1>
     <!-- Modal ADD Loaner -->
     <div class="modal fade" id="addLoanerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="addLoanerModalLabel">ADD Loaner</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <form id="addloaner" action="">
                     <div class="modal-body">
@@ -46,26 +46,34 @@
 
     <!-- Loaner Table -->
     <div class="container">
-        <button class="btn btn-success offset-12"  data-toggle="modal" data-target="#addLoanerModal">ADD LOANER</button>
-        <table id="loanerTable" class="table table-bordered responsive mt-2">
-            <tr>
+        <button class="btn btn-success offset-12"  data-toggle="modal" data-target="#addLoanerModal">
+            <span class="glyphicon glyphicon-plus mr-2">ADD LOANER</span>
+        </button>
+        <table id="loanerTable" class="table container-fluid table-responsive mt-2">
+            <thead class="bg-info">
+                <th scope="row">ID</th>
                 <th scope="col">LAST NAME</th>
                 <th scope="col">FIRST NAME</th>
                 <th scope="col">EMAIL</th>
                 <th scope="col">ESTABLISHMENT</th>
                 <th scope="col">CREATION DATE</th>
                 <th scope="col">ACTIONS</th>
-            </tr>
+            </thead>
             {% for loaner in loaners %}
             <tr id="loaner-{{loaner.id}}">
+                <td>{{loaner.id}}</td>
                 <td class="loanerLast_name loanerData" name="last_name">{{loaner.last_name}}</td>
                 <td class="loanerFirst_name loanerData" name="first_name">{{loaner.first_name}}</td>
                 <td class="loanerEmail loanerData" name="email">{{loaner.email}}</td>
                 <td class="loanerEstablishment loanerData" name="establishment">{{loaner.establishment}}</td>
                 <td class="loanerCreation_date loanerData" name="creation_date">{{loaner.creation_date}}</td>
                 <td class="d-flex">
-                    <button class="btn btn-success mr-2" onClick="editLoaner({{loaner.id}})" data-toggle="modal" data-target="#myModal">EDIT</button>
-                    <button class="btn btn-danger ml-2" onClick="deleteLoaner({{loaner.id}})">DELETE</button>
+                    <button class="btn btn-warning mr-2" onClick="editLoaner({{loaner.id}})" data-toggle="modal" data-target="#myModal">
+                        <span class="glyphicon glyphicon-pencil mr-2"></span>EDIT
+                    </button>
+                    <button class="btn btn-danger ml-2" onClick="deleteLoaner({{loaner.id}})">
+                        <span class="glyphicon glyphicon-trash mr-2"></span>DELETE
+                    </button>
                 </td>
             </tr>
             {% endfor %}
@@ -79,8 +87,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Update Loaner</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <form id="updateLoaner" action="">
                     <div class="modal-body">
@@ -140,6 +148,7 @@ $("form#addloaner").submit(function() {
             dataType: 'json',
             success: function (data) {
                 if (data.loaner) {
+                  alert("Loaner is created");
                   location.reload(true);
                 }
 
@@ -177,6 +186,7 @@ $("form#updateLoaner").submit(function() {
             success: function (data) {
                 if (data.loaner) {
                   updateToLoanerTabel(data.loaner);
+                  alert("Loaner is updated");
                   location.reload(true);
                 }
             }
