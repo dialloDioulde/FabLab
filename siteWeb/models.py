@@ -4,6 +4,8 @@ from django.shortcuts import reverse
 from django.conf import settings
 from django.db.models.signals import pre_save
 from projetFablab.utils import unique_slug_generator
+
+
 # Create your models here.
 
 
@@ -99,6 +101,9 @@ class LoanMaterial(models.Model):
 class Loan(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
+    returned = models.BooleanField(default=False)
+
+    slug = models.SlugField(max_length=250, null=True, blank=True)
 
     creation_date_loan = models.DateTimeField(default=timezone.now)
     expected_return_date = models.DateField(blank=True, null=True)
@@ -109,3 +114,4 @@ class Loan(models.Model):
 
     def __str__(self):
         return "{0}".format(self.pk)
+

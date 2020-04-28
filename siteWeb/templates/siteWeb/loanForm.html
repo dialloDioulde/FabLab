@@ -1,4 +1,4 @@
-{% include "siteWeb/includes/navbar-secondary.html" %}
+{% include "siteWeb/header_secondary.html" %}
 
 {% include "siteWeb/includes/messaging.html" %}
 
@@ -6,17 +6,20 @@
 <div class = "container">
     {% if user.is_authenticated %}
         <br>
-        <h3> <span class="badge badge-secondary">Add Loaner</span></h3>
+        <h3> <span class="badge badge-secondary">Add Loan</span></h3>
         <br>
+
         <form method = "POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ formLoan.as_p }}
             <br>
-            <button class="btn btn-dark" type = "submit">Save Loan</button>
+            <button class="btn-large blue-grey darken-4" type = "submit">Save Loan</button>
         </form>
-        If you want to create a new Loaner, go to <strong><a href = 'loaner/'> LOANER</a></strong>.
+
+        If you want to create a new Loaner, go to <strong><a href = '../addLoaner/'>LOANER</a></strong>.
     {% else %}
         <p>You don't have permission to access this page. Return Home.</p>
     {% endif %}
+
 </div>
 {% endblock %}

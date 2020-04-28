@@ -1,10 +1,19 @@
 {% include "siteWeb/includes/dashboard.html" %}
 
 {% load crispy_forms_tags %}
+{% load static %}
+
 
 {% block content %}
-
-    <table class="table table-bordered responsive" style="height:90vh">
+<head>
+      <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
+</head>
+<div class="container">
+    <h2>Loaners</h2>
+  <p>Type something in the input field to search the table for first names, last names or emails:</p>
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
+ <table class="table table-bordered responsive" style="height:90vh">
 
         <thead class="thead-dark">
             <tr>
@@ -18,7 +27,7 @@
         </thead>
 
         {% for loaner in loaners %}
-        <tbody>
+        <tbody id="myTable">
         <tr>
             <td>{{loaner.last_name}}</td>
             <td>{{loaner.first_name}}</td>

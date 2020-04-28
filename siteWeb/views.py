@@ -86,6 +86,7 @@ def login_request(request):
     form = AuthenticationForm()
     return render(request, "siteWeb/accounts/login.html", {"form": form})
 
+
 # Logout
 # @login_required
 def logout_request(request):
@@ -424,8 +425,30 @@ class loan_form(LoginRequiredMixin, View):
         return redirect("loan-summary")
 
 
-# Show Material
+# Show Loans
 def showLoan(request):
     loan_liste = Loan.objects.all()
     return render(request, 'siteWeb/showLoan.html', {'loans': loan_liste})
+
+
+#show loan
+def loan(request, id):
+    loan = Loan.objects.get(id=id)
+    loan_liste = loan.materials.all()
+    return render(request, 'siteWeb/loan.html', {'loan_materials': loan_liste })
+
+
+# Update loaner
+def updateLoan(request, id):
+    loan = Loan.objects.get(id=id)
+    loan.returned = True
+    loan.save()
+    return redirect('showLoan')
+
+
+def deleteLoan(request, id):
+    loan = Loan.objects.get(id=id)
+    loan.delete()
+    messages.success(request, f"Loan Deleted successfully")
+    return redirect('showLoan')
 

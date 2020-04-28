@@ -1,11 +1,20 @@
 {% include "siteWeb/includes/dashboard.html" %}
 
+{% load static %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
-
-    <table class="table table-bordered responsive" style="height:90vh">
-        <thead class="thead-dark">
+<head>
+      <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
+</head>
+<div class="container">
+    <h2>Loans</h2>
+  <p>Type something in the input field to search the table for first names, last names or emails:</p>
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
+    <table class="table table-bordered table-striped">
+        <thead>
             <tr>
                 <th scope="col">Table of Loans</th>
                 <th></th>
@@ -13,34 +22,39 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
-        <thead class="thead-dark">
+        <thead>
             <tr>
-                <th scope="col">LAST NAME</th>
-                <th scope="col">FIRST NAME</th>
-                <th scope="col">EMAIL</th>
-                <th scope="col">CREATION DATE</th>
-                <th scope="col">EXPECTED RETURN DATE</th>
-                <th scope="col">ACTIONS</th>
+                <th scope="col" class="th-sm">LAST NAME</th>
+                <th scope="col" class="th-sm">FIRST NAME</th>
+                <th scope="col" class="th-sm">EMAIL</th>
+                <th scope="col" class="th-sm">Returned</th>
+                <th scope="col" class="th-sm">CREATION DATE</th>
+                <th scope="col" class="th-sm">EXPECTED RETURN DATE</th>
+                <th scope="col" class="th-sm">ACTIONS</th>
             </tr>
         </thead>
 
         {% for loan in loans %}
-        <tbody>
+        <tbody id="myTable">
         <tr>
             <td>{{loan.loaner.last_name}}</td>
             <td>{{loan.loaner.first_name}}</td>
             <td>{{loan.loaner.email}}</td>
+            <td>{{loan.returned}}</td>
             <td>{{loan.creation_date_loan}}</td>
             <td>{{loan.expected_return_date}}</td>
             <td>
-                <a href="/editLoaner/{{loaner.id}}"><span>Edit</span></a>
-                <a href="/deleteLoaner/{{loaner.id}}">Delete</a>
+                <a href="/loan_id/{{loan.id}}" class="btn btn-light"><span>View</span></a>
+                <a href="/updateLoan/{{loan.id}}" class="btn btn-light"><span>Returned</span></a>
+                <a href="/deleteLoan/{{loan.id}}" class="btn btn-light">Delete</a>
             </td>
         </tr>
         </tbody>
         {% endfor %}
     </table>
+</div>
 
 {% endblock %}
