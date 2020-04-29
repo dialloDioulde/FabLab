@@ -33,8 +33,9 @@ def ajaxCreateMaterial(request):
 
 
 
-# Create Material
+# Update Material
 def ajaxUpdateMaterial(request, id):
+    id = request.GET.get('barcode', None)
     material_update = Material.objects.get(id=id)
     form = formMaterial(request.POST, request.FILES, instance=material_update)
     if form.is_valid():
@@ -42,3 +43,13 @@ def ajaxUpdateMaterial(request, id):
        return JsonResponse({'error': False, 'message': 'Uploaded Successfully'})
     else:
         return JsonResponse({'error': True, 'errors': form.errors})
+
+
+
+# Delete Type
+class ajaxDeleteMaterial(View):
+    def  get(self, request):
+        id_material = request.GET.get('barcode', None)
+        Material.objects.get(id = id_material).delete()
+        data = {'deleted': True}
+        return JsonResponse(data)

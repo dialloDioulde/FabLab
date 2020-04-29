@@ -42,7 +42,7 @@ class CreateCrudLoaner(View):
 class DeleteCrudLoaner(View):
     def get(self, request):
         id_loaner = request.GET.get('id', None)
-        Loaner.objects.get(id=id_loaner).delete()
+        Loaner.objects.get(id = id_loaner).delete()
         data = {'deleted': True}
         return JsonResponse(data)
 

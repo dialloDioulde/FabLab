@@ -162,11 +162,11 @@ def updateLoaner(request, id):
 # ctrl + x -> quitter
 
 # destroy loaner
-def deleteLoaner(request, id):
-    user_delete = Loaner.objects.get(id=id)
-    user_delete.delete()
-    messages.success(request, f"Loaner Deleted successfully")
-    return redirect(showLoaner)
+#def deleteLoaner(request, id):
+ #   user_delete = Loaner.objects.get(id=id)
+  #  user_delete.delete()
+   # messages.success(request, f"Loaner Deleted successfully")
+    #return redirect(showLoaner)
 #----------------------------------------------------------------------------------------------------------------------#
 
 # Add Type

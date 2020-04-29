@@ -85,6 +85,7 @@
                 </div>
                 <form id="editMaterial" action="" enctype="multipart/form-data">
                     <div class="modal-body">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label for="name">Name : </label>
                             <input class="form-control" type="text" name="name" id="name">
@@ -176,12 +177,55 @@
             $('#barcode').val(data[0]);
             $('#name').val(data[1]);
             $('#type_material').val(data[2]);
-            $('#picture')[0].files[0];
+            //$('#picture')[0].files[0];
+            leFocus = $(this).attr('picture');
+            $('#picture').val(leFocus);
+            console.log(leFocus);
             console.log(data);
         });
 
 
+    // Save data of form
+    $('#editMaterial').submit(function(e){
+        e.preventDefault();
+        $form = $(this)
+        let barcode = $('#barcode').val();
+        var formData = new FormData(this);
+        $.ajax({
+            url: 'ajaxUpdateMat/' + barcode ,
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                $('.error').remove();
+                console.log(response)
+                if(response.error){
+                    $.each(response.errors, function(name, error){
+                        error = '<small class="text-muted error">' + error + '</small>'
+                        $form.find('[name=' + name + ']').after(error);
+                    })
+                }
+                else{
+                    alert(response.message);
+                    location.reload(true);
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
     });
+
+
+    });
+
+
+
+
+// Delete Material----------------------------------------------------------------------------------------------------//
+
+// END Delete Material -----------------------------------------------------------------------------------------------//
+
+
 
 </script>
 

@@ -265,6 +265,7 @@ function deleteLoaner(id) {
         success: function (data) {
             if (data.deleted) {
               $("#loanerTable #loaner-" + id).remove();
+              alert("Type is deleted");
             }
         }
     });
