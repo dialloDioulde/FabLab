@@ -51,7 +51,7 @@
                     <td>{{ material.barcode}}</td>
                     <td>{{ material.name}}</td>
                     <td>{{ material.type }}</td>
-                    <td id="pict">{{ material.material_picture }}</td>
+                    <td>{{ material.material_picture }}</td>
                     <td>{{ material.creation_date_mat }}</td>
                     <td class="d-flex">
                         <button class="btn btn-warning edit-form">
@@ -177,10 +177,7 @@
             $('#barcode').val(data[0]);
             $('#name').val(data[1]);
             $('#type_material').val(data[2]);
-            //$('#picture')[0].files[0];
-            leFocus = $(this).attr('picture');
-            $('#picture').val(leFocus);
-            console.log(leFocus);
+            $('#picture').val(data[3]);
             console.log(data);
         });
 
@@ -192,7 +189,7 @@
         let barcode = $('#barcode').val();
         var formData = new FormData(this);
         $.ajax({
-            url: 'ajaxUpdateMat/' + barcode ,
+            url: 'ajaxUpdateMat/' ,
             type: 'POST',
             data: formData,
             success: function (response) {
@@ -217,7 +214,6 @@
 
 
     });
-
 
 
 

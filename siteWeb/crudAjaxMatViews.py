@@ -46,7 +46,7 @@ def ajaxUpdateMaterial(request, id):
 
 
 
-# Delete Type
+# Delete Material
 class ajaxDeleteMaterial(View):
     def  get(self, request):
         id_material = request.GET.get('barcode', None)

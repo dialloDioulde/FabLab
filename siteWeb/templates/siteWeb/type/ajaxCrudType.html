@@ -17,8 +17,11 @@
                     <div class="modal-body">
                         <input class="form-control" id="type_id" type="hidden" name="type_id">
                         <div class="form-group">
-                            <label for="material_type">MATERIAL TYPE : </label>
-                            <input class="form-control" type="text" name="material_type" value="generic" id="material_type">
+                            <label for="mat_type">MATERIAL TYPE : </label>
+                            <select class="form-control" name="material_type" id="mat_type">
+                                <option value="unique">unique</option>
+                                <option value="generic">generic</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="name_type">NAME TYPE : </label>
@@ -129,7 +132,7 @@ $(document).ready(function(){
     });
 
 $("form#addType").submit(function() {
-    var materialInput = $('input[name="material_type"]').val().trim();
+    var materialInput = $('#mat_type').find('option:selected').text();
     var nameInput = $('input[name="name_type"]').val().trim();
     var descriptionInput = $('input[name="description"]').val().trim();
     if (materialInput && nameInput && descriptionInput) {

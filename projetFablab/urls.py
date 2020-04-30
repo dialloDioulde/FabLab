@@ -20,8 +20,8 @@ from django.urls import path, include
 from siteWeb import views
 from siteWeb.crudAjaxLoanerViews import LoanerView, CreateCrudLoaner, DeleteCrudLoaner, UpdateCrudLoaner
 from siteWeb.crudAjaxTypeViews import TypeView, CreateCrudType, UpdateCrudType, DeleteCrudType
+from siteWeb.crudMaterialViews import MatView
 from siteWeb.crudAjaxMatViews import ajaxDeleteMaterial
-from siteWeb import crudMaterialViews
 from siteWeb import crudAjaxMatViews
 from django.conf.urls.static import static
 from django.conf import settings
@@ -101,8 +101,8 @@ urlpatterns = [
 
 
     path('ajaxShowMat', crudAjaxMatViews.crudShowMaterial, name='ajaxShowMat'),
-    path('ajaxUpdateMat/<int:id>', crudAjaxMatViews.ajaxUpdateMaterial, name='ajaxUpdateMat'),
     path('ajaxCreateMat', crudAjaxMatViews.ajaxCreateMaterial , name='ajaxCreateMat'),
+    path('ajaxUpdateMat', crudAjaxMatViews.ajaxUpdateMaterial, name='ajaxUpdateMat'),
     path('ajaxDeleteMat', ajaxDeleteMaterial.as_view(), name='ajaxDeleteMat'),
 
 
