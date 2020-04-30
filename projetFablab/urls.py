@@ -20,8 +20,7 @@ from django.urls import path, include
 from siteWeb import views
 from siteWeb.crudAjaxLoanerViews import LoanerView, CreateCrudLoaner, DeleteCrudLoaner, UpdateCrudLoaner
 from siteWeb.crudAjaxTypeViews import TypeView, CreateCrudType, UpdateCrudType, DeleteCrudType
-from siteWeb.crudMaterialViews import MatView
-from siteWeb.crudAjaxMatViews import ajaxDeleteMaterial
+from siteWeb.crudAjaxMatViews import  CreateCrudMaterial, UpdateCrudMaterial, DeleteCrudMaterial
 from siteWeb import crudAjaxMatViews
 from django.conf.urls.static import static
 from django.conf import settings
@@ -100,10 +99,11 @@ urlpatterns = [
     path('DeleteCrudType', DeleteCrudType.as_view(), name='DeleteCrudType'),
 
 
-    path('ajaxShowMat', crudAjaxMatViews.crudShowMaterial, name='ajaxShowMat'),
-    path('ajaxCreateMat', crudAjaxMatViews.ajaxCreateMaterial , name='ajaxCreateMat'),
-    path('ajaxUpdateMat', crudAjaxMatViews.ajaxUpdateMaterial, name='ajaxUpdateMat'),
-    path('ajaxDeleteMat', ajaxDeleteMaterial.as_view(), name='ajaxDeleteMat'),
+    #path('MaterialView', MaterialView.as_view(), name='MaterialView'),
+    path('MaterialView', crudAjaxMatViews.indexView, name='MaterialView'),
+    path('CreateCrudMaterial', crudAjaxMatViews.CreateCrudMaterial , name='CreateCrudMaterial'),
+    path('UpdateCrudMaterial', UpdateCrudMaterial.as_view(), name='UpdateCrudMaterial'),
+    path('DeleteCrudMaterial', DeleteCrudMaterial.as_view(), name='DeleteCrudMaterial'),
 
 
 
