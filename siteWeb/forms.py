@@ -1,5 +1,5 @@
 from django import forms
-from siteWeb.models import Loan,Loaner,Material,LoanMaterial,Type,MaterialPicture
+from siteWeb.models import Loan,Loaner,Material,LoanMaterial,Type
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -22,7 +22,7 @@ class formType(forms.ModelForm):
 class formMaterial(forms.ModelForm):
     class Meta:
         model = Material
-        fields = ['name','barcode','type']
+        fields = ['name','barcode','type', 'material_picture']
 
 
 class formLoanMaterial(forms.ModelForm):
@@ -67,9 +67,3 @@ class formLoan(forms.ModelForm):
         model = Loan
         fields = ('loaner', 'expected_return_date')
 
-
-# Ajout d'images
-class formMaterialPicture(forms.ModelForm):
-    class Meta:
-        model = MaterialPicture
-        fields = ['material_barcode', 'material_picture']

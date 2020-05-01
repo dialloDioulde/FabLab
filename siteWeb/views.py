@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -262,6 +263,14 @@ def showMaterial(request):
 class MaterialDetailView(DetailView):
     model = Material
     template_name = "siteWeb/material.html"
+
+# Delete Material
+class DeleteCrudMaterial(View):
+    def get(self, request):
+        id_material = request.GET.get('barcode', None)
+        Material.objects.get(barcode = id_material).delete()
+        data = {'deleted': True}
+        return JsonResponse(data)
 
 
 #----------------------------------------------------------------------------------------------------------------------#
