@@ -12,6 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan
+from django.utils import timezone
 
 
 # Homepage
@@ -433,17 +434,24 @@ def showLoan(request):
     return render(request, 'siteWeb/showLoan.html', {'loans': loan_liste})
 
 
-# Show Loans
+# Show Not Returned Loans
 def showNotReturnedLoan(request):
     loan_liste = Loan.objects.filter(returned=False)
     return render(request, 'siteWeb/showNotReturnedLoan.html', {'loans': loan_liste})
+
+
+# Show Surpassed date Loans
+def showSurpassedLoan(request):
+    now = timezone.now()
+    loan_liste = Loan.objects.filter(returned=False, expected_return_date__lt=now).order_by('expected_return_date')
+    return render(request, 'siteWeb/showSurpassedLoan.html', {'loans': loan_liste})
 
 
 #show loan
 def loan(request, id):
     loan = Loan.objects.get(id=id)
     loan_liste = loan.materials.all()
-    return render(request, 'siteWeb/loan.html', {'loan_materials': loan_liste })
+    return render(request, 'siteWeb/loan.html', {'loan_materials': loan_liste})
 
 
 # Update loaner

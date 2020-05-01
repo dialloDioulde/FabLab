@@ -73,6 +73,7 @@ urlpatterns = [
     # path('showMaterial', views.showMaterial, name='showMaterial'),
     path('showLoan', views.showLoan, name='showLoan'),
     path('showNotReturnedLoan', views.showNotReturnedLoan, name='showNotReturnedLoan'),
+    path('showSurpassedLoan', views.showSurpassedLoan, name='showSurpassedLoan'),
 
     # path('editLoaner/<int:id>',views.editLoaner, name='editLoaner'),
     # path('updateLoaner/<int:id>',views.updateLoaner, name='updateLoaner'),
