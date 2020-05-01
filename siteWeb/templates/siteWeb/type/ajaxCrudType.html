@@ -1,11 +1,15 @@
-{% extends 'siteWeb/loaner/base.html' %}
+{% include "siteWeb/includes/dashboard.html" %}
+
+{% load crispy_forms_tags %}
+
 {% load static %}
 
-
 {% block content %}
+<head>
+      <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
+</head>
 <div class="container">
-    <h1>TYPE CRUD</h1>
-    <!-- Modal ADD TYPE -->
+      <!-- Modal ADD TYPE -->
     <div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -42,22 +46,28 @@
     </div>
     <!-- END Modal ADD TYPE -->
 
-
     <!-- Type Table -->
     <div class="container">
+        <h2>Types</h2>
+        <p>Type something in the input field to search the table for first names, last names or emails:</p>
+        <input class="form-control" id="myInput" type="text" placeholder="Search..">
+        <br>
         <button class="btn btn-success add-form offset-12">
-            <span class="glyphicon glyphicon-plus mr-2">ADD TYPE</span>
+            <span><i class="fas fa-plus"></i> ADD TYPE</span>
         </button>
         <table id="typeTable" class="table container-fluid table-responsive mt-2">
             <thead class="bg-info">
-                <th scope="row">ID</th>
+                <th scope="col">ID</th>
                 <th scope="col" class="text-center">MATERIAL TYPE</th>
                 <th scope="col" class="text-center">NAME TYPE</th>
                 <th scope="col" class="text-center">DESCRIPTION</th>
                 <th scope="col" class="text-center">CREATION DATE</th>
                 <th scope="col" class="text-center">ACTIONS</th>
             </thead>
+
+            <tbody id="myTable">
             {% for type in types %}
+
             <tr id="type-{{type.id}}">
                 <td>{{type.id}}</td>
                 <td class="typeMaterial_type typeData" name="material_type">{{type.material_type}}</td>
@@ -66,19 +76,19 @@
                 <td class="typeCreation_date typeData" name="creation_date">{{type.creation_date_type}}</td>
                 <td>
                     <button class="btn btn-warning edit-form mr-2" onClick="editType({{type.id}})">
-                        <span class="glyphicon glyphicon-pencil mr-2"></span>Edit
+                        <span><i class="far fa-edit"></i></span> Edit
                     </button>
                     <button class="btn btn-danger ml-2" onClick="deleteType({{type.id}})">
-                        <span class="glyphicon glyphicon-trash mr-2"></span>DELETE
+                        <span><i class="far fa-trash-alt"></i></span> DELETE
                     </button>
                 </td>
             </tr>
+
             {% endfor %}
+        </tbody>
         </table>
     </div>
     <!-- END Type Table -->
-
-
     <!-- Modal Type UPDATE -->
     <div class="modal fade" id="editTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -112,10 +122,7 @@
         </div>
     </div>
     <!-- END Modal Type UPDATE -->
-
 </div>
-
-
 {% endblock %}
 
 {% block javascript %}
@@ -189,7 +196,7 @@ $("form#updateType").submit(function() {
             dataType: 'json',
             success: function (data) {
                 if (data.type) {
-                    updateToTypeTabel(data.type);
+                    //updateToTypeTabel(data.type);
                     alert("Type is updated");
                   location.reload(true);
                 }

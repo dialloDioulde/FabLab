@@ -53,7 +53,6 @@ class Material(models.Model):
     creation_date_mat = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=250, null=True, blank=True)
 
-
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -115,8 +114,6 @@ class Loan(models.Model):
         return "{0}".format(self.pk)
 
 
-
 class MaterialPicture(models.Model):
     material_barcode = models.ForeignKey(Material, on_delete=models.CASCADE)
     material_picture = models.ImageField(blank=True, upload_to='media/', default='None/no-img.jpg', null=True)
-
