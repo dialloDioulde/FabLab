@@ -5,30 +5,7 @@
 {% block content %}
 
 <div class="container">
-    <!-- Modal ADD Material -->
-    <div class="modal fade" id="addMatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="addMatModalLabel">ADD MATERIAL</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="addMaterial" action="">
-                    <div class="modal-body">
-                        {% csrf_token %}
-                        {{form|crispy}}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="ADD MATERIAL" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- END Modal ADD Material -->
+
 
 
     <!-- Material Table -->
@@ -47,7 +24,7 @@
             <tbody>
             {% for material in materials %}
                 <tr id="material-{{material.barcode}}">
-                    <td>{{ material.barcode}}</td>
+                    <td class="materialBarcode materialData" name="barcode">{{ material.barcode}}</td>
                     <td class="materialName materialData" name="name">{{ material.name}}</td>
                     <td class="materialType materialData" name="type">{{ material.type }}</td>
                     <td class="materialCreation_date materialData" name="creation_date_mat">{{ material.creation_date_mat }}</td>
@@ -81,20 +58,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="updateMaterial">
+                <form id="updateMaterial" action="">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="name_e">Name : </label>
-                            <input class="form-control" type="text" name="name_e" id="name_e">
-                        </div>
-                        <div class="form-group">
-                            <label for="barcode_e">Barcode : </label>
-                            <input class="form-control" type="text" name="barcode_e" id="barcode_e">
-                        </div>
-                        <div class="form-group">
-                            <label for="type_material_e">Type : </label>
-                            <input class="form-control" type="text" name="type_material_e" id="type_material_e">
-                        </div>
+                        {% csrf_token %}
+                        {{form|crispy}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -105,6 +72,33 @@
         </div>
     </div>
     <!-- END Modal EDIT Material -->
+
+
+
+     <!-- Modal ADD Material -->
+    <div class="modal fade" id="addMatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addMatModalLabel">ADD MATERIAL</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="addMaterial" action="">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="ADD MATERIAL" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal ADD Material -->
 
 
 
@@ -157,16 +151,16 @@
 
 
     $("form#updateMaterial").submit(function() {
-    var nameInput = $('input[name="name_e"]').val().trim();
-    var barcode_Input = $('input[name="barcode_e"]').val().trim();
-    var type_Input = $('input[name="type_material_e"]').val().trim();
-    if (nameInput && barcode_Input && type_Input) {
+    var barcode_Input = $('input[name="barcode"]').val();
+    var name_Input = $('input[name="name"]').val();
+    var type_Input = $('input[name="type"]').val();
+    if (name_Input && barcode_Input && type_Input) {
         //
         $.ajax({
             url: '{% url "UpdateCrudMaterial" %}',
             data: {
                 'barcode': barcode_Input,
-                'name': nameInput,
+                'name': name_Input,
                 'mat_type': type_Input
             },
             dataType: 'json',
@@ -196,9 +190,9 @@
         material_name = $(material_barcode).find(".materialName").text();
         material_type = $(material_barcode).find(".materialType").text();
 
-        $('#name_e').val(material_name);
-        $('#barcode_e').val(barcode);
-        $('#type_material_e').val(material_type);
+        $('#id_name').val(material_name);
+        $('#id_barcode').val(barcode);
+        $('#id_type').val(material_type);
       }
    }
 

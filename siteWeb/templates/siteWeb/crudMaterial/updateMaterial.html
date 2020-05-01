@@ -1,0 +1,17 @@
+{% extends 'siteWeb/loaner/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+{% load crispy_forms_tags %}
+<div class="container">
+    <form method="post" data-url="{% url 'book_update' form.instance.id %}" class="update-form">
+	    {% csrf_token %}
+        {{form|crispy}}
+    </form>
+</div>
+
+
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, View, DeleteView
 from django.core import serializers
@@ -68,3 +68,5 @@ class DeleteCrudMaterial(View):
         Material.objects.get(barcode = id_material).delete()
         data = {'deleted': True}
         return JsonResponse(data)
+
+

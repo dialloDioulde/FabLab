@@ -189,7 +189,7 @@ $("form#updateType").submit(function() {
             dataType: 'json',
             success: function (data) {
                 if (data.type) {
-                    //updateToTypeTabel(data.type);
+                    updateToTypeTabel(data.type);
                     alert("Type is updated");
                   location.reload(true);
                 }
