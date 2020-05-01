@@ -13,6 +13,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan
+from django.utils import timezone
 
 
 # Homepage
@@ -116,47 +117,47 @@ def change_password(request):
 #----------------------------------------------------------------------------------------------------------------------#
 # Borrower registration
 # @login_required # You will need to be logged in
-def addLoaner(request):
-    if not request.user.is_authenticated:
-        return redirect("../../accounts/login")
-    else:
-        sauvegarde = False
-        if request.method == 'POST':
-            form = formLoaner(request.POST)
-            form.save()
-            form = formLoaner()
-            messages.success(request, f"New Loaner created")
-            return redirect("homepage")
-            sauvegarde = True
-        else:
-            form = formLoaner()
-        return render(request, 'siteWeb/addLoaner.html', {'form': form})
-
-
-
-# Show loaner
-def showLoaner(request):
-    loaner_liste = Loaner.objects.all()
-    return render(request, 'siteWeb/showLoaner.html', {'loaners': loaner_liste})
-
-
-# Edit loaner
-def editLoaner(request, id):
-    loaner_edit = Loaner.objects.get(id=id)
-    return render(request, 'siteWeb/editLoaner.html', {'loaner_edit': loaner_edit})
-
-
-# Update loaner
-def updateLoaner(request, id):
-    loaner_update = Loaner.objects.get(id=id)
-    form = formLoaner(request.POST, instance=loaner_update)
-    if form.is_valid():
-        form.save()
-        messages.success(request, f"Loaner Updated successfully")
-        return redirect(showLoaner)
-    messages.error(request, f"Loaner not updated! Try again.")
-    return render(request, 'siteWeb/editLoaner.html', {'user_update': form})
-
+# def addLoaner(request):
+#     if not request.user.is_authenticated:
+#         return redirect("../../accounts/login")
+#     else:
+#         sauvegarde = False
+#         if request.method == 'POST':
+#             form = formLoaner(request.POST)
+#             form.save()
+#             form = formLoaner()
+#             messages.success(request, f"New Loaner created")
+#             return redirect("homepage")
+#             sauvegarde = True
+#         else:
+#             form = formLoaner()
+#         return render(request, 'siteWeb/addLoaner.html', {'form': form})
+#
+#
+#
+# # Show loaner
+# def showLoaner(request):
+#     loaner_liste = Loaner.objects.all()
+#     return render(request, 'siteWeb/showLoaner.html', {'loaners': loaner_liste})
+#
+#
+# # Edit loaner
+# def editLoaner(request, id):
+#     loaner_edit = Loaner.objects.get(id=id)
+#     return render(request, 'siteWeb/editLoaner.html', {'loaner_edit': loaner_edit})
+#
+#
+# # Update loaner
+# def updateLoaner(request, id):
+#     loaner_update = Loaner.objects.get(id=id)
+#     form = formLoaner(request.POST, instance=loaner_update)
+#     if form.is_valid():
+#         form.save()
+#         messages.success(request, f"Loaner Updated successfully")
+#         return redirect(showLoaner)
+#     messages.error(request, f"Loaner not updated! Try again.")
+#     return render(request, 'siteWeb/editLoaner.html', {'user_update': form})
+#
 #export PATH=$PATH:/Users/mamadoudiallo/.npm-global/bin Pour ajouter le repertoire dans le dossier Path
 # ls -a voir tous les fichiers
 # ctrl + O -> save
@@ -169,56 +170,56 @@ def updateLoaner(request, id):
    # messages.success(request, f"Loaner Deleted successfully")
     #return redirect(showLoaner)
 #----------------------------------------------------------------------------------------------------------------------#
+#
+# # Add Type
+# # @login_required
+# def addType(request):
+#     if not request.user.is_authenticated:
+#         return redirect("../../accounts/login")
+#     else:
+#         sauvegarde = False
+#         if request.method == 'POST':
+#             form = formType(request.POST)
+#             form.save()
+#             form = formType()
+#             messages.success(request, f"New Type created")
+#             return redirect("homepage")
+#             sauvegarde = True
+#         else:
+#             form = formType()
+#         return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
 
-# Add Type
-# @login_required
-def addType(request):
-    if not request.user.is_authenticated:
-        return redirect("../../accounts/login")
-    else:
-        sauvegarde = False
-        if request.method == 'POST':
-            form = formType(request.POST)
-            form.save()
-            form = formType()
-            messages.success(request, f"New Type created")
-            return redirect("homepage")
-            sauvegarde = True
-        else:
-            form = formType()
-        return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
+#
+# # Show Type
+# def showType(request):
+#     type_liste = Type.objects.all()
+#     return render(request, 'siteWeb/showType.html', {'types': type_liste})
+#
+#
+# # Edit Type
+# def editType(request, id):
+#     type_edit = Type.objects.get(id=id)
+#     return render(request, 'siteWeb/editType.html', {'type_edit': type_edit})
+#
+#
+# # Update Type
+# def updateType(request, id):
+#     type_update = Type.objects.get(id=id)
+#     form = formType(request.POST, instance=type_update)
+#     if form.is_valid():
+#         form.save()
+#         messages.success(request, f"Type Updated successfully")
+#         return redirect(showType)
+#     messages.error(request, f"Type not updated! Try again.")
+#     return render(request, 'siteWeb/editType.html', {'type_update': form})
 
 
-# Show Type
-def showType(request):
-    type_liste = Type.objects.all()
-    return render(request, 'siteWeb/showType.html', {'types': type_liste})
-
-
-# Edit Type
-def editType(request, id):
-    type_edit = Type.objects.get(id=id)
-    return render(request, 'siteWeb/editType.html', {'type_edit': type_edit})
-
-
-# Update Type
-def updateType(request, id):
-    type_update = Type.objects.get(id=id)
-    form = formType(request.POST, instance=type_update)
-    if form.is_valid():
-        form.save()
-        messages.success(request, f"Type Updated successfully")
-        return redirect(showType)
-    messages.error(request, f"Type not updated! Try again.")
-    return render(request, 'siteWeb/editType.html', {'type_update': form})
-
-
-
-# destroy Type
-def deleteType(request, id):
-    type_delete = Type.objects.get(id=id)
-    type_delete.delete()
-    return redirect(showType)
+#
+# # destroy Type
+# def deleteType(request, id):
+#     type_delete = Type.objects.get(id=id)
+#     type_delete.delete()
+#     return redirect(showType)
 #----------------------------------------------------------------------------------------------------------------------#
 # Add Material
 # @login_required
@@ -433,6 +434,8 @@ class loan_form(LoginRequiredMixin, View):
             messages.warning(self.request, "You do not have an active loan")
         return redirect("loan-summary")
 
+#----------------------------------------------------------------------------------------------------------------------#
+#-------------------------------LOANS----------------------------------------------------------------------------------#
 
 # Show Loans
 def showLoan(request):
@@ -440,11 +443,24 @@ def showLoan(request):
     return render(request, 'siteWeb/showLoan.html', {'loans': loan_liste})
 
 
+# Show Not Returned Loans
+def showNotReturnedLoan(request):
+    loan_liste = Loan.objects.filter(returned=False)
+    return render(request, 'siteWeb/showNotReturnedLoan.html', {'loans': loan_liste})
+
+
+# Show Surpassed date Loans
+def showSurpassedLoan(request):
+    now = timezone.now()
+    loan_liste = Loan.objects.filter(returned=False, expected_return_date__lt=now).order_by('expected_return_date')
+    return render(request, 'siteWeb/showSurpassedLoan.html', {'loans': loan_liste})
+
+
 #show loan
 def loan(request, id):
     loan = Loan.objects.get(id=id)
     loan_liste = loan.materials.all()
-    return render(request, 'siteWeb/loan.html', {'loan_materials': loan_liste })
+    return render(request, 'siteWeb/loan.html', {'loan_materials': loan_liste})
 
 
 # Update loaner

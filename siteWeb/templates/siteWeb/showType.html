@@ -9,47 +9,264 @@
       <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
 </head>
 <div class="container">
-    <h2>Types</h2>
-  <p>Type something in the input field to search the table for first names, last names or emails:</p>
-  <input class="form-control" id="myInput" type="text" placeholder="Search..">
-  <br>
+      <!-- Modal ADD TYPE -->
+    <div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addTypeModalLabel">ADD Type</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="addType" action="">
+                    <div class="modal-body">
+                        <input class="form-control" id="type_id" type="hidden" name="type_id">
+                        <div class="form-group">
+                            <label for="mat_type">MATERIAL TYPE : </label>
+                            <select class="form-control" name="material_type" id="mat_type">
+                                <option value="unique">unique</option>
+                                <option value="generic">generic</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name_type">NAME TYPE : </label>
+                            <input class="form-control" type="text" name="name_type" id="name_type">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">DESCRIPTION : </label>
+                            <input class="form-control" type="text" name="description" id="description">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >ADD Type</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal ADD TYPE -->
 
-<div id="wrapper">
-    <table class="table table-bordered responsive" style="height:90vh">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Table of Types</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">TYPE</th>
-                <th scope="col">NAME</th>
-                <th scope="col">DESCRIPTION</th>
-                <th scope="col">CREATION DATE</th>
-                <th scope="col">ACTIONS</th>
-            </tr>
-        </thead>
+    <!-- Type Table -->
+    <div class="container">
+        <h2>Types</h2>
+        <p>Type something in the input field to search the table for first names, last names or emails:</p>
+        <input class="form-control" id="myInput" type="text" placeholder="Search..">
+        <br>
+        <button class="btn btn-success add-form offset-12">
+            <span class="glyphicon glyphicon-plus mr-2">ADD TYPE</span>
+        </button>
+        <table id="typeTable" class="table container-fluid table-responsive mt-2">
+            <thead class="bg-info">
+                <th scope="col">ID</th>
+                <th scope="col" class="text-center">MATERIAL TYPE</th>
+                <th scope="col" class="text-center">NAME TYPE</th>
+                <th scope="col" class="text-center">DESCRIPTION</th>
+                <th scope="col" class="text-center">CREATION DATE</th>
+                <th scope="col" class="text-center">ACTIONS</th>
+            </thead>
 
-        {% for type in types %}
-        <tbody id="myTable">
-        <tr>
-            <td>{{type.material_type}}</td>
-            <td>{{type.name_type}}</td>
-            <td>{{type.description}}</td>
-            <td>{{type.creation_date_type}}</td>
-            <td>
-                <a href="/editType/{{type.id}}"><span>Edit</span></a>
-                <a href="/deleteType/{{type.id}}">Delete</a>
-            </td>
-        </tr>
+            <tbody id="myTable">
+            {% for type in types %}
+
+            <tr id="type-{{type.id}}">
+                <td>{{type.id}}</td>
+                <td class="typeMaterial_type typeData" name="material_type">{{type.material_type}}</td>
+                <td class="typeName_type typeData" name="name_type">{{type.name_type}}</td>
+                <td class="typeDescription typeData" name="description">{{type.description}}</td>
+                <td class="typeCreation_date typeData" name="creation_date">{{type.creation_date_type}}</td>
+                <td>
+                    <button class="btn btn-warning edit-form mr-2" onClick="editType({{type.id}})">
+                        <span class="glyphicon glyphicon-pencil mr-2"></span>Edit
+                    </button>
+                    <button class="btn btn-danger ml-2" onClick="deleteType({{type.id}})">
+                        <span class="glyphicon glyphicon-trash mr-2"></span>DELETE
+                    </button>
+                </td>
+            </tr>
+
+            {% endfor %}
         </tbody>
-        {% endfor %}
-    </table>
+        </table>
+    </div>
+    <!-- END Type Table -->
+    <!-- Modal Type UPDATE -->
+    <div class="modal fade" id="editTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel">Update Type</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="updateType" action="">
+                    <div class="modal-body">
+                        <input class="form-control" id="type_id_e" type="hidden" name="type_id_e">
+                        <div class="form-group">
+                            <label for="material_type_e">MATERIAL TYPE : </label>
+                            <input class="form-control" type="text" name="material_type_e" id="material_type_e">
+                        </div>
+                        <div class="form-group">
+                            <label for="name_type_e">NAME TYPE : </label>
+                            <input class="form-control" type="text" name="name_type_e" id="name_type_e">
+                        </div>
+                        <div class="form-group">
+                            <label for="description_e">DESCRIPTION : </label>
+                            <input class="form-control" type="text" name="description_e" id="description_e">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >SAVE CHANGES</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal Type UPDATE -->
 </div>
-
 {% endblock %}
+
+{% block javascript %}
+
+<script>
+
+// Create Type -----------------------------------------------------------------------------------------------------//
+
+$(document).ready(function(){
+    $(".add-form").click(function(){
+        $('#addTypeModal').modal('show');
+    });
+
+    });
+
+$("form#addType").submit(function() {
+    var materialInput = $('#mat_type').find('option:selected').text();
+    var nameInput = $('input[name="name_type"]').val().trim();
+    var descriptionInput = $('input[name="description"]').val().trim();
+    if (materialInput && nameInput && descriptionInput) {
+        //
+        $.ajax({
+            url: '{% url "CreateCrudType" %}',
+            data: {
+                'material_type': materialInput,
+                'name_type': nameInput,
+                'description': descriptionInput,
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.type) {
+                    alert("Type is created");
+                  location.reload(true);
+                }
+
+            }
+        });
+
+    } else {
+        alert("Type is not created");
+    }
+    $('form#addType').trigger("reset");
+    return false;
+});
+// END Create TYPE ---------------------------------------------------------------------------------------------------//
+
+// Update TYPE -------------------------------------------------------------------------------------------------------//
+
+$(document).ready(function(){
+    $(".edit-form").click(function(){
+        $('#editTypeModal').modal('show');
+    });
+
+    });
+
+$("form#updateType").submit(function() {
+    var idInput = $('input[name="type_id_e"]').val().trim();
+    var materialInput = $('input[name="material_type_e"]').val().trim();
+    var nameInput = $('input[name="name_type_e"]').val().trim();
+    var descriptionInput = $('input[name="description_e"]').val().trim();
+    if (materialInput && nameInput && descriptionInput) {
+        //
+        $.ajax({
+            url: '{% url "UpdateCrudType" %}',
+            data: {
+                'id_type': idInput,
+                'material_type': materialInput,
+                'name_type': nameInput,
+                'description': descriptionInput,
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.type) {
+                    //updateToTypeTabel(data.type);
+                    alert("Type is updated");
+                  location.reload(true);
+                }
+
+            }
+        });
+
+    } else {
+        alert("Type is not updated");
+    }
+    //$('form#addType').trigger("reset");
+    return false;
+});
+
+
+function editType(id) {
+  if (id) {
+    type_id = "#type-" + id;
+    material_type = $(type_id).find(".typeMaterial_type").text();
+    name_type = $(type_id).find(".typeName_type ").text();
+    description = $(type_id).find(".typeDescription").text();
+
+    $('#type_id_e').val(id);
+    $('#material_type_e').val(material_type);
+    $('#name_type_e').val(name_type);
+    $('#description_e').val(description);
+  }
+}
+
+
+function updateToTypeTabel(type){
+    $("#typeTable #type-" + type.id).children(".typeData").each(function() {
+        var attr = $(this).attr("name");
+        if (attr == "material_type") {
+            $(this).text(type.material_type);
+        } else if (attr == "name_type") {
+            $(this).text(type.name_type);
+        }else (attr == "description")
+        {
+            $(this).text(type.description);
+        }
+      });
+
+}
+
+// END Update TYPE ---------------------------------------------------------------------------------------------------//
+
+// Delete TYPE -------------------------------------------------------------------------------------------------------//
+function deleteType(id) {
+  var action_delete = confirm("Are you sure you want to delete this Type?");
+  if (action_delete == true) {
+    $.ajax({
+        url: '{% url "DeleteCrudType" %}',
+        data: {
+            'id': id,
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.deleted) {
+              $("#typeTable #type-" + id).remove();
+              alert("Type is deleted");
+            }
+        }
+    });
+  }
+};
+
+// END Delete TYPE ---------------------------------------------------------------------------------------------------//
+
+
+</script>
+
+{% endblock javascript %}

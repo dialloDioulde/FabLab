@@ -3236,7 +3236,7 @@ input[type="button"].btn-block {
 }
 
 .fade:not(.show) {
-  opacity: 0;
+  opacity: 1;
 }
 
 .collapse:not(.show) {

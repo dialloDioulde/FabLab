@@ -1,0 +1,58 @@
+{% include "siteWeb/includes/dashboard.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<head>
+      <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
+</head>
+<div class="container">
+    <center>
+        <div class="btn-group" role="group" aria-label="Basic example" >
+          <a class="btn btn-secondary" href="showLoan">All Loans</a>
+          <a class="btn btn-secondary" href="showNotReturnedLoan" >Not Returned</a>
+          <a class="btn btn-secondary" disabled >Surpassed</a>
+        </div>
+    </center>
+    <h2>Loans</h2>
+  <p>Type something in the input field to search the table for first names, last names or emails:</p>
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
+
+    <table class="table container-fluid table-responsive mt-2">
+        <thead class="bg-info">
+            <tr>
+                <th scope="col" class="th-sm">Surname</th>
+                <th scope="col" class="th-sm">Name</th>
+                <th scope="col" class="th-sm">E-mail</th>
+                <th scope="col" class="th-sm">Returned</th>
+                <th scope="col" class="th-sm">Creation Date</th>
+                <th scope="col" class="th-sm">Return Date</th>
+                <th scope="col" class="th-sm">Actions</th>
+            </tr>
+        </thead>
+
+        {% for loan in loans %}
+        <tbody id="myTable">
+        <tr>
+            <td>{{loan.loaner.last_name}}</td>
+            <td>{{loan.loaner.first_name}}</td>
+            <td>{{loan.loaner.email}}</td>
+            <td>{{loan.returned}}</td>
+            <td>{{loan.creation_date_loan}}</td>
+            <td>{{loan.expected_return_date}}</td>
+            <td>
+                <a href="/loan_id/{{loan.id}}" class="btn btn-info"><span>View</span></a>
+                <a href="/updateLoan/{{loan.id}}"  class="btn btn-warning"><span>Returned</span></a>
+                <a href="/deleteLoan/{{loan.id}}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

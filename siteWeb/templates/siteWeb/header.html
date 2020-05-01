@@ -12,14 +12,19 @@
 </head>
 <body>
 
-    {% include "siteWeb/includes/navbar.html" %}
-    {% include "siteWeb/includes/searchbar.html" %}
+   <header>
+        {% include "siteWeb/includes/navbar.html" %}
+        {% include "siteWeb/includes/searchbar.html" %}
+        {% include 'siteWeb/includes/messaging.html' %}
+   </header>
+    <main>
+      <div class = "container">
+          <br>
+          {% block content %}
+          {% endblock %}
+      </div>
+    </main>
 
-    {% include 'siteWeb/includes/messaging.html' %}
+        {% include "siteWeb/includes/footer.html" %}
 
-  <div class = "container">
-      <br>
-      {% block content %}
-      {% endblock %}
-  </div>
 </body>
