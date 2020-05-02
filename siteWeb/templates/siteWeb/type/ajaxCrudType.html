@@ -48,45 +48,47 @@
 
     <!-- Type Table -->
     <div class="container">
-        <h2>Types</h2>
-        <p>Type something in the input field to search the table for first names, last names or emails:</p>
-        <input class="form-control" id="myInput" type="text" placeholder="Search..">
-        <br>
-        <button class="btn btn-success add-form offset-12">
-            <span><i class="fas fa-plus"></i> ADD TYPE</span>
-        </button>
-        <table id="typeTable" class="table container-fluid table-responsive mt-2">
-            <thead class="bg-info">
-                <th scope="col">ID</th>
-                <th scope="col" class="text-center">MATERIAL TYPE</th>
-                <th scope="col" class="text-center">NAME TYPE</th>
-                <th scope="col" class="text-center">DESCRIPTION</th>
-                <th scope="col" class="text-center">CREATION DATE</th>
-                <th scope="col" class="text-center">ACTIONS</th>
-            </thead>
+        <div class="container-fluid">
+            <h2>Types</h2>
+            <p>Type something in the input field to search the table for first names, last names or emails:</p>
+            <input class="form-control" id="myInput" type="text" placeholder="Search..">
+            <br>
+            <button class="btn btn-success add-form offset-12">
+                <span><i class="fas fa-plus"></i> ADD TYPE</span>
+            </button>
+        </div>
+        <div class="table-responsive table-body">
+            <table id="typeTable" class="table container-fluid table-responsive mt-2">
+                <thead class="bg-info">
+                    <th scope="row" class="col-md-1">ID</th>
+                    <th scope="col" class="col-md-1">TYPE</th>
+                    <th scope="col" class="col-md-1">NAME TYPE</th>
+                    <th scope="col" class="col-md-1">DESCRIPTION</th>
+                    <th scope="col" class="col-md-1">CREATION</th>
+                    <th scope="col" class="col-md-1">ACTIONS</th>
+                </thead>
 
-            <tbody id="myTable">
-            {% for type in types %}
-
-            <tr id="type-{{type.id}}">
-                <td>{{type.id}}</td>
-                <td class="typeMaterial_type typeData" name="material_type">{{type.material_type}}</td>
-                <td class="typeName_type typeData" name="name_type">{{type.name_type}}</td>
-                <td class="typeDescription typeData" name="description">{{type.description}}</td>
-                <td class="typeCreation_date typeData" name="creation_date">{{type.creation_date_type}}</td>
-                <td>
-                    <button class="btn btn-warning edit-form mr-2" onClick="editType({{type.id}})">
-                        <span><i class="far fa-edit"></i></span> Edit
-                    </button>
-                    <button class="btn btn-danger ml-2" onClick="deleteType({{type.id}})">
-                        <span><i class="far fa-trash-alt"></i></span> DELETE
-                    </button>
-                </td>
-            </tr>
-
-            {% endfor %}
-        </tbody>
-        </table>
+                <tbody id="myTable">
+                    {% for type in types %}
+                    <tr id="type-{{type.id}}">
+                        <td>{{type.id}}</td>
+                        <td class="typeMaterial_type typeData" name="material_type">{{type.material_type}}</td>
+                        <td class="typeName_type typeData" name="name_type">{{type.name_type}}</td>
+                        <td class="typeDescription typeData" name="description">{{type.description}}</td>
+                        <td class="typeCreation_date typeData" name="creation_date">{{type.creation_date_type}}</td>
+                        <td>
+                            <button class="btn btn-warning edit-form mr-2" onClick="editType({{type.id}})">
+                                <span><i class="far fa-edit"></i></span> Edit
+                            </button>
+                            <button class="btn btn-danger ml-2" onClick="deleteType({{type.id}})">
+                                <span><i class="far fa-trash-alt"></i></span> Delete
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
     <!-- END Type Table -->
     <!-- Modal Type UPDATE -->

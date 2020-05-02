@@ -1,9 +1,8 @@
 {% include "siteWeb/header_secondary.html" %}
 
 {% block content %}
-  <main>
+<main>
     <div class="container">
-
         <div class="table-responsive text-nowrap">
             <h2>Loan Summary</h2>
             <table class="table">
@@ -28,14 +27,13 @@
                         {% endif %}
                         {{ loan_material.quantity }}
                         {% if loan_material.material.type.material_type != 'unique' %}
-                            <a href="{% url 'add-one-material' loan_material.material.slug  %}"><i class="material-icons right">add_circle</i></a>
+                            <a href="{% url 'add-one-material' loan_material.material.slug  %}"><i class="material-icons">add_circle</i></a>
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{% url 'remove-from-loan' loan_material.material.slug  %}"><i class="material-icons right">delete</i></a>
+                        <a href="{% url 'remove-from-loan' loan_material.material.slug  %}"><i class="material-icons">delete</i></a>
                     </td>
                 </tr>
-
                 {% empty %}
                 <tr>
                     <td colspan='5'>Your cart is empty</td>
@@ -54,11 +52,12 @@
                 </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
-
-  </main>
-{% endblock %}
+</main>
+<footer>
+    {% include "siteWeb/includes/footer.html" %}
+</footer>
+{% endblock content %}
 
 

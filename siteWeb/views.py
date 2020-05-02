@@ -9,7 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, Pass
 from django.contrib import messages
 from .forms import NewUserForm
 from django.views.generic import ListView, DetailView, View
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.mixins import LoginRequiredMixin
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan
@@ -237,6 +237,9 @@ def addMaterial(request):
                     try:
                         Material.objects.get(type=type)
                         messages.error(request, f"Existing unique type.")
+                    except MultipleObjectsReturned:
+                        return redirect(homepage)
+                        messages.error(request, f"Error!")
                     except ObjectDoesNotExist:
                         form.save()
                         form = formMaterial()

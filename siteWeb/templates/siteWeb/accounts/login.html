@@ -1,11 +1,18 @@
 {% extends "siteWeb/header_secondary.html" %}
 {% block content %}
-    <form method = "POST">
-        {% csrf_token %}
-        {{ form.as_p  }}
-        <br>
-        <button class = "btn" type = "submit">Login</button>
-    </form>
-    Forgot Password? <a href="/password_reset">Reset Password</a>
+    <main>
+        <div class="container">
+            <form method = "POST">
+                {% csrf_token %}
+                {{ form.as_p  }}
+                <br>
+                <button class = "btn" type = "submit">Login</button>
+            </form>
+            Forgot Password? <a href="/password_reset">Reset Password</a>
+        </div>
+    </main>
+<footer>
+    {% include "siteWeb/includes/footer.html" %}
+</footer>
 {% endblock %}
 

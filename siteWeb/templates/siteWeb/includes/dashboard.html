@@ -1,176 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load loan_template_tags %}
-    {% load static %}
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
 
-  <script src="{% static 'tinymce/js/prism.js' %}"></script>
-  <title>Staff Dashboard</title>
+{% load static %}
+<html>
+  <head>
+      <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" media="screen">
+      <link rel="stylesheet" href="{% static 'css/sidebar.css' %}" type="text/css" media="screen">
+        <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet">
+        <!-- Custom fonts for this template-->
+        <link href="{% static '../static/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        <!-- Page level plugin CSS-->
+        {% block stylesheet %}{% endblock stylesheet %}
+      <style>
 
-  <!-- Custom fonts for this template-->
-  <link href="{% static '../static/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+      </style>
 
-  <!-- Page level plugin CSS-->
-  <link href="{% static '../static/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" media="screen">
-
-  <!-- Custom styles for this template-->
-  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
-
-  <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
-  <style>
-    table  { display: inline-block; overflow: auto; }
-    th div { margin-top: -20px; position: absolute; }
-    table { border-collapse: collapse; }
-    tr:nth-child(even) { background: #EEE; }
-  </style>
-          {% block stylesheet %}{% endblock stylesheet %}
-</head>
-
-<body id="page-top">
-
-  <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-
-    <a class="navbar-brand mr-1" href="/">Home</a>
-
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-      <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-<!--      <div class="input-group">-->
-<!--        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">-->
-<!--        <div class="input-group-append">-->
-<!--          <button class="btn btn-primary" type="button">-->
-<!--            <i class="fas fa-search"></i>-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </div>-->
-    </form>
-
-    <!-- Navbar -->
-    <ul class="navbar-nav ml-auto ml-md-0">
-      <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-<!--          <a class="dropdown-item" href="#">Settings</a>-->
-          <a class="dropdown-item" href="../accounts/change-password">Change Password</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-        </div>
-      </li>
-    </ul>
-
-  </nav>
-
-  {% include 'siteWeb/includes/messaging.html' %}
-
-  <div id="wrapper">
-    <!-- Sidebar -->
-    <div>
-    <ul class="sidebar navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="/showLoan">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Manage</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-<!--          <h6 class="dropdown-header"></h6>-->
-          <a class="dropdown-item" href="../MaterialView">Material</a>
-          <a class="dropdown-item" href="../TypeView">Type</a>
-          <a class="dropdown-item" href="../LoanerView">Loaner</a>
-
-<!--          <div class="dropdown-divider"></div>-->
-<!--          <h6 class="dropdown-header">Show:</h6>-->
-<!--          <a class="dropdown-item" href="/showMaterial">Show Material</a>-->
-<!--          <a class="dropdown-item" href="/showType">Show Type</a>-->
-<!--          <a class="dropdown-item" href="/LoanerView">Show Loaner</a>-->
-<!--          <a class="dropdown-item" href="/showLoan">Show Loan</a>-->
-        </div>
-
-      </li>
-<!--      <li class="nav-item">-->
-<!--        <a class="nav-link" href="charts.html">-->
-<!--          <i class="fas fa-fw fa-chart-area"></i>-->
-<!--          <span>Charts</span></a>-->
-<!--      </li>-->
-<!--      <li class="nav-item">-->
-<!--        <a class="nav-link" href="tables.html">-->
-<!--          <i class="fas fa-fw fa-table"></i>-->
-<!--          <span>Tables</span></a>-->
-<!--      </li>-->
-    </ul>
-
-  </div>
-  <!-- /#wrapper -->
-    {% block content %}
-      {% endblock%}
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="../logout">Logout</a>
-        </div>
+  </head>
+  <body>
+      <div class="container-fluid">
+<!--          {% block content %}-->
+<!--            {% endblock content %}-->
       </div>
-    </div>
-  </div>
+  <nav class="main-menu">
+            <ul>
+                <li>
+                    <a href="/">
+                        <i class="fa fa-home fa-2x"></i>
+                        <span class="nav-text">
+                            Dashboard
+                        </span>
+                    </a>
 
+                </li>
+                <li class="has-subnav">
+                    <a href="MaterialView">
+                        <i class="fa fa-laptop fa-2x"></i>
+                        <span class="nav-text">
+                            Material
+                        </span>
+                    </a>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="../static/vendor/jquery/jquery.min.js"></script>
-  <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                </li>
+                <li class="has-subnav">
+                    <a href="TypeView">
+                       <i class="fa fa-list fa-2x"></i>
+                        <span class="nav-text">
+                            Type
+                        </span>
+                    </a>
 
-  <!-- Core plugin JavaScript-->
-  <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+                </li>
+                <li class="has-subnav">
+                    <a href="LoanerView">
+                       <i class="fa fa-folder-open fa-2x"></i>
+                        <span class="nav-text">
+                            Loaner
+                        </span>
+                    </a>
 
-  <!-- Page level plugin JavaScript-->
-  <script src="../static/vendor/chart.js/Chart.min.js"></script>
-  <script src="../static/vendor/datatables/jquery.dataTables.js"></script>
-  <script src="../static/vendor/datatables/dataTables.bootstrap4.js"></script>
+                </li>
+                <li>
+                    <a href="showLoan">
+                        <i class="fa fa-bar-chart-o fa-2x"></i>
+                        <span class="nav-text">
+                            Loan
+                        </span>
+                    </a>
+                </li>
+                <li>
+<!--                    <a href="#">-->
+<!--                        <i class="fa fa-font fa-2x"></i>-->
+<!--                        <span class="nav-text">-->
+<!--                           Quotes-->
+<!--                        </span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                   <a href="#">-->
+<!--                       <i class="fa fa-table fa-2x"></i>-->
+<!--                        <span class="nav-text">-->
+<!--                            Tables-->
+<!--                        </span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                   <a href="#">-->
+<!--                        <i class="fa fa-map-marker fa-2x"></i>-->
+<!--                        <span class="nav-text">-->
+<!--                            Maps-->
+<!--                        </span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a href="#">-->
+<!--                       <i class="fa fa-info fa-2x"></i>-->
+<!--                        <span class="nav-text">-->
+<!--                            Documentation-->
+<!--                        </span>-->
+<!--                    </a>-->
+<!--                </li>-->
+            </ul>
 
-  <!-- Custom scripts for all pages-->
-  <script src="../static/javaScript/sb-admin.min.js"></script>
+            <ul class="logout">
+                <li>
+                   <a href="logout">
+                         <i class="fa fa-power-off fa-2x"></i>
+                        <span class="nav-text">
+                            Logout
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-  <!-- Demo scripts for this page-->
-  <script src="../static/javaScript/demo/datatables-demo.js"></script>
-  <script src="../static/javaScript/demo/chart-area-demo.js"></script>
-
-  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-  <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
-  <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
-  <script src="{% static 'javascript/material/crudMaterial.js' %}"></script>
-  {% block javascript %}
-  {% endblock javascript%}
-
-</body>
-
-</html>
+   <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+        <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+        <script src="{% static 'javascript/material/crudMaterial.js' %}"></script>
+        {% block javascript %}
+        {% endblock javascript%}
+  </body>
+    </html>
