@@ -1,242 +1,83 @@
 {% include "siteWeb/includes/dashboard.html" %}
-{% load static %}
+
 {% load crispy_forms_tags %}
 
+{% load static %}
+
 {% block content %}
+<head>
+      <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
+</head>
 
 <div class="container">
+    <div class="container-fluid">
+            <h2>Materials</h2>
+          <p>Type something in the input field to search the table for first names, last names or emails:</p>
+          <input class="form-control" id="myInput" type="text" placeholder="Search..">
+          <br>
+         <a class="btn btn-success add-form offset-12" href="/addMaterial">
+                <span><i class="fas fa-plus"></i> Add Material</span>
+         </a>
+    </div>
+    <div class="table-responsive table-body">
+        <table class="table container-fluid table-responsive mt-2">
 
-
-
-    <!-- Material Table -->
-    <div class="container mt-5">
-        <button class="btn btn-success offset-12 add-form">
-                <span class="glyphicon glyphicon-plus mr-2">ADD MATERIAL</span>
-        </button>
-        <table id="materialTable" class="table container-fluid table-responsive mt-2">
-            <thead class="bg-info">
-                <th scope="col" class="text-center">BARCODE</th>
-                <th scope="col" class="text-center">NAME</th>
-                <th scope="col" class="text-center">MATERIAL TYPE</th>
-                <th scope="col" class="text-center">CREATION DATE</th>
-                <th scope="col" class="text-center">ACTIONS</th>
-            </thead>
-            <tbody>
-            {% for material in materials %}
-                <tr id="material-{{material.barcode}}">
-                    <td class="materialBarcode materialData" name="barcode">{{ material.barcode}}</td>
-                    <td class="materialName materialData" name="name">{{ material.name}}</td>
-                    <td class="materialType materialData" name="type">{{ material.type }}</td>
-                    <td class="materialCreation_date materialData" name="creation_date_mat">{{ material.creation_date_mat }}</td>
-                    <td class="d-flex">
-                        <button class="btn btn-warning edit-form" onClick="editMaterial({{material.barcode}})">
-                            <span class="glyphicon glyphicon-pencil mr-2"></span>Edit
-                        </button>
-                        <button class="btn btn-danger ml-2 show-form-delete" onClick="deleteMaterial({{material.barcode}})">
-                            <span class="glyphicon glyphicon-trash mr-2"></span>Delete
-                        </button>
-                    </td>
-                </tr>
-            {% empty %}
+            <thead class="thead-dark">
                 <tr>
-                    <td colspan="7" class="text-center bg-warning">No Material</td>
+                    <th scope="col">NAME</th>
+                    <th scope="col">BARCODE</th>
+                    <th scope="col">TYPE</th>
+                     <th scope="col">DESCRIPTION</th>
+                    <th scope="col">CREATION DATE</th>
+                    <th scope="col">ACTIONS</th>
                 </tr>
-            {% endfor %}
+            </thead>
+
+            {% for material in materials %}
+            <tbody id="myTable">
+            <tr>
+                <td scope="row" class="col-md-1">{{material.name}}</td>
+                <td scope="col" class="col-md-1">{{material.id}}</td>
+                <td scope="col" class="col-md-1">{{material.slug}}</td>
+                <td scope="col" class="col-md-1">{{material.type }}</td>
+                <td scope="col" class="col-md-1">{{material.creation_date_mat}}</td>
+                <td scope="col" class="col-md-1">
+                    <a href="/updateMaterial/{{material.id}}" class="btn btn-warning"><span class="glyphicon glyphicon-pencil mr-2"></span>Edit</a>
+                    <button  class="btn btn-danger ml-2" onClick="deleteMaterial({{material.id}})">
+                        <span class="glyphicon glyphicon-trash mr-2"></span>Delete
+                    </button>
+                </td>
+            </tr>
             </tbody>
+            {% endfor %}
         </table>
     </div>
-    <!-- END Material Table -->
-
-
-    <!-- Modal EDIT Material -->
-    <div class="modal fade" id="editMatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="editMatModalLabel">EDIT MATERIAL</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="updateMaterial" action="">
-                    <div class="modal-body">
-                        {% csrf_token %}
-                        {{form|crispy}}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="EDIT MATERIAL"/>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- END Modal EDIT Material -->
-
-
-
-     <!-- Modal ADD Material -->
-    <div class="modal fade" id="addMatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="addMatModalLabel">ADD MATERIAL</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="addMaterial" action="">
-                    <div class="modal-body">
-                        {% csrf_token %}
-                        {{form|crispy}}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="ADD MATERIAL" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- END Modal ADD Material -->
-
-
-
 </div>
-
 {% endblock %}
 
 
 {% block javascript %}
 <script>
-
-// Create Material ---------------------------------------------------------------------------------------------------//
-    // Show form for the save data
-    $(document).ready(function(){
-    $(".add-form").click(function(){
-        $('#addMatModal').modal('show');
-    });
-
-    });
-
-     $("#addMaterial").submit(function (e) {
-        // preventing from page reload and default actions
-        e.preventDefault();
-        // serialize the data for sending the form data.
-        var serializedData = $(this).serialize();
-        // make POST ajax call
-        $.ajax({
-            type: 'POST',
-            url: "{% url 'CreateCrudMaterial' %}",
-            data: serializedData,
-            success: function (response) {
-                alert("Material is creatd");
-                location.reload(true);
-            },
-            error: function (response) {
-                // alert the error if any error occured
-                alert("Material is not created");
-            }
-        })
-    })
-
-// END Create Material -----------------------------------------------------------------------------------------------//
-
-// Update Material ---------------------------------------------------------------------------------------------------//
-     $(document).ready(function(){
-        $(".edit-form").click(function(){
-            $('#editMatModal').modal('show');
-        });
-    });
-
-
-    $("form#updateMaterial").submit(function() {
-    var barcode_Input = $('input[name="barcode"]').val();
-    var name_Input = $('input[name="name"]').val();
-    var type_Input = $('input[name="type"]').val();
-    if (name_Input && barcode_Input && type_Input) {
-        //
-        $.ajax({
-            url: '{% url "UpdateCrudMaterial" %}',
-            data: {
-                'barcode': barcode_Input,
-                'name': name_Input,
-                'mat_type': type_Input
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data.material) {
-                  updateToMaterialTabel(data.material);
-                  alert("Material is updated");
-                  location.reload(true);
-                }
-            }
-        });
-
-    } else {
-        alert("Material is not updated");
-    }
-    //$('form#updateMaterial').trigger("reset");
-    //$('#myModal').modal('hide');
-    //location.reload(true);
-    return false;
-
-    });
-
-
-   function editMaterial(barcode) {
-      if (barcode) {
-        material_barcode = "#material-" + barcode;
-        material_name = $(material_barcode).find(".materialName").text();
-        material_type = $(material_barcode).find(".materialType").text();
-
-        $('#id_name').val(material_name);
-        $('#id_barcode').val(barcode);
-        $('#id_type').val(material_type);
-      }
-   }
-
-
-   function updateToMaterialTabel(material){
-    $("#materialTable #material-" + material.barcode).children(".materialData").each(function() {
-        var attr = $(this).attr("name");
-        if (attr == "name") {
-            $(this).text(material.name);
-        } else (attr == "type")
-        {
-            $(this).text(material.ype);
-        }
-      });
-
-}
-
-// END Update Material -----------------------------------------------------------------------------------------------//
-
-
-
-// Delete Material----------------------------------------------------------------------------------------------------//
-function deleteMaterial(barcode) {
+ // Delete Material----------------------------------------------------------------------------------------------------//
+function deleteMaterial(id) {
   var action_delete = confirm("Are you sure you want to delete this Material?");
   if (action_delete == true) {
     $.ajax({
         url: '{% url "DeleteCrudMaterial" %}',
         data: {
-            'barcode': barcode,
+            'id': id,
         },
         dataType: 'json',
         success: function (data) {
             if (data.deleted) {
-              $("#materialTable #material-" + barcode).remove();
               alert("Material is deleted");
+              location.reload(true);
             }
         }
     });
   }
 };
 // END Delete Material -----------------------------------------------------------------------------------------------//
-
-
-
 </script>
 
 {% endblock javascript %}

@@ -11,6 +11,7 @@
             {% if user.is_authenticated %}
                 <br><br><a href="{{ object.get_add_to_loan_url }}" class = "btn dropdown-button green darken-4">Add to Loan</a>
                 <a href="{{ object.get_remove_from_loan_url }}" class = "btn dropdown-button red darken-4">Remove From Cart</a>
+                <a href=" /updateMaterial/{{object.id}} " class = "btn dropdown-button blue-grey darken-4"> Edit Material </a>
             {% endif %}
         </div>
     </div>

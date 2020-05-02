@@ -37,15 +37,16 @@ class UpdateCrudMaterial(View):
     def get(self, request):
         barcode = request.GET.get('barcode', None)
         material_name = request.GET.get('name', None)
-        mat_type = request.GET.get('mat_type', None)
+        type = request.GET.get('type', None)
 
         obj = Material.objects.get(barcode = barcode)
         obj.name = material_name
-        obj.type = mat_type
+        obj.id = barcode
+        obj.type = type
 
         obj.save()
 
-        material = {'barcode': obj.barcode, 'name': obj.name, 'type': obj.mat_type}
+        material = {'barcode': obj.id, 'name': obj.name, 'type': obj.type}
 
         data = {
             'material': material
@@ -56,8 +57,8 @@ class UpdateCrudMaterial(View):
 # Delete Material
 class DeleteCrudMaterial(View):
     def get(self, request):
-        id_material = request.GET.get('barcode', None)
-        Material.objects.get(barcode = id_material).delete()
+        id_material = request.GET.get('id', None)
+        Material.objects.get(id = id_material).delete()
         data = {'deleted': True}
         return JsonResponse(data)
 

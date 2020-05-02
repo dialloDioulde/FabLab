@@ -1,19 +1,24 @@
-{% include "siteWeb/includes/dashboard.html" %}
+{% include "siteWeb/header_secondary.html" %}
 
 {% block content %}
-<div class = "container-fluid">
+<main>
+<div class = "container">
     {% if user.is_authenticated %}
     <br>
-        <h3> <span>Add Material</span></h3>
+        <h3> <span>Material Form</span></h3>
         <br>
-        <form method = "POST" enctype="multipart/form-data" >
+        <form method = "POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <br>
-            <button class="btn btn-dark" type = "submit">Add Material</button>
+            <button class="btn btn-dark" type = "submit">Submit Material</button>
         </form>
     {% else %}
         <p>You don't have permission to access this page. Return Home.</p>
     {% endif %}
 </div>
+    </main>
+<footer>
+    {% include "siteWeb/includes/footer.html" %}
+</footer>
 {% endblock %}

@@ -8,6 +8,34 @@
 <head>
       <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
 </head>
+
+<div class="modal hide" id="contactModal">
+</div>
+
+<script>
+    $(".contact").click(function(ev) { // for each edit contact url
+        ev.preventDefault(); // prevent navigation
+        var url = $(this).data("form"); // get the contact form url
+        $("#contactModal").load(url, function() { // load the url into the modal
+            $(this).modal('show'); // display the modal on url load
+        });
+        return false; // prevent the click propagation
+    });
+
+    $('.contact-form').live('submit', function() {
+        $.ajax({
+            type: $(this).attr('method'),
+            url: this.action,
+            data: $(this).serialize(),
+            context: this,
+            success: function(data, status) {
+                $('#contactModal').html(data);
+            }
+        });
+        return false;
+    });
+</script>
+
 <div class="container">
     <h2>Materials</h2>
   <p>Type something in the input field to search the table for first names, last names or emails:</p>
@@ -30,13 +58,13 @@
         <tbody id="myTable">
         <tr>
             <td>{{material.name}}</td>
-            <td>{{material.barcode}}</td>
+            <td>{{material.id}}</td>
             <td>{{material.slug}}</td>
             <td>{{material.type }}</td>
             <td>{{material.creation_date_mat}}</td>
             <td>
-                <a href="#" class="btn btn-warning"><span class="glyphicon glyphicon-pencil mr-2"></span>Edit</a>
-                <button  class="btn btn-danger ml-2" onClick="deleteMaterial({{material.barcode}})">
+                <a href="/updateMaterial/{{material.id}}" class="btn btn-warning"><span class="glyphicon glyphicon-pencil mr-2"></span>Edit</a>
+                <button  class="btn btn-danger ml-2" onClick="deleteMaterial({{material.id}})">
                     <span class="glyphicon glyphicon-trash mr-2"></span>Delete
                 </button>
             </td>
@@ -51,13 +79,13 @@
 {% block javascript %}
 <script>
  // Delete Material----------------------------------------------------------------------------------------------------//
-function deleteMaterial(barcode) {
+function deleteMaterial(id) {
   var action_delete = confirm("Are you sure you want to delete this Material?");
   if (action_delete == true) {
     $.ajax({
         url: '{% url "DeleteCrudMaterial" %}',
         data: {
-            'barcode': barcode,
+            'id': id,
         },
         dataType: 'json',
         success: function (data) {

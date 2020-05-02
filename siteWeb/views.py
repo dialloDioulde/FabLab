@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.utils import timezone
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
@@ -23,7 +22,7 @@ def homepage(request):
 
     if 'search' in request.GET:
         search_term = request.GET['search']
-        materials = (materials.filter(name__icontains=search_term) | materials.filter(barcode__icontains=search_term))
+        materials = (materials.filter(name__icontains=search_term) | materials.filter(id__icontains=search_term))
 
         if search_term == "":
             search_term = "No match."
@@ -37,7 +36,6 @@ def homepage(request):
     return render(request=request,
                   template_name="siteWeb/home.html",
                   context={"materials": materials, "search_term": search_term})
-
 
 # Dashbord
 def dashboard(request):
@@ -115,112 +113,6 @@ def change_password(request):
 
 
 #----------------------------------------------------------------------------------------------------------------------#
-# Borrower registration
-# @login_required # You will need to be logged in
-# def addLoaner(request):
-#     if not request.user.is_authenticated:
-#         return redirect("../../accounts/login")
-#     else:
-#         sauvegarde = False
-#         if request.method == 'POST':
-#             form = formLoaner(request.POST)
-#             form.save()
-#             form = formLoaner()
-#             messages.success(request, f"New Loaner created")
-#             return redirect("homepage")
-#             sauvegarde = True
-#         else:
-#             form = formLoaner()
-#         return render(request, 'siteWeb/addLoaner.html', {'form': form})
-#
-#
-#
-# # Show loaner
-# def showLoaner(request):
-#     loaner_liste = Loaner.objects.all()
-#     return render(request, 'siteWeb/showLoaner.html', {'loaners': loaner_liste})
-#
-#
-# # Edit loaner
-# def editLoaner(request, id):
-#     loaner_edit = Loaner.objects.get(id=id)
-#     return render(request, 'siteWeb/editLoaner.html', {'loaner_edit': loaner_edit})
-#
-#
-# # Update loaner
-# def updateLoaner(request, id):
-#     loaner_update = Loaner.objects.get(id=id)
-#     form = formLoaner(request.POST, instance=loaner_update)
-#     if form.is_valid():
-#         form.save()
-#         messages.success(request, f"Loaner Updated successfully")
-#         return redirect(showLoaner)
-#     messages.error(request, f"Loaner not updated! Try again.")
-#     return render(request, 'siteWeb/editLoaner.html', {'user_update': form})
-#
-#export PATH=$PATH:/Users/mamadoudiallo/.npm-global/bin Pour ajouter le repertoire dans le dossier Path
-# ls -a voir tous les fichiers
-# ctrl + O -> save
-# ctrl + x -> quitter
-
-# destroy loaner
-#def deleteLoaner(request, id):
- #   user_delete = Loaner.objects.get(id=id)
-  #  user_delete.delete()
-   # messages.success(request, f"Loaner Deleted successfully")
-    #return redirect(showLoaner)
-#----------------------------------------------------------------------------------------------------------------------#
-#
-# # Add Type
-# # @login_required
-# def addType(request):
-#     if not request.user.is_authenticated:
-#         return redirect("../../accounts/login")
-#     else:
-#         sauvegarde = False
-#         if request.method == 'POST':
-#             form = formType(request.POST)
-#             form.save()
-#             form = formType()
-#             messages.success(request, f"New Type created")
-#             return redirect("homepage")
-#             sauvegarde = True
-#         else:
-#             form = formType()
-#         return render(request, 'siteWeb/addType.html', {'form': form, 'sauvegarde': sauvegarde})
-
-#
-# # Show Type
-# def showType(request):
-#     type_liste = Type.objects.all()
-#     return render(request, 'siteWeb/showType.html', {'types': type_liste})
-#
-#
-# # Edit Type
-# def editType(request, id):
-#     type_edit = Type.objects.get(id=id)
-#     return render(request, 'siteWeb/editType.html', {'type_edit': type_edit})
-#
-#
-# # Update Type
-# def updateType(request, id):
-#     type_update = Type.objects.get(id=id)
-#     form = formType(request.POST, instance=type_update)
-#     if form.is_valid():
-#         form.save()
-#         messages.success(request, f"Type Updated successfully")
-#         return redirect(showType)
-#     messages.error(request, f"Type not updated! Try again.")
-#     return render(request, 'siteWeb/editType.html', {'type_update': form})
-
-
-#
-# # destroy Type
-# def deleteType(request, id):
-#     type_delete = Type.objects.get(id=id)
-#     type_delete.delete()
-#     return redirect(showType)
-#----------------------------------------------------------------------------------------------------------------------#
 # Add Material
 # @login_required
 def addMaterial(request):
@@ -263,6 +155,45 @@ def showMaterial(request):
     return render(request, 'siteWeb/showMaterial.html', {'materials': material_liste})
 
 
+def updateMaterial(request, id):
+
+    mat = Material.objects.get(id=id)
+    form = formMaterial(instance=mat)
+
+    if request.method == 'POST':
+        form = formMaterial(request.POST, instance=mat)
+
+        if form.is_valid():
+            type = form.cleaned_data.get('type')
+            if type.material_type == 'unique':
+                from django.core.exceptions import ObjectDoesNotExist
+                try:
+                    Material.objects.get(type=type)
+                    messages.error(request, f"Existing unique type.")
+                except MultipleObjectsReturned:
+                    messages.error(request, f"Error! Multiple Unique Materials.")
+                    return redirect(homepage)
+                except ObjectDoesNotExist:
+                    form.save()
+                    form = formMaterial()
+                    messages.success(request, f"New Material created")
+                    return redirect("homepage")
+                    sauvegarde = True
+            else:
+                form.save()
+                form = formMaterial()
+                messages.success(request, f"New Material created")
+                return redirect("homepage")
+                sauvegarde = True
+            # form.save()
+            # messages.success(request, f"Material updated!")
+            # return redirect("/")
+
+    context = {'form':form}
+    return render(request, 'siteWeb/addMaterial.html', context)
+
+
+
 # show single material
 class MaterialDetailView(DetailView):
     model = Material
@@ -271,8 +202,8 @@ class MaterialDetailView(DetailView):
 # Delete Material
 class DeleteCrudMaterial(View):
     def get(self, request):
-        id_material = request.GET.get('barcode', None)
-        Material.objects.get(barcode = id_material).delete()
+        id_material = request.GET.get('id', None)
+        Material.objects.get(id = id_material).delete()
         data = {'deleted': True}
         return JsonResponse(data)
 

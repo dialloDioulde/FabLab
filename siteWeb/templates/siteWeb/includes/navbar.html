@@ -22,14 +22,14 @@
 
         <ul id="nav-mobile" class="left">
             <li><a href="/">Logo</a></li>
-            <li><a href="/">Home</a></li>
             {% if user.is_superuser %}
-
             <li class="green darken-4" ><a href="/accounts/register">Register</a></li>
             <li><a href="/admin">Admin</a></li>
 
             {% endif %}
-
+            {% if user.is_authenticated %}
+                <li class="blue-grey darken-2" ><a href="/addMaterial">Add Material</a></li>
+            {% endif %}
         </ul>
         <ul class = 'right'>
             {% if user.is_authenticated %}

@@ -79,8 +79,8 @@ urlpatterns = [
     # path('editLoaner/<int:id>',views.editLoaner, name='editLoaner'),
     # path('updateLoaner/<int:id>',views.updateLoaner, name='updateLoaner'),
     #
-    # path('editType/<int:id>',views.editType, name='editType'),
-    # path('updateType/<int:id>',views.updateType, name='updateType'),
+    # path('editMaterial/<int:id>',views.editMaterial, name='editMaterial'),
+    path('updateMaterial/<int:id>',views.updateMaterial, name='updateMaterial'),
     #
     # path('deleteLoaner/<int:id>',views.deleteLoaner, name='deleteLoaner'),
     # path('deleteType/<int:id>',views.deleteType, name='deleteType'),

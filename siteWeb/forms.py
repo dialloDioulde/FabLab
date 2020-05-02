@@ -22,7 +22,7 @@ class formType(forms.ModelForm):
 class formMaterial(forms.ModelForm):
     class Meta:
         model = Material
-        fields = ['name','barcode','type', 'material_picture']
+        fields = ['name','id','type', 'material_picture']
 
 
 class formLoanMaterial(forms.ModelForm):

@@ -49,14 +49,15 @@ class Type(models.Model):
 
 class Material(models.Model):
     name = models.CharField(max_length=250)
-    barcode = models.IntegerField(blank=False, primary_key=True)
+    #id=barcode
+    id = models.IntegerField(blank=False, primary_key=True)
     creation_date_mat = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=250, null=True, blank=True)
     material_picture = models.ImageField(blank=True, upload_to='media/', default='None/no-img.jpg', null=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name + " (barcode:  " + str(self.barcode) + ")"
+        return self.name + " (id:  " + str(self.id) + ")"
 
     def get_absolute_url(self):
         return reverse("material", kwargs={
