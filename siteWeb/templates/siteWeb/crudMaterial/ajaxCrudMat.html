@@ -22,7 +22,7 @@
     <div class="table-responsive table-body">
         <table class="table container-fluid table-responsive mt-2">
 
-            <thead class="thead-dark">
+            <thead class="bg-info">
                 <tr>
                     <th scope="col">NAME</th>
                     <th scope="col">BARCODE</th>
@@ -36,12 +36,12 @@
             {% for material in materials %}
             <tbody id="myTable">
             <tr>
-                <td scope="row" class="col-md-1">{{material.name}}</td>
-                <td scope="col" class="col-md-1">{{material.id}}</td>
-                <td scope="col" class="col-md-1">{{material.slug}}</td>
-                <td scope="col" class="col-md-1">{{material.type }}</td>
-                <td scope="col" class="col-md-1">{{material.creation_date_mat}}</td>
-                <td scope="col" class="col-md-1">
+                <td scope="row">{{material.name}}</td>
+                <td>{{material.id}}</td>
+                <td>{{material.slug}}</td>
+                <td>{{material.type }}</td>
+                <td>{{material.creation_date_mat}}</td>
+                <td  class="d-flex">
                     <a href="/updateMaterial/{{material.id}}" class="btn btn-warning"><span class="glyphicon glyphicon-pencil mr-2"></span>EDIT</a>
                     <button  class="btn btn-danger ml-2" onClick="deleteMaterial({{material.id}})">
                         <span class="glyphicon glyphicon-trash mr-2"></span>DELETE
