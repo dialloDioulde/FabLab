@@ -61,16 +61,17 @@ If your app has a custom user model, you'll need to create a new superuser for t
       11- Forget Password
       
       12 - Display Loans
+      
+      13 - Modify Material/Type
+      
+      14 - Delete Type/Material/Loaner
+      
+      15 - Delete Loans
+      
 
 #TO DO:
 
-    1- Modify Material/Type
-    
-    2- Delete Type/Material/Loaner
-    
-    3- Mark as Returned Loans
-    
-    4- Delete Loans
+    Frontend implementation, Unit Tests, Integrations and Documentation Writing.
     
     
     
