@@ -34,7 +34,7 @@
         <ul class = 'right'>
             {% if user.is_authenticated %}
                 <li><a href="../../loan-summary">
-                        <span class="trigger red darken-4">  {{ request.user|loan_materials_count }}   </span>
+                        <span class="trigger red darken-4 ml-2">  {{ request.user|loan_materials_count }}   </span>
                         <i class="material-icons right">add_shopping_cart</i>
                         <span class="clear fix d-none d-sm-inline-block">   Loan</span>
                     </a>
@@ -45,7 +45,8 @@
                  <li><a href="/accounts/login">Login</a></li>
           {% endif %}
         </ul>
-
+    </div>
     </nav>
 
  </div>
+
