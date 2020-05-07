@@ -393,8 +393,11 @@ def showSurpassedLoan(request):
 #show loan
 def loan(request, id):
     loan = Loan.objects.get(id=id)
-    loan_liste = loan.materials.all()
-    return render(request, 'siteWeb/loan.html', {'loan_materials': loan_liste})
+    loan_liste = loan.materials.all().order_by("-creation_date_loan_mat")
+    paginator = Paginator(loan_liste, per_page= 10)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'siteWeb/loan.html', {'loan_materials': page_obj.object_list, 'loan_loaner': loan, 'paginator': paginator, 'page_number': int(page_number)})
 
 
 # Update loaner

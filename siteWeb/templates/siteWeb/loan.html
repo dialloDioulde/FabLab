@@ -1,15 +1,42 @@
 {% extends "siteWeb/header_secondary.html" %}
 {% block content %}
-<div class = "container">
-    <div class="card-content black-text">
-
+<div class = "container mt-3">
+    <h2 class="border-top border-bottom pl-5">INFORMATIONS OF LOAN </h2>
+    <table class="table table-responsive">
+        <thead class="bg-info">
+            <th scope="row" class="text-center">ID</th>
+            <th scope="col" class="text-center">FIRSTNAME</th>
+            <th scope="col" class="text-center">LASTNAME</th>
+            <th scope="col" class="text-center">EMAIL</th>
+            <th scope="col" class="text-center">MATERIAL</th>
+            <th scope="col" class="text-center">QUANTITY</th>
+            <th scope="col" class="text-center">STAFF</th>
+            <th scope="col" class="text-center">DATE</th>
+        </thead>
+        <tbody>
         {% for material in loan_materials %}
-            {{material}} <br>
+        <tr>
+            <td class="text-center">{{loan_loaner.loaner.id}}</td>
+            <td class="text-center">{{loan_loaner.loaner.first_name}}</td>
+            <td class="text-center">{{loan_loaner.loaner.last_name}}</td>
+            <td class="text-center">{{loan_loaner.loaner.email}}</td>
+            <td class="text-center">{{material.material.name}}</td>
+            <td class="text-center">{{material.quantity}}</td>
+            <td class="text-center">{{loan_loaner.user.last_name}} {{loan_loaner.user.first_name}}</td>
+            <td class="text-center">{{material.creation_date_loan_mat }}</td>
+        </tr>
         {% endfor %}
-
-        {% if user.is_authenticated %}
-
-        {% endif %}
-    </div>
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <ul class="pagination">
+    {% for i in paginator.page_range %}
+    <li class="page-item {% if i == page_number %} active {% endif %}">
+        <a class="page-link"  href="?page={{ i }}">{{ i }}</a>
+    </li>
+    {% endfor %}
+</ul>
 </div>
 {% endblock %}
+

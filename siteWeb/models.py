@@ -94,7 +94,7 @@ class LoanMaterial(models.Model):
     creation_date_loan_mat = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.quantity) + " of " + self.material.name
+        return str(self.quantity) + " " + self.material.name
 
 
 class Loan(models.Model):
