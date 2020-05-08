@@ -4,34 +4,32 @@
     <link rel ="stylesheet" href = "{% static 'css/materialize.min.css' %}" type = "text/css" media = "screen">
     <link rel ="stylesheet" href = "{% static 'css/materialize.css' %}" type = "text/css" media = "screen">
     <link rel ="stylesheet" href = "{% static 'javaScript/materialize.min.js' %}" type = "text/css" media = "screen">
-
     {% block title %}
-
     <title>FabMSTIC</title>
-
     {% endblock %}
 
     <meta name = "viewport" content = "width = device-width, initial-scale = 1">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 </head>
 
 <div class="navbar-fixed">
     <nav>
     <div class="nav-wrapper blue-grey darken-4">
-
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="nav-mobile" class="left">
-            <li><a href="/">Logo</a></li>
+            <li><a href="/"><img src="../../images/None/logo.jpg" height="60" width="120"/></a></li>
             {% if user.is_superuser %}
-            <li class="green darken-4" ><a href="/accounts/register">Register</a></li>
-            <li><a href="/admin">Admin</a></li>
-
+                <li class="green darken-4" ><a href="/accounts/register">Register</a></li>
+                <li><a href="/admin">Admin</a></li>
             {% endif %}
             {% if user.is_authenticated %}
-                <li class="blue-grey darken-2" ><a href="/addMaterial">Add Material</a></li>
+                <li class="blue-grey darken-1" ><a href="/addMaterial">Add Material</a></li>
+                <li class="blue-grey darken-2" ><a href="/TypeView">View Types</a></li>
+                <li class="blue-grey darken-2" ><a href="/LoanerView">View Loaners</a></li>
+                <li class="blue-grey darken-2" ><a href="/showLoan">View Loans</a></li>
             {% endif %}
         </ul>
-        <ul class = 'right'>
+        <ul class = 'hide-on-med-and-down right'>
             {% if user.is_authenticated %}
                 <li><a href="../../loan-summary">
                         <span class="trigger red darken-4 ml-2">  {{ request.user|loan_materials_count }}   </span>
@@ -39,7 +37,7 @@
                         <span class="clear fix d-none d-sm-inline-block">   Loan</span>
                     </a>
                 </li>
-                <li><a href="/showNotReturnedLoan" class = "btn dropdown-button red darken-4">{{user.username|title}}</a></li>
+                <li><a href="/showLoan" class = "btn dropdown-button red darken-4">{{user.username|title}}</a></li>
                 <li><a href="/logout">Logout</a></li>
             {% else %}
                  <li><a href="/accounts/login">Login</a></li>
@@ -48,5 +46,25 @@
     </div>
     </nav>
 
- </div>
+</div>
+    <ul class="sidenav" id="slide-out">
+        {% if user.is_authenticated %}
+            <li><a href="../../loan-summary">
+                    <span class="trigger red darken-4 ml-2">  {{ request.user|loan_materials_count }}   </span>
+                    <i class="material-icons right">add_shopping_cart</i>
+                    <span class="clear fix d-none d-sm-inline-block">   Loan</span>
+                </a>
+            </li>
+            <li><a href="/showLoan" class = "btn dropdown-button red darken-4">{{user.username|title}}</a></li>
+            <li><a href="/logout">Logout</a></li>
+        {% else %}
+             <li><a href="/accounts/login">Login</a></li>
+      {% endif %}
+    </ul>
 
+    <script type="text/javascript">
+          document.addEventListener('DOMContentLoaded',function(){
+                const sidenav = document.querySelectorAll('.sidenav');
+                M.Sidenav.init(sidenav,{})
+            })
+    </script>

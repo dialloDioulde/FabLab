@@ -44,7 +44,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.homepage, name="homepage"),
 
-    # path('dashboard/', views.dashboard, name="dashboard"),
     path("material/<slug>/", MaterialDetailView.as_view(), name='material'),
 
     path("add-to-loan/<slug>", views.add_to_loan, name='add-to-loan'),
@@ -61,25 +60,11 @@ urlpatterns = [
 
     url('^', include('django.contrib.auth.urls')),
 
-    # path('addLoaner/', views.addLoaner, name='addLoaner'),
-    # path('addType/', views.addType, name='addType'),
+
     path('addMaterial/', views.addMaterial, name='addMaterial'),
+    path('updateMaterial/<int:id>', views.updateMaterial, name='updateMaterial'),
 
-    # path('showLoaner', views.showLoaner, name='showLoaner'),
-    # path('showType', views.showType, name='showType'),
-    # path('showMaterial', views.showMaterial, name='showMaterial'),
     path('showLoan', views.showLoan, name='showLoan'),
-    path('showNotReturnedLoan', views.showNotReturnedLoan, name='showNotReturnedLoan'),
-    path('showSurpassedLoan', views.showSurpassedLoan, name='showSurpassedLoan'),
-
-    # path('editLoaner/<int:id>',views.editLoaner, name='editLoaner'),
-    # path('updateLoaner/<int:id>',views.updateLoaner, name='updateLoaner'),
-    #
-    # path('editMaterial/<int:id>',views.editMaterial, name='editMaterial'),
-    path('updateMaterial/<int:id>',views.updateMaterial, name='updateMaterial'),
-    #
-    # path('deleteLoaner/<int:id>',views.deleteLoaner, name='deleteLoaner'),
-    # path('deleteType/<int:id>',views.deleteType, name='deleteType'),
 
     path('loan_id/<int:id>',views.loan, name='loan_id'),
     path('updateLoan/<int:id>',views.updateLoan, name='updateLoan'),
@@ -100,7 +85,6 @@ urlpatterns = [
     path('DeleteCrudType', DeleteCrudType.as_view(), name='DeleteCrudType'),
 
 
-    #path('MaterialView', MaterialView.as_view(), name='MaterialView'),
     path('MaterialView', crudAjaxMatViews.indexView, name='MaterialView'),
     path('CreateCrudMaterial', crudAjaxMatViews.CreateCrudMaterial , name='CreateCrudMaterial'),
     path('UpdateCrudMaterial', UpdateCrudMaterial.as_view(), name='UpdateCrudMaterial'),

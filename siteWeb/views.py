@@ -68,23 +68,26 @@ def register(request):
 
 # Login
 def login_request(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"Logged in as  {username}")
-                return redirect("homepage")
+    if request.user.is_authenticated:
+        return redirect("../../")
+    else:
+        if request.method == "POST":
+            form = AuthenticationForm(request, data=request.POST)
+            if form.is_valid():
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    messages.info(request, f"Logged in as  {username}")
+                    return redirect("homepage")
+                else:
+                    messages.error(request, "Invalid username or password")
             else:
                 messages.error(request, "Invalid username or password")
-        else:
-            messages.error(request, "Invalid username or password")
 
-    form = AuthenticationForm()
-    return render(request, "siteWeb/accounts/login.html", {"form": form})
+        form = AuthenticationForm()
+        return render(request, "siteWeb/accounts/login.html", {"form": form})
 
 
 # Logout
@@ -147,12 +150,6 @@ def addMaterial(request):
         else:
             form = formMaterial()
         return render(request, 'siteWeb/addMaterial.html', {'form': form, 'sauvegarde': sauvegarde})
-
-
-# Show Material
-def showMaterial(request):
-    material_liste = Material.objects.all()
-    return render(request, 'siteWeb/showMaterial.html', {'materials': material_liste})
 
 
 def updateMaterial(request, id):
@@ -373,21 +370,11 @@ class loan_form(LoginRequiredMixin, View):
 
 # Show Loans
 def showLoan(request):
-    loan_liste = Loan.objects.all()
-    return render(request, 'siteWeb/showLoan.html', {'loans': loan_liste})
-
-
-# Show Not Returned Loans
-def showNotReturnedLoan(request):
-    loan_liste = Loan.objects.filter(returned=False)
-    return render(request, 'siteWeb/showNotReturnedLoan.html', {'loans': loan_liste})
-
-
-# Show Surpassed date Loans
-def showSurpassedLoan(request):
+    loan_all = Loan.objects.all()
+    loan_not_ret = Loan.objects.filter(returned=False)
     now = timezone.now()
-    loan_liste = Loan.objects.filter(returned=False, expected_return_date__lt=now).order_by('expected_return_date')
-    return render(request, 'siteWeb/showSurpassedLoan.html', {'loans': loan_liste})
+    loan_surpassed = Loan.objects.filter(returned=False, expected_return_date__lt=now).order_by('expected_return_date')
+    return render(request, 'siteWeb/showLoan.html', {'loan_all': loan_all, 'loan_not_ret': loan_not_ret, 'loan_surpassed':loan_surpassed})
 
 
 #show loan

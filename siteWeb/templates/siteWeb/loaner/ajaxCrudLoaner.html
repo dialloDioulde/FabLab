@@ -47,6 +47,7 @@
 
 
     <!-- Loaner Table -->
+    {% if user.is_authenticated %}
     <div class="container">
         <div class="container-fluid">
              <h2>Loaner</h2>
@@ -60,23 +61,23 @@
         <div class="table-responsive table-body">
         <table id="loanerTable" class="table container-fluid table-responsive mt-2">
             <thead class="bg-info">
-                <th>ID</th>
-                <th>LAST NAME</th>
-                <th>FIRST NAME</th>
-                <th>EMAIL</th>
-                <th>ESTABLISHMENT</th>
-                <th>CREATION</th>
-                <th>ACTIONS</th>
+                <th scope="row" class="col-md-1">ID</th>
+                <th scope="row" class="col-md-1">LAST NAME</th>
+                <th scope="row" class="col-md-1">FIRST NAME</th>
+                <th scope="row" class="col-md-1">EMAIL</th>
+                <th scope="row" class="col-md-1">ESTABLISHMENT</th>
+                <th scope="row" class="col-md-1">CREATION</th>
+                <th scope="row" class="col-md-1">ACTIONS</th>
             </thead>
              <tbody id="myTable">
             {% for loaner in loaners %}
             <tr id="loaner-{{loaner.id}}">
                 <td>{{loaner.id}}</td>
-                <td class="loanerLast_name loanerData" name="last_name">{{loaner.last_name}}</td>
-                <td class="loanerFirst_name loanerData" name="first_name">{{loaner.first_name}}</td>
-                <td class="loanerEmail loanerData" name="email">{{loaner.email}}</td>
-                <td class="loanerEstablishment loanerData" name="establishment">{{loaner.establishment}}</td>
-                <td class="loanerCreation_date loanerData" name="creation_date">{{loaner.creation_date}}</td>
+                <td>{{loaner.last_name}}</td>
+                <td>{{loaner.first_name}}</td>
+                <td>{{loaner.email}}</td>
+                <td>{{loaner.establishment}}</td>
+                <td>{{loaner.creation_date}}</td>
                 <td class="d-flex">
                     <button class="btn btn-warning edit-form mr-2" onClick="editLoaner({{loaner.id}})">
                         <span><i class="far fa-edit"></i></span> EDIT
@@ -92,6 +93,9 @@
         </div>
     </div>
     <!-- END Loaner Table -->
+    {% else %}
+    <center><p> No Permittion. If you have an account, <a href="/accounts/login">login.</a></p></center>
+    {% endif %}
 
 
     <!-- Modal Loaner UPDATE -->

@@ -6,56 +6,154 @@
 
 {% block content %}
 <head>
-      <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
-</head>
-<div class="container">
-    <div class="container-fluid">
-    <br>
-    <center>
-        <div class="btn-group" role="group" aria-label="Basic example" >
-          <a class="btn btn-success" disabled>All Loans</a>
-          <a class="btn btn-success" href="showNotReturnedLoan" >Not Returned</a>
-          <a class="btn btn-success" href="showSurpassedLoan">Surpassed</a>
-        </div>
-    </center>
-    <h2>Loans</h2>
-  <p>Type something in the input field to search the table for first names, last names or emails:</p>
-  <input class="form-control" id="myInput" type="text" placeholder="Search..">
-  <br>
-</div>
-       <div class="table-responsive table-body">
-    <table class="table container-fluid table-responsive mt-2">
-        <thead class="bg-info">
-            <tr>
-                <th>Surname</th>
-                <th>Name</th>
-                <th>E-mail</th>
-                <th>Returned</th>
-                <th>Creation Date</th>
-                <th>Return Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+        <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-        {% for loan in loans %}
-        <tbody id="myTable">
-        <tr>
-            <td>{{loan.loaner.last_name}}</td>
-            <td>{{loan.loaner.first_name}}</td>
-            <td>{{loan.loaner.email}}</td>
-            <td>{{loan.returned}}</td>
-            <td>{{loan.creation_date_loan}}</td>
-            <td>{{loan.expected_return_date}}</td>
-            <td class="d-flex">
-                <a href="/loan_id/{{loan.id}}" class="btn btn-primary mr-2"><span><i class="fas fa-eye"></i></span></a>
-                <a href="/updateLoan/{{loan.id}}"  class="btn btn-success mr-2"><span><i class="fas fa-edit"></i></span></a>
-                <a href="/deleteLoan/{{loan.id}}" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
-            </td>
-        </tr>
-        </tbody>
-        {% endfor %}
-    </table>
-       </div>
-</div>
+    <script>
+        function show(nr) {
+            document.getElementById("table1").style.display="none";
+            document.getElementById("table2").style.display="none";
+            document.getElementById("table3").style.display="none";
+            document.getElementById("table"+nr).style.display="block";
+
+            document.getElementById('button1').removeAttribute('disabled');
+            document.getElementById('button2').removeAttribute('disabled');
+            document.getElementById('button3').removeAttribute('disabled');
+
+            var ele = document.getElementById("button"+nr);
+            ele.setAttribute("disabled", true);
+            ele.setAttribute("editable", false);
+        }
+    </script>
+    <style>
+        td {
+            vertical-align: top;
+        }
+        #table1, #table2, #table3 {
+            display: none;
+        }
+    </style>
+</head>
+<main>
+    {% if user.is_authenticated %}
+        <body onload="show(2);">
+            <div class="container">
+                <div class="container-fluid">
+                <br>
+                <center>
+                    <div class="btn-group" role="group" aria-label="Basic example" >
+                        <a onclick='show(1);' class="btn btn-success" href="#" id="button1">All Loans</a>
+                        <a onclick='show(2);' class="btn btn-success" href="#" id="button2">Not Returned</a>
+                        <a onclick='show(3);' class="btn btn-success" href="#" id="button3">Surpassed</a>
+                    </div>
+                </center>
+                    <h2>Loans</h2>
+                    <p>Type something in the input field to search the table for first names, last names or emails:</p>
+                    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                    <br>
+                   <div class="table-responsive table-body" id="table1">
+                    <table class="table container-fluid table-responsive mt-2" >
+                        <thead class="bg-info">
+                            <tr>
+                                <th scope="col" class="col-md-1">Surname</th>
+                                <th scope="col" class="col-md-1">Name</th>
+                                <th scope="col" class="col-md-1">E-mail</th>
+                                <th scope="col" class="col-md-1">Returned</th>
+                                <th scope="col" class="col-md-1">Creation Date</th>
+                                <th scope="col" class="col-md-1">Return Date</th>
+                                <th scope="col" class="col-md-1">Actions</th>
+                            </tr>
+                        </thead>
+                        {% for loan in loan_all %}
+                        <tbody id="myTable">
+                        <tr>
+                            <td>{{loan.loaner.last_name}}</td>
+                            <td>{{loan.loaner.first_name}}</td>
+                            <td>{{loan.loaner.email}}</td>
+                            <td>{{loan.returned}}</td>
+                            <td>{{loan.creation_date_loan}}</td>
+                            <td>{{loan.expected_return_date}}</td>
+                            <td class="d-flex">
+                                <a href="/loan_id/{{loan_ret.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
+                                <a href="/updateLoan/{{loan_ret.id}}"  class="btn btn-success mr-2"><span><i class="material-icons">create</i></span></a>
+                                <a href="/deleteLoan/{{loan_ret.id}}" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+                   <div class="table-responsive table-body" id="table2">
+                    <table class="table container-fluid table-responsive mt-2">
+                        <thead class="bg-info">
+                            <tr>
+                                <th scope="col" class="col-md-1">Surname</th>
+                                <th scope="col" class="col-md-1">Name</th>
+                                <th scope="col" class="col-md-1">E-mail</th>
+                                <th scope="col" class="col-md-1">Returned</th>
+                                <th scope="col" class="col-md-1">Creation Date</th>
+                                <th scope="col" class="col-md-1">Return Date</th>
+                                <th scope="col" class="col-md-1">Actions</th>
+                            </tr>
+                        </thead>
+                        {% for loan_ret in loan_not_ret %}
+                        <tbody id="myTable">
+                        <tr>
+                            <td>{{loan_ret.loaner.last_name}}</td>
+                            <td>{{loan_ret.loaner.first_name}}</td>
+                            <td>{{loan_ret.loaner.email}}</td>
+                            <td>{{loan_ret.returned}}</td>
+                            <td>{{loan_ret.creation_date_loan}}</td>
+                            <td>{{loan_ret.expected_return_date}}</td>
+                            <td class="d-flex">
+                                <a href="/loan_id/{{loan_ret.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
+                                <a href="/updateLoan/{{loan_ret.id}}"  class="btn btn-success mr-2"><span><i class="material-icons">create</i></span></a>
+                                <a href="/deleteLoan/{{loan_ret.id}}" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                   </div>
+                    <div class="table-responsive table-body" id="table3">
+                    <table class="table container-fluid table-responsive mt-2">
+                        <thead class="bg-info">
+                            <tr>
+                                <th scope="col" class="col-md-1">Surname</th>
+                                <th scope="col" class="col-md-1">Name</th>
+                                <th scope="col" class="col-md-1">E-mail</th>
+                                <th scope="col" class="col-md-1">Returned</th>
+                                <th scope="col" class="col-md-1">Creation Date</th>
+                                <th scope="col" class="col-md-1">Return Date</th>
+                                <th scope="col" class="col-md-1">Actions</th>
+                            </tr>
+                        </thead>
+                        {% for loan_sur in loan_surpassed %}
+                        <tbody id="myTable">
+                        <tr>
+                            <td>{{loan_sur.loaner.last_name}}</td>
+                            <td>{{loan_sur.loaner.first_name}}</td>
+                            <td>{{loan_sur.loaner.email}}</td>
+                            <td>{{loan_sur.returned}}</td>
+                            <td>{{loan_sur.creation_date_loan}}</td>
+                            <td>{{loan_sur.expected_return_date}}</td>
+                            <td class="d-flex">
+                                <a href="/loan_id/{{loan_ret.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
+                                <a href="/updateLoan/{{loan_ret.id}}"  class="btn btn-success mr-2"><span><i class="material-icons">create</i></span></a>
+                                <a href="/deleteLoan/{{loan_ret.id}}" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                   </div>
+                </div>
+            </div>
+            </div>
+    </body>
+    {% else %}
+    <center><p> No Permittion. If you have an account, <a href="/accounts/login">login.</a></p></center>
+    {% endif %}
+</main>
 
 {% endblock %}

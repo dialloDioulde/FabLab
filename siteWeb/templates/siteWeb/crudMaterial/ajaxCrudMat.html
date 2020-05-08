@@ -8,7 +8,7 @@
 <head>
       <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
 </head>
-
+{% if user.is_authenticated %}
 <div class="container">
     <div class="container-fluid">
             <h2>Materials</h2>
@@ -16,20 +16,19 @@
           <input class="form-control" id="myInput" type="text" placeholder="Search..">
           <br>
          <a class="btn btn-success add-form offset-12" href="/addMaterial">
-                <span><i class="fas fa-plus"></i> Add Material</span>
+            <span><i class="fas fa-plus"></i> Add Material</span>
          </a>
     </div>
     <div class="table-responsive table-body">
         <table class="table container-fluid table-responsive mt-2">
-
             <thead class="bg-info">
                 <tr>
-                    <th scope="col">NAME</th>
-                    <th scope="col">BARCODE</th>
-                    <th scope="col">TYPE</th>
-                     <th scope="col">DESCRIPTION</th>
-                    <th scope="col">CREATION DATE</th>
-                    <th scope="col">ACTIONS</th>
+                    <th scope="col" class="col-md-1">NAME</th>
+                    <th scope="col" class="col-md-1">BARCODE</th>
+                    <th scope="col" class="col-md-1">TYPE</th>
+                     <th scope="col" class="col-md-1">DESCRIPTION</th>
+                    <th scope="col" class="col-md-1">CREATION DATE</th>
+                    <th scope="col" class="col-md-1">ACTIONS</th>
                 </tr>
             </thead>
 
@@ -53,7 +52,11 @@
         </table>
     </div>
 </div>
+{% else %}
+<center><p> No Permittion. If you have an account, <a href="/accounts/login">login.</a></p></center>
+{% endif %}
 {% endblock %}
+
 
 
 {% block javascript %}
