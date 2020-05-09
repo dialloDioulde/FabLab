@@ -73,10 +73,10 @@
             {% for loaner in loaners %}
             <tr id="loaner-{{loaner.id}}">
                 <td>{{loaner.id}}</td>
-                <td>{{loaner.last_name}}</td>
-                <td>{{loaner.first_name}}</td>
-                <td>{{loaner.email}}</td>
-                <td>{{loaner.establishment}}</td>
+                <td class="loanerLast_name loanerData" name="last_name">{{loaner.last_name}}</td>
+                <td class="loanerFirst_name loanerData" name="first_name">{{loaner.first_name}}</td>
+                <td class="loanerEmail loanerData" name="email">{{loaner.email}}</td>
+                <td class="loanerEstablishment loanerData" name="email">{{loaner.establishment}}</td>
                 <td>{{loaner.creation_date}}</td>
                 <td class="d-flex">
                     <button class="btn btn-warning edit-form mr-2" onClick="editLoaner({{loaner.id}})">

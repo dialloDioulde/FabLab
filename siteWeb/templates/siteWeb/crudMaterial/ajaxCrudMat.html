@@ -23,20 +23,22 @@
         <table class="table container-fluid table-responsive mt-2">
             <thead class="bg-info">
                 <tr>
-                    <th scope="col" class="col-md-1">NAME</th>
+                    <th scope="row" class="col-md-1">ID</th>
                     <th scope="col" class="col-md-1">BARCODE</th>
+                    <th scope="col" class="col-md-1">NAME</th>
                     <th scope="col" class="col-md-1">TYPE</th>
-                     <th scope="col" class="col-md-1">DESCRIPTION</th>
-                    <th scope="col" class="col-md-1">CREATION DATE</th>
-                    <th scope="col" class="col-md-1">ACTIONS</th>
+                    <th scope="col" class="col-md-1">DESCRIPTION</th>
+                    <th scope="col" class="col-md-2">CREATION DATE</th>
+                    <th scope="col" class="col-md-1 text-center">ACTIONS</th>
                 </tr>
             </thead>
 
             {% for material in materials %}
             <tbody id="myTable">
             <tr>
-                <td scope="row">{{material.name}}</td>
-                <td>{{material.id}}</td>
+                <td scope="row">{{material.id}}</td>
+                <td>{{material.name}}</td>
+                <td>{{material.barcode}}</td>
                 <td>{{material.slug}}</td>
                 <td>{{material.type }}</td>
                 <td>{{material.creation_date_mat}}</td>

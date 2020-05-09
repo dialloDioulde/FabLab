@@ -65,8 +65,8 @@
                     <th scope="col" class="col-md-1">TYPE</th>
                     <th scope="col" class="col-md-1">NAME TYPE</th>
                     <th scope="col" class="col-md-1">DESCRIPTION</th>
-                    <th scope="col" class="col-md-1">CREATION</th>
-                    <th scope="col" class="col-md-1">ACTIONS</th>
+                    <th scope="col" class="col-md-1">CREATION DATE</th>
+                    <th scope="col" class="col-md-1 text-center">ACTIONS</th>
                 </thead>
 
                 <tbody id="myTable">
@@ -78,10 +78,10 @@
                         <td class="typeDescription typeData" name="description">{{type.description}}</td>
                         <td class="typeCreation_date typeData" name="creation_date">{{type.creation_date_type}}</td>
                         <td class="d-flex">
-                            <button class="btn btn-warning edit-form mr-2" onClick="editType({{type.id}})">
+                            <button class="btn btn-warning edit-form ml-5 mr-2" onClick="editType({{type.id}})">
                                 <span><i class="far fa-edit"></i></span> EDIT
                             </button>
-                            <button class="btn btn-danger ml-2" onClick="deleteType({{type.id}})">
+                            <button class="btn btn-danger ml-3" onClick="deleteType({{type.id}})">
                                 <span><i class="far fa-trash-alt"></i></span> DELETE
                             </button>
                         </td>
