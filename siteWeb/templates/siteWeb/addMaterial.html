@@ -1,23 +1,61 @@
 {% include "siteWeb/header_secondary.html" %}
 
 {% block content %}
+
+<head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script>
+        function show(nr) {
+            document.getElementById("div1").style.display="none";
+            document.getElementById("div2").style.display="none";
+
+            document.getElementById("div"+nr).style.display="block";
+
+            document.getElementById('button1').removeAttribute('disabled');
+            document.getElementById('button2').removeAttribute('disabled');
+
+
+            var ele = document.getElementById("button"+nr);
+            ele.setAttribute("disabled", true);
+            ele.setAttribute("editable", false);
+        }
+    </script>
+</head>
+<body onload="show(1);">
 <main>
-<div class = "container">
-    {% if user.is_authenticated %}
+        <br>
+    <center>
+        <div class="btn-group" role="group" aria-label="Basic example" >
+            <a onclick='show(1);' class="btn btn-success" href="#" id="button1">Generic</a>
+            <a onclick='show(2);' class="btn btn-success" href="#" id="button2">Unique</a>
+        </div>
+    </center>
+    <div class = "container">
     <br>
         <h3> <span>Material Form</span></h3>
         <br>
-        <form method = "POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <br>
-            <button class="btn btn-dark" type = "submit">Submit Material</button>
-        </form>
-    {% else %}
-        <p>You don't have permission to access this page. Return Home.</p>
-    {% endif %}
-</div>
-    </main>
+         <div id = "div1">
+            <form method = "POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <br>
+                <button class="btn btn-dark" type = "submit">Submit Material</button>
+            </form>
+        </div>
+        <div id="div2">
+            <form method = "POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form_unique.as_p }}
+                <center>TYPE:</center>
+                {{ form_type.as_p }}
+                <br>
+                <button class="btn btn-dark" type = "submit">Submit Material</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
 <footer>
     {% include "siteWeb/includes/footer.html" %}
 </footer>

@@ -8,7 +8,6 @@ from projetFablab.utils import unique_slug_generator
 
 # Create your models here.
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -49,8 +48,8 @@ class Type(models.Model):
 
 class Material(models.Model):
     name = models.CharField(max_length=250)
+    barcode = models.CharField(max_length=50)
     #id=barcode
-    id = models.IntegerField(blank=False, primary_key=True)
     creation_date_mat = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=250, null=True, blank=True)
     material_picture = models.ImageField(blank=True, upload_to='media/', default='None/no-img.jpg', null=True)

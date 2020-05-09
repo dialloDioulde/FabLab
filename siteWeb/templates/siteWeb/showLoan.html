@@ -65,7 +65,7 @@
                             </tr>
                         </thead>
                         {% for loan in loan_all %}
-                        <tbody id="myTable">
+                        <tbody id="myTable1">
                         <tr>
                             <td>{{loan.loaner.last_name}}</td>
                             <td>{{loan.loaner.first_name}}</td>
@@ -74,9 +74,9 @@
                             <td>{{loan.creation_date_loan}}</td>
                             <td>{{loan.expected_return_date}}</td>
                             <td class="d-flex">
-                                <a href="/loan_id/{{loan_ret.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
-                                <a href="/updateLoan/{{loan_ret.id}}"  class="btn btn-success mr-2"><span><i class="material-icons">create</i></span></a>
-                                <a href="/deleteLoan/{{loan_ret.id}}" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                                <a href="/loan_id/{{loan.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
+                                <a href="/updateLoan/{{loan.id}}"  class="btn btn-success mr-2"><span><i class="material-icons">create</i></span></a>
+                                <a href="/deleteLoan/{{loan.id}}" class="btn btn-danger"><i class="material-icons">delete</i></a>
                             </td>
                         </tr>
                         </tbody>
@@ -96,19 +96,19 @@
                                 <th scope="col" class="col-md-1">Actions</th>
                             </tr>
                         </thead>
-                        {% for loan_ret in loan_not_ret %}
-                        <tbody id="myTable">
+                        {% for loan in loan_not_ret %}
+                        <tbody id="myTable2">
                         <tr>
-                            <td>{{loan_ret.loaner.last_name}}</td>
-                            <td>{{loan_ret.loaner.first_name}}</td>
-                            <td>{{loan_ret.loaner.email}}</td>
-                            <td>{{loan_ret.returned}}</td>
-                            <td>{{loan_ret.creation_date_loan}}</td>
-                            <td>{{loan_ret.expected_return_date}}</td>
+                            <td>{{loan.loaner.last_name}}</td>
+                            <td>{{loan.loaner.first_name}}</td>
+                            <td>{{loan.loaner.email}}</td>
+                            <td>{{loan.returned}}</td>
+                            <td>{{loan.creation_date_loan}}</td>
+                            <td>{{loan.expected_return_date}}</td>
                             <td class="d-flex">
-                                <a href="/loan_id/{{loan_ret.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
-                                <a href="/updateLoan/{{loan_ret.id}}"  class="btn btn-success mr-2"><span><i class="material-icons">create</i></span></a>
-                                <a href="/deleteLoan/{{loan_ret.id}}" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                                <a href="/loan_id/{{loan.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
+                                <a href="/updateLoan/{{loan.id}}"  class="btn btn-success mr-2"><span><i class="material-icons">create</i></span></a>
+                                <a href="/deleteLoan/{{loan.id}}" class="btn btn-danger"><i class="material-icons">delete</i></a>
                             </td>
                         </tr>
                         </tbody>
@@ -128,19 +128,19 @@
                                 <th scope="col" class="col-md-1">Actions</th>
                             </tr>
                         </thead>
-                        {% for loan_sur in loan_surpassed %}
-                        <tbody id="myTable">
+                        {% for loan in loan_surpassed %}
+                        <tbody id="myTable3">
                         <tr>
-                            <td>{{loan_sur.loaner.last_name}}</td>
-                            <td>{{loan_sur.loaner.first_name}}</td>
-                            <td>{{loan_sur.loaner.email}}</td>
-                            <td>{{loan_sur.returned}}</td>
-                            <td>{{loan_sur.creation_date_loan}}</td>
-                            <td>{{loan_sur.expected_return_date}}</td>
+                            <td>{{loan.loaner.last_name}}</td>
+                            <td>{{loan.loaner.first_name}}</td>
+                            <td>{{loan.loaner.email}}</td>
+                            <td>{{loan.returned}}</td>
+                            <td>{{loan.creation_date_loan}}</td>
+                            <td>{{loan.expected_return_date}}</td>
                             <td class="d-flex">
-                                <a href="/loan_id/{{loan_ret.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
-                                <a href="/updateLoan/{{loan_ret.id}}"  class="btn btn-success mr-2"><span><i class="material-icons">create</i></span></a>
-                                <a href="/deleteLoan/{{loan_ret.id}}" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                                <a href="/loan_id/{{loan.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
+                                <a href="/updateLoan/{{loan.id}}"  class="btn btn-success mr-2"><span><i class="material-icons">create</i></span></a>
+                                <a href="/deleteLoan/{{loan.id}}" class="btn btn-danger"><i class="material-icons">delete</i></a>
                             </td>
                         </tr>
                         </tbody>
@@ -155,5 +155,4 @@
     <center><p> No Permittion. If you have an account, <a href="/accounts/login">login.</a></p></center>
     {% endif %}
 </main>
-
 {% endblock %}

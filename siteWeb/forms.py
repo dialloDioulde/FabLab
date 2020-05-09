@@ -15,14 +15,25 @@ class formLoaner(forms.ModelForm):
 class formType(forms.ModelForm):
     class Meta:
         model = Type
-        exclude = ['creation_date_type']
+        exclude = ['creation_date_type', 'material_type']
+
+
+# Formulaire d'Ajout De Materiels Uniqrues
+class formUnique(forms.ModelForm):
+    class Meta:
+        model = Material
+        fields = ['name','barcode', 'material_picture']
 
 
 # Formulaire d'Ajout De Materiels
 class formMaterial(forms.ModelForm):
     class Meta:
         model = Material
-        fields = ['name','id','type', 'material_picture']
+        fields = ['name','barcode','type', 'material_picture']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['type'].queryset = Type.objects.filter(material_type='generic')
 
 
 class formLoanMaterial(forms.ModelForm):
