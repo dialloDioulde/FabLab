@@ -1,0 +1,60 @@
+<head>
+    {% load loan_template_tags %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css" media="screen">
+    {% block title %}
+    <title>FabMSTIC</title>
+    {% endblock %}
+</head>
+
+<div class="bg-info">
+    <nav>
+    <div class="">
+        <a href="#" data-target="" class=""><i class="">menu</i></a>
+        <ul class="">
+            <li><a href="/"><img src="../../images/None/logo.jpg" height="60" width="120"/></a></li>
+            {% if user.is_superuser %}
+                <li class="" ><a href="/accounts/register">Register</a></li>
+                <li><a href="/admin">Admin</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <li class="" ><a href="/addMaterial">Add Material</a></li>
+                <li class="" ><a href="/TypeView">View Types</a></li>
+                <li class="" ><a href="/LoanerView">View Loaners</a></li>
+                <li class="" ><a href="/showLoan">View Loans</a></li>
+            {% endif %}
+        </ul>
+        <ul class = ''>
+            {% if user.is_authenticated %}
+                <li><a href="../../loan-summary">
+                        <span class=" ">  {{ request.user|loan_materials_count }}   </span>
+                        <i class="">add_shopping_cart</i>
+                        <span class="">   Loan</span>
+                    </a>
+                </li>
+                <li><a href="/showLoan" class = "">{{user.username|title}}</a></li>
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                 <li><a href="/accounts/login">Login</a></li>
+          {% endif %}
+        </ul>
+    </div>
+    </nav>
+
+</div>
+    <ul class="" id="">
+        {% if user.is_authenticated %}
+            <li><a href="../../loan-summary">
+                    <span class="">  {{ request.user|loan_materials_count }}   </span>
+                    <i class="">add_shopping_cart</i>
+                    <span class="">   Loan</span>
+                </a>
+            </li>
+            <li><a href="/showLoan" class = "">{{user.username|title}}</a></li>
+            <li><a href="/logout">Logout</a></li>
+        {% else %}
+             <li><a href="/accounts/login">Login</a></li>
+      {% endif %}
+    </ul>
+
+

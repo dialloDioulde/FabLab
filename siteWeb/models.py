@@ -9,8 +9,7 @@ from projetFablab.utils import unique_slug_generator
 # Create your models here.
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     stripe_customer_id = models.CharField(max_length=50, blank=True, null=True)
     one_click_purchasing = models.BooleanField(default=False)
 
@@ -83,8 +82,7 @@ pre_save.connect(slug_generator, sender=Material)
 
 
 class LoanMaterial(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
 
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
