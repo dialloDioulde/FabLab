@@ -2,6 +2,7 @@ from django import forms
 from siteWeb.models import Loan,Loaner,Material,LoanMaterial,Type
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.views.generic.edit import CreateView
 
 
 # Formualire d'Insciption d'Utilisateur
@@ -15,10 +16,10 @@ class formLoaner(forms.ModelForm):
 class formType(forms.ModelForm):
     class Meta:
         model = Type
-        exclude = ['creation_date_type', 'material_type']
+        exclude = ['creation_date_type']
 
 
-# Formulaire d'Ajout De Materiels Uniqrues
+# Formulaire d'Ajout De Materiels Uniques
 class formUnique(forms.ModelForm):
     class Meta:
         model = Material
@@ -27,13 +28,15 @@ class formUnique(forms.ModelForm):
 
 # Formulaire d'Ajout De Materiels
 class formMaterial(forms.ModelForm):
+    type = forms.ModelChoiceField(queryset=Type.objects.filter(unavailable=False).order_by('material_type'))
+
     class Meta:
         model = Material
         fields = ['name','barcode','type', 'material_picture']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['type'].queryset = Type.objects.filter(material_type='generic')
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['type'].queryset = Type.objects.filter(material_type='generic')
 
 
 class formLoanMaterial(forms.ModelForm):

@@ -40,15 +40,15 @@ class Type(models.Model):
     name_type = models.CharField(max_length=250)
     description = models.TextField(blank=True)
     creation_date_type = models.DateTimeField(auto_now_add=True)
+    unavailable = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{0}".format(self.name_type)
+        return self.name_type + " - " + self.material_type
 
 
 class Material(models.Model):
     name = models.CharField(max_length=250)
     barcode = models.CharField(max_length=50)
-    #id=barcode
     creation_date_mat = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=250, null=True, blank=True)
     material_picture = models.ImageField(blank=True, upload_to='media/', default='None/no-img.jpg', null=True)

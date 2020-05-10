@@ -2,36 +2,57 @@
 
 {% block content %}
 
+{% load static %}
 <head>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="{% static '../static/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
 
-    <script>
-        function show(nr) {
-            document.getElementById("div1").style.display="none";
-            document.getElementById("div2").style.display="none";
-
-            document.getElementById("div"+nr).style.display="block";
-
-            document.getElementById('button1').removeAttribute('disabled');
-            document.getElementById('button2').removeAttribute('disabled');
-
-
-            var ele = document.getElementById("button"+nr);
-            ele.setAttribute("disabled", true);
-            ele.setAttribute("editable", false);
-        }
-    </script>
 </head>
-<body onload="show(1);">
+<body>
 <main>
-        <br>
-    <center>
-        <div class="btn-group" role="group" aria-label="Basic example" >
-            <a onclick='show(1);' class="btn btn-success" href="#" id="button1">Generic</a>
-            <a onclick='show(2);' class="btn btn-success" href="#" id="button2">Unique</a>
+ <!-- Modal ADD TYPE -->
+    <div class="modal fade" id="addTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addTypeModalLabel">ADD Type</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="addType" action="">
+                    <div class="modal-body">
+                        <input class="form-control" id="type_id" type="hidden" name="type_id">
+                        <div class="form-group">
+                            <label for="mat_type">MATERIAL TYPE : </label>
+                            <select class="form-control" name="material_type" id="mat_type">
+                                <option value="unique">unique</option>
+                                <option value="generic">generic</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name_type">NAME TYPE : </label>
+                            <input class="form-control" type="text" name="name_type" id="name_type">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">DESCRIPTION : </label>
+                            <input class="form-control" type="text" name="description" id="description">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" >ADD Type</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </center>
+    </div>
+ <!-- END Modal ADD TYPE -->
     <div class = "container">
+        <div class="container-fluid">
+            <br>
+            <button class="btn btn-success add-form offset-12">
+                <span><i class="fas fa-plus"></i> ADD TYPE</span>
+            </button>
+        </div>
     <br>
         <h3> <span>Material Form</span></h3>
         <br>
@@ -43,18 +64,52 @@
                 <button class="btn btn-dark" type = "submit">Submit Material</button>
             </form>
         </div>
-        <div id="div2">
-            <form method = "POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form_unique.as_p }}
-                <center>TYPE:</center>
-                {{ form_type.as_p }}
-                <br>
-                <button class="btn btn-dark" type = "submit">Submit Material</button>
-            </form>
-        </div>
     </div>
 </main>
+{% block javascript %}
+<script>
+
+// Create Type -----------------------------------------------------------------------------------------------------//
+
+$(document).ready(function(){
+    $(".add-form").click(function(){
+        $('#addTypeModal').modal('show');
+    });
+
+    });
+
+$("form#addType").submit(function() {
+    var materialInput = $('#mat_type').find('option:selected').text();
+    var nameInput = $('input[name="name_type"]').val().trim();
+    var descriptionInput = $('input[name="description"]').val().trim();
+    if (materialInput && nameInput && descriptionInput) {
+        //
+        $.ajax({
+            url: '{% url "CreateCrudType" %}',
+            data: {
+                'material_type': materialInput,
+                'name_type': nameInput,
+                'description': descriptionInput,
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.type) {
+                    alert("Type is created");
+                  location.reload(true);
+                }
+
+            }
+        });
+
+    } else {
+        alert("Type is not created");
+    }
+    $('form#addType').trigger("reset");
+    return false;
+});
+// END Create TYPE ---------------------------------------------------------------------------------------------------//
+</script>
+{% endblock javascript %}
 </body>
 <footer>
     {% include "siteWeb/includes/footer.html" %}

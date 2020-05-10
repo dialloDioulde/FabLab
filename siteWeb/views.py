@@ -1,3 +1,5 @@
+import sys
+
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
@@ -13,6 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan, formUnique
 from django.utils import timezone
+from django.forms import inlineformset_factory
 
 
 # Homepage
@@ -117,70 +120,65 @@ def change_password(request):
 
 #----------------------------------------------------------------------------------------------------------------------#
 # Add Material
-# @login_required
-# def addMaterial(request):
-#     if not request.user.is_authenticated:
-#         return redirect("../../accounts/login")
-#     else:
-#         sauvegarde = False
-#         if request.method == 'POST':
-#             form = formMaterial(request.POST, request.FILES)
-#             if form.is_valid():
-#                 type = form.cleaned_data.get('type')
-#                 if type.material_type == 'unique':
-#                     from django.core.exceptions import ObjectDoesNotExist
-#                     try:
-#                         Material.objects.get(type=type)
-#                         messages.error(request, f"Existing unique type.")
-#                     except MultipleObjectsReturned:
-#                         return redirect(homepage)
-#                         messages.error(request, f"Error!")
-#                     except ObjectDoesNotExist:
-#                         form.save()
-#                         form = formMaterial()
-#                         messages.success(request, f"New Material created")
-#                         return redirect("homepage")
-#                         sauvegarde = True
-#                 else:
-#                     form.save()
-#                     form = formMaterial()
-#                     messages.success(request, f"New Material created")
-#                     return redirect("homepage")
-#                     sauvegarde = True
-#         else:
-#             form = formMaterial()
-#             form_type = formType()
-#             form_unique = formUnique()
-#         return render(request, 'siteWeb/addMaterial.html', {'form': form, 'form_type': form_type, 'form_unique':form_unique})
-
-
+@login_required
 def addMaterial(request):
     if not request.user.is_authenticated:
         return redirect("../../accounts/login")
     else:
-        sauvegarde = False
         if request.method == 'POST':
             form = formMaterial(request.POST, request.FILES)
-            form_type = formType(request.POST)
-            form_unique = formUnique(request.POST)
             if form.is_valid():
-                form.save()
-                form = formMaterial()
-                messages.success(request, f"New Material created")
-                return redirect("homepage")
-            elif form_type.is_valid():
-                form_type.initial['material_type'] = 'unique'
-                var = form_type.save()
-                if form_unique.is_valid():
-                    form_unique.data['type'] = var
-                    form_unique.save()
+                type = form.cleaned_data.get('type')
+                if type.material_type == 'unique':
+                    type.unavailable = True
+                    type.save()
+                    from django.core.exceptions import ObjectDoesNotExist
+                    try:
+                        Material.objects.get(type=type)
+                        messages.error(request, f"Existing unique type.")
+                    except MultipleObjectsReturned:
+                        return redirect(homepage)
+                        messages.error(request, f"Error!")
+                    except ObjectDoesNotExist:
+                        form.save()
+                        messages.success(request, f"New Material created")
+                        return redirect("homepage")
+                        sauvegarde = True
+                else:
+                    form.save()
                     messages.success(request, f"New Material created")
+                    return redirect("homepage")
+                    sauvegarde = True
         else:
             form = formMaterial()
-            form_type = formType()
-            form_unique = formUnique()
-        return render(request, 'siteWeb/addMaterial.html', {'form': form, 'form_type': form_type, 'form_unique': form_unique})
+        return render(request, 'siteWeb/addMaterial.html', {'form': form})
 
+
+# def addMaterial(request):
+#     if not request.user.is_authenticated:
+#         return redirect("../../accounts/login")
+#     else:
+#         if request.method == 'POST':
+#             form = formMaterial(request.POST, request.FILES)
+#             form_type = formType(request.POST)
+#             if form.is_valid():
+#                 form.save()
+#                 form = formMaterial()
+#                 messages.success(request, f"New Material created")
+#                 return redirect("homepage")
+#             elif form_type.is_valid():
+#                 p = form_type.save()
+#                 idk = Type.objects.filter(pk=p.pk).first()
+#                 form_unique = formUnique(request.POST, request.FILES, instance=idk)
+#                 if form_unique.is_valid():
+#                     form_unique.save()
+#                     messages.success(request, f"New Material and Type created")
+#         else:
+#             form = formMaterial()
+#             form_type = formType()
+#             form_unique = formUnique()
+#         return render(request, 'siteWeb/addMaterial.html',
+#                       {'form': form, 'form_type': form_type, 'form_unique': form_unique})
 
 
 def updateMaterial(request, id):
