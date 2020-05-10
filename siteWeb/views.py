@@ -154,33 +154,6 @@ def addMaterial(request):
         return render(request, 'siteWeb/addMaterial.html', {'form': form})
 
 
-# def addMaterial(request):
-#     if not request.user.is_authenticated:
-#         return redirect("../../accounts/login")
-#     else:
-#         if request.method == 'POST':
-#             form = formMaterial(request.POST, request.FILES)
-#             form_type = formType(request.POST)
-#             if form.is_valid():
-#                 form.save()
-#                 form = formMaterial()
-#                 messages.success(request, f"New Material created")
-#                 return redirect("homepage")
-#             elif form_type.is_valid():
-#                 p = form_type.save()
-#                 idk = Type.objects.filter(pk=p.pk).first()
-#                 form_unique = formUnique(request.POST, request.FILES, instance=idk)
-#                 if form_unique.is_valid():
-#                     form_unique.save()
-#                     messages.success(request, f"New Material and Type created")
-#         else:
-#             form = formMaterial()
-#             form_type = formType()
-#             form_unique = formUnique()
-#         return render(request, 'siteWeb/addMaterial.html',
-#                       {'form': form, 'form_type': form_type, 'form_unique': form_unique})
-
-
 def updateMaterial(request, id):
 
     mat = Material.objects.get(id=id)
