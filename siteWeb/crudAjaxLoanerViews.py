@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from .models import Loaner
@@ -9,13 +10,14 @@ from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, form
 
 
 # Show Loaner
-class LoanerView(TemplateView):
-    template_name = 'siteWeb/loaner/ajaxCrudLoaner.html'
+def LoanerView(request):
+    form = formLoaner()
+    loaner = Loaner.objects.all()
+    paginator = Paginator(loaner, per_page=6)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'siteWeb/loaner/ajaxCrudLoaner.html', {"form": form, "loaners": page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number)})
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['loaners'] = Loaner.objects.all()
-        return context
 
 
 # Create Loaner

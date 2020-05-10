@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from .models import Loaner
@@ -10,12 +11,16 @@ from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, form
 
 
 # Show Type
-class TypeView(TemplateView):
-    template_name = 'siteWeb/type/ajaxCrudType.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['types'] = Type.objects.all()
-        return context
+def TypeView(request):
+    form = formType()
+    type = Type.objects.all()
+    paginator = Paginator(type, per_page=6)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'siteWeb/type/ajaxCrudType.html', {"form": form, "types": page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number)})
+
+
+
 
 
 # Create Type

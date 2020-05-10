@@ -373,10 +373,16 @@ class loan_form(LoginRequiredMixin, View):
 # Show Loans
 def showLoan(request):
     loan_all = Loan.objects.all()
+
+    paginator = Paginator(loan_all, per_page=5)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
     loan_not_ret = Loan.objects.filter(returned=False)
     now = timezone.now()
     loan_surpassed = Loan.objects.filter(returned=False, expected_return_date__lt=now).order_by('expected_return_date')
-    return render(request, 'siteWeb/showLoan.html', {'loan_all': loan_all, 'loan_not_ret': loan_not_ret, 'loan_surpassed':loan_surpassed})
+    return render(request, 'siteWeb/showLoan.html', {'loan_all': page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number),
+                                                        'loan_not_ret': loan_not_ret, 'loan_surpassed':loan_surpassed})
 
 
 #show loan

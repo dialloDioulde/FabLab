@@ -7,6 +7,8 @@ from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfi
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.core.paginator import Paginator
+
 
 
 
@@ -14,7 +16,10 @@ from django.http import JsonResponse
 def indexView(request):
     form = formMaterial()
     material = Material.objects.all()
-    return render(request, 'siteWeb/crudMaterial/ajaxCrudMat.html', {"form": form, "materials": material})
+    paginator = Paginator(material, per_page=7)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'siteWeb/crudMaterial/ajaxCrudMat.html', {"form": form, "materials": page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number)})
 
 
 
