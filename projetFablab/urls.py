@@ -58,6 +58,8 @@ urlpatterns = [
     path("accounts/register/", views.register, name="register"),
     path("logout/", views.logout_request, name="logout"),
     path("accounts/login/", views.login_request, name="login"),
+    path("accounts/showProfile/", views.showProfile, name="showProfile"),
+    path("accounts/editProfile/", views.editProfile, name="editProfile"),
     path("accounts/change-password/", views.change_password, name="change-password"),
 
     url('^', include('django.contrib.auth.urls')),

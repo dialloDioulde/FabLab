@@ -1,0 +1,21 @@
+{% extends "siteWeb/header_secondary.html" %}
+{% block content %}
+<main>
+    <div class = "container mt-5">
+        <h2>MY PROFILE</h2>
+        <p>
+            USERNAME : {{user.username}} <br> <br>
+            FIRST NAME : {{user.first_name}} <br> <br>
+            LAST NAME : {{user.last_name}} <br> <br>
+            EMAIL : {{user.email}} <br> <br>
+
+            <a class="btn btn-primary mt-4" href="/accounts/editProfile" id = "editPro">Edit Profile</a> <br>
+        </p>
+
+    </div>
+</main>
+<footer>
+    {% include "siteWeb/includes/footer.html" %}
+</footer>
+{% endblock %}
+

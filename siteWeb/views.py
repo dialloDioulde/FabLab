@@ -13,9 +13,11 @@ from django.views.generic import ListView, DetailView, View
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.mixins import LoginRequiredMixin
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
-from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan, formUnique
+from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan, formUnique, EditProfileForm
 from django.utils import timezone
 from django.forms import inlineformset_factory
+from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.models import User
 
 
 # Homepage
@@ -99,6 +101,28 @@ def logout_request(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("homepage")
+
+
+# Show Profile
+def showProfile(request):
+    context = {'user': request.user}
+    return render(request, "siteWeb/accounts/showProfile.html", context)
+
+
+# Edit Profile
+def editProfile(request):
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect("showProfile")
+    else:
+        form = EditProfileForm(instance=request.user)
+        context = {'form': form}
+        return render(request, "siteWeb/accounts/editProfile.html", context)
+
+
 
 
 def change_password(request):

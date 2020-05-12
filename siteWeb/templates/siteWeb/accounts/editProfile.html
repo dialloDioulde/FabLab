@@ -1,0 +1,17 @@
+{% extends "siteWeb/header_secondary.html" %}
+{% block content %}
+<main>
+    <div class = "container mt-5">
+        <form method = "POST">
+            {% csrf_token %}
+            {{ form.as_p  }}
+            <br>
+            <button class = "btn" type = "submit">EDIT PROFILE</button>
+        </form>
+    </div>
+</main>
+<footer>
+    {% include "siteWeb/includes/footer.html" %}
+</footer>
+{% endblock %}
+

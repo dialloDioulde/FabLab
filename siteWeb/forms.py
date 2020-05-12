@@ -1,6 +1,6 @@
 from django import forms
 from siteWeb.models import Loan,Loaner,Material,LoanMaterial,Type
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
 
@@ -67,6 +67,14 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+# Edit Profile
+class EditProfileForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name", "email")
+
 
 
 class DateInput(forms.DateInput):
