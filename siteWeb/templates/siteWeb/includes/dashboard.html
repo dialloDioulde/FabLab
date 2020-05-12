@@ -24,15 +24,16 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav">
                 {% if user.is_superuser %}
-                    <li class="nav-item active"><a class="nav-link" href="/accounts/register" id = "reg">Register</a></li> <br>
-                    <li class="nav-item active"><a class="nav-link" href="/accounts/showProfile" id = "showPro">MY Profile</a></li> <br>
-                    <li class="nav-item active"><a class="nav-link" href="/admin">Admin</a></li> <br>
+<!--                    <li class="nav-item active"><a class="nav-link" href="/accounts/register" id = "reg">Register</a></li> <br>-->
+<!--                    <li class="nav-item active"><a class="nav-link" href="/accounts/showProfile" id = "showPro">MY Profile</a></li> <br>-->
+<!--                    <li class="nav-item active"><a class="nav-link" href="/admin">Admin</a></li> <br>-->
                 {% endif %}
 <!--                    <li class="nav-item active"><a class="nav-link" href="TypeView">View Type</a></li> <br>-->
 <!--                    <li class="nav-item active"><a class="nav-link" href="MaterialView">View Material</a></li><br>-->
 <!--                    <li class="nav-item active"><a class="nav-link" href="LoanerView">View Loaner</a></li><br>-->
 <!--                    <li class="nav-item active"><a class="nav-link" href="showLoan">View Loan</a></li><br>-->
-                    <li class="nav-item active"><a class="nav-link" href="addMaterial" id="mat" hidden>Add Material</a></li><br>
+<!--                    <li class="nav-item active"><a class="nav-link" href="addMaterial" id="mat" hidden>Add Material</a></li><br>-->
+                <br><br>
             </ul>
             <div id ="logout">
                 <ul class="navbar-nav mr-auto" >
@@ -44,6 +45,24 @@
     <div>
       <nav class="main-menu bg-dark" id = "sidebar" role="navigation">
                 <ul>
+                    {% if user.is_superuser %}
+                    <li class="has-subnav mb-4 mt-2">
+                        <a href="../accounts/register">
+                           <i class="fa fa-user-plus"></i>
+                            <span class="nav-text">
+                               Register
+                            </span>
+                        </a>
+                    </li>
+                    <li class="has-subnav mb-4 mt-2">
+                        <a href="../admin">
+                            <i class="fa fa-user-lock"></i>
+                            <span class="nav-text">
+                               Admin
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
                     <li class="has-subnav mb-4 mt-2">
                         <a href="../MaterialView">
                             <i class="fa fa-laptop fa-2x"></i>
@@ -51,7 +70,6 @@
                                 MATERIAL
                             </span>
                         </a>
-
                     </li>
                     <li class="has-subnav mt-2 mb-4">
                         <a href="../TypeView">
@@ -87,14 +105,14 @@
                             </span>
                         </a>
                     </li>
-                    <li class="has-subnav mb-4 mt-2">
-                       <a href="../logout">
-                             <i class="fa fa-power-off fa-2x"></i>
-                            <span class="nav-text">
-                                LOGOUT
-                            </span>
-                        </a>
-                    </li>
+<!--                    <li class="has-subnav mb-4 mt-2">-->
+<!--                       <a href="../logout">-->
+<!--                             <i class="fa fa-power-off fa-2x"></i>-->
+<!--                            <span class="nav-text">-->
+<!--                                LOGOUT-->
+<!--                            </span>-->
+<!--                        </a>-->
+<!--                    </li>-->
 
                 </ul>
             </nav>
