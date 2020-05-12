@@ -69,6 +69,9 @@ urlpatterns = [
     path('updateMaterial/<int:id>', views.updateMaterial, name='updateMaterial'),
 
     path('showLoan', views.showLoan, name='showLoan'),
+    path('allLoan', views.allLoan, name='allLoan'),
+    path('notReturnedLoan', views.notReturnedLoan, name='notReturnedLoan'),
+    path('LoanSurpassed', views.LoanSurpassed, name='LoanSurpassed'),
 
     path('loan_id/<int:id>',views.loan, name='loan_id'),
     path('updateLoan/<int:id>',views.updateLoan, name='updateLoan'),

@@ -405,16 +405,47 @@ def showLoan(request):
     now = timezone.now()
     paginator_2 = Paginator(loan_not_ret, per_page=5)
     page_number_2 = request.GET.get('page', 1)
-    page_obj_2 = paginator.get_page(page_number)
+    page_obj_2 = paginator.get_page(page_number_2)
 
     loan_surpassed = Loan.objects.filter(returned=False, expected_return_date__lt=now).order_by('expected_return_date')
     paginator_3 = Paginator(loan_surpassed, per_page=5)
     page_number_3 = request.GET.get('page', 1)
-    page_obj_3 = paginator.get_page(page_number)
+    page_obj_3 = paginator.get_page(page_number_3)
 
     return render(request, 'siteWeb/showLoan.html', {'loan_all': page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number),
                                                      'loan_not_ret': page_obj_2.object_list, 'paginator_2': paginator_2, 'page_number_2': int(page_number_2),
                                                      'loan_surpassed': page_obj_3.object_list, 'paginator_3': paginator_3, 'page_number_3': int(page_number_3)})
+
+
+# All Loan
+def allLoan(request):
+    loan_all = Loan.objects.all()
+    paginator = Paginator(loan_all, per_page=5)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'siteWeb/all_Loan.html', {'loan_all': page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number)})
+
+# Loan Not Returned
+def notReturnedLoan(request):
+    loan_not_ret = Loan.objects.filter(returned=False)
+    paginator_2 = Paginator(loan_not_ret, per_page=5)
+    page_number_2 = request.GET.get('page', 1)
+    page_obj_2 = paginator_2.get_page(page_number_2)
+
+    return render(request, 'siteWeb/loan_not_returned.html',{'loan_not_ret': page_obj_2.object_list, 'paginator_2': paginator_2, 'page_number_2': int(page_number_2)})
+
+
+# Loan Surpassed
+def LoanSurpassed(request):
+    now = timezone.now()
+    loan_surpassed = Loan.objects.filter(returned=False, expected_return_date__lt=now).order_by('expected_return_date')
+    paginator_3 = Paginator(loan_surpassed, per_page=5)
+    page_number_3 = request.GET.get('page', 1)
+    page_obj_3 = paginator_3.get_page(page_number_3)
+
+    return render(request, 'siteWeb/loan_surpassed.html', {'loan_surpassed': page_obj_3.object_list, 'paginator_3': paginator_3, 'page_number_3': int(page_number_3)})
+
 
 
 #show loan
@@ -432,12 +463,12 @@ def updateLoan(request, id):
     loan = Loan.objects.get(id=id)
     loan.returned = True
     loan.save()
-    return redirect('showLoan')
+    return redirect('allLoan')
 
 
 def deleteLoan(request, id):
     loan = Loan.objects.get(id=id)
     loan.delete()
     messages.success(request, f"Loan Deleted successfully")
-    return redirect('showLoan')
+    return redirect('allLoan')
 
