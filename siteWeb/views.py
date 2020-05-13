@@ -384,7 +384,8 @@ class EditLoanSummaryView(LoginRequiredMixin, View):
 class loan_form(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
-            form = formLoan()
+            loan = Loan.objects.get(user=self.request.user, ordered=False)
+            form = formLoan(instance=loan or None)
             context = {
                 'formLoan': form,
             }
