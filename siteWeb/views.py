@@ -419,7 +419,7 @@ class loan_form(LoginRequiredMixin, View):
                     material.save()
 
                 messages.success(self.request, f" Loan saved successfully")
-                return redirect("homepage")
+                return redirect("allLoan")
             else:
                 messages.info(self.request, "Please fill in the required fields")
         except ObjectDoesNotExist:
@@ -501,9 +501,17 @@ def updateLoan(request, id):
     return redirect('allLoan')
 
 
-def deleteLoan(request, id):
-    loan = Loan.objects.get(id=id)
-    loan.delete()
-    messages.success(request, f"Loan Deleted successfully")
-    return redirect('allLoan')
+#def deleteLoan(request, id):
+ #   loan = Loan.objects.get(id=id)
+  #  loan.delete()
+   # messages.success(request, f"Loan Deleted successfully")
+    #return redirect('allLoan')
 
+
+# Delete Loan
+class DeleteCrudLoan(View):
+    def  get(self, request):
+        id_loan = request.GET.get('id', None)
+        Loan.objects.get(id = id_loan).delete()
+        data = {'deleted': True}
+        return JsonResponse(data)

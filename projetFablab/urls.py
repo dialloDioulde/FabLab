@@ -25,6 +25,7 @@ from siteWeb.crudAjaxMatViews import  CreateCrudMaterial, UpdateCrudMaterial, De
 from siteWeb import crudAjaxMatViews
 from siteWeb import crudAjaxLoanerViews
 from siteWeb import crudAjaxTypeViews
+from siteWeb.views import DeleteCrudLoan
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -68,6 +69,7 @@ urlpatterns = [
 
     path('addMaterial/', views.addMaterial, name='addMaterial'),
     path('updateMaterial/<int:id>', views.updateMaterial, name='updateMaterial'),
+    path('DeleteCrudMaterial', DeleteCrudMaterial.as_view(), name='DeleteCrudMaterial'),
 
     path('showLoan', views.showLoan, name='showLoan'),
     path('allLoan', views.allLoan, name='allLoan'),
@@ -76,9 +78,10 @@ urlpatterns = [
 
     path('loan_id/<int:id>',views.loan, name='loan_id'),
     path('updateLoan/<int:id>',views.updateLoan, name='updateLoan'),
-    path('deleteLoan/<int:id>', views.deleteLoan, name='deleteLoan'),
+    #path('deleteLoan/<int:id>', views.deleteLoan, name='deleteLoan'),
+    path('DeleteCrudLoan',DeleteCrudLoan.as_view(), name="DeleteCrudLoan"),
 
-    path('DeleteCrudMaterial', DeleteCrudMaterial.as_view(), name='DeleteCrudMaterial'),
+
 
     #---------------------------- Ajax CRUD --------------------------------------------------------------------------#
     path('LoanerView', crudAjaxLoanerViews.LoanerView, name='LoanerView'),

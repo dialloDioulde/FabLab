@@ -9,8 +9,14 @@
             <strong>EMAIL LOANER : {{loan_loaner.loaner.email}}</strong> <br> <br>
             <strong>STAFF : {{loan_loaner.user.last_name}} {{loan_loaner.user.first_name}}</strong> <br> <br>
             <strong>CREATION DATE : {{loan_loaner.creation_date_loan}}</strong> <br> <br>
+            <strong>EXPECTED RETURN DATE : {{loan_loaner.expected_return_date}}</strong> <br> <br>
+            <strong>RETURN DATE : {{loan_loaner.return_date}}</strong> <br> <br>
+            <center class="d-flex">
+                <a href="../edit-loan-summary/{{loan_loaner.id}}"><button class="btn btn-warning mt-2 mb-4">EDIT</button></a>
+                <a href="../allLoan"><button class="btn btn-success mt-2 mb-4 ml-2">RETOUR</button></a>
+            </center>
         </div>
-        <table class="table table-responsive col-md-6 mt-2 ml-4">
+        <table class="table table-responsive col-md-4 mt-2 ml-4">
             <thead class="bg-info">
             <th scope="col" class="text-center">MATERIAL</th>
             <th scope="col" class="text-center">QUANTITY</th>
@@ -24,17 +30,17 @@
             {% endfor %}
             </tbody>
         </table>
-        <a href="../edit-loan-summary/{{loan_loaner.id}}">Edit</a>
     </div>
+    <center>
+        <ul class="pagination">
+            {% for i in paginator.page_range %}
+            <li class="page-item {% if i == page_number %} active {% endif %}">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </center>
 </div>
-<div class="row">
-    <ul class="pagination">
-        {% for i in paginator.page_range %}
-        <li class="page-item {% if i == page_number %} active {% endif %}">
-            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+
 {% endblock %}
 

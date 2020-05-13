@@ -18,7 +18,7 @@
             <br>
             <center><h3>LOANS NOT RETURNED</h3></center>
             <div class="table-responsive table-body" id="table2">
-                <table class="table container-fluid table-responsive">
+                <table id="loanTable" class="table container-fluid table-responsive">
                     <thead class="bg-info">
                     <tr>
                         <th scope="col" class="col-md-1">Surname</th>
@@ -32,7 +32,7 @@
                     </thead>
                     {% for loan in loan_not_ret %}
                     <tbody id="myTable2">
-                    <tr>
+                    <tr id="loan-{{loan.id}}">
                         <td>{{loan.loaner.last_name}}</td>
                         <td>{{loan.loaner.first_name}}</td>
                         <td>{{loan.loaner.email}}</td>
@@ -40,11 +40,16 @@
                         <td>{{loan.creation_date_loan}}</td>
                         <td>{{loan.expected_return_date}}</td>
                         <td class="d-flex">
-                            <a href="/loan_id/{{loan.id}}" class="btn btn-primary mr-2"><span><i class="material-icons">remove_red_eye</i></span></a>
-                            <a href="/updateLoan/{{loan.id}}" class="btn btn-success mr-2"><span><i
-                                    class="material-icons">create</i></span></a>
-                            <a href="/deleteLoan/{{loan.id}}" class="btn btn-danger"><i
-                                    class="material-icons">delete</i></a>
+                            <a href="/loan_id/{{loan.id}}" class="btn btn-primary mr-2 d-flex">
+                                <span><i class="material-icons mr-2">remove_red_eye</i></span>SHOW
+                            </a>
+                            <a href="/updateLoan/{{loan.id}}" class="btn btn-warning mr-2">
+                                <span><i class="far fa-edit"></i></span> EDIT
+                            </a>
+
+                            <button class="btn btn-danger ml-3" onClick="deleteLoan({{loan.id}})">
+                                <span><i class="far fa-trash-alt"></i></span> DELETE
+                            </button>
                         </td>
                     </tr>
                     </tbody>
@@ -73,3 +78,29 @@
     {% endif %}
 </main>
 {% endblock %}
+
+
+<script>
+// Delete LOAN -------------------------------------------------------------------------------------------------------//
+function deleteLoan(id) {
+  var action_delete = confirm("Are you sure you want to delete this Loan?");
+  if (action_delete == true) {
+    $.ajax({
+        url: '{% url "DeleteCrudLoan" %}',
+        data: {
+            'id': id,
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.deleted) {
+              $("#loanTable #loan-" + id).remove();
+              alert("Loan is deleted");
+            }
+        }
+    });
+  }
+};
+
+// END Delete LOAN ---------------------------------------------------------------------------------------------------//
+
+</script>
