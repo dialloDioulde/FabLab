@@ -15,6 +15,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan, formUnique, EditProfileForm
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
+
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
@@ -41,10 +43,6 @@ def homepage(request):
     return render(request=request,
                   template_name="siteWeb/home.html",
                   context={"materials": materials, "search_term": search_term})
-
-# Dashbord
-def dashboard(request):
-    return render(request, "siteWeb/dashboard.html")
 
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -123,8 +121,6 @@ def editProfile(request):
         return render(request, "siteWeb/accounts/editProfile.html", context)
 
 
-
-
 def change_password(request):
     if not request.user.is_authenticated:
         return redirect("../../accounts/login")
@@ -167,12 +163,10 @@ def addMaterial(request):
                         form.save()
                         messages.success(request, f"New Material created")
                         return redirect("homepage")
-                        sauvegarde = True
                 else:
                     form.save()
                     messages.success(request, f"New Material created")
                     return redirect("homepage")
-                    sauvegarde = True
         else:
             form = formMaterial()
         return render(request, 'siteWeb/addMaterial.html', {'form': form})
@@ -187,9 +181,13 @@ def updateMaterial(request, id):
         form = formMaterial(request.POST, instance=mat)
 
         if form.is_valid():
+            mat_type = Type.objects.get(id=mat.type.id)
+
             type = form.cleaned_data.get('type')
+
             if type.material_type == 'unique':
-                from django.core.exceptions import ObjectDoesNotExist
+                mat_type.unavailable = False
+                mat_type.save()
                 try:
                     Material.objects.get(type=type)
                     messages.error(request, f"Existing unique type.")
@@ -197,30 +195,26 @@ def updateMaterial(request, id):
                     messages.error(request, f"Error! Multiple Unique Materials.")
                     return redirect(homepage)
                 except ObjectDoesNotExist:
+                    mat_type_unique = Type.objects.get(id=type.id)
+                    mat_type_unique.unavailable = True
+                    mat_type_unique.save()
                     form.save()
-                    form = formMaterial()
                     messages.success(request, f"New Material created")
                     return redirect("homepage")
-                    sauvegarde = True
             else:
                 form.save()
-                form = formMaterial()
                 messages.success(request, f"New Material created")
                 return redirect("homepage")
-                sauvegarde = True
-            # form.save()
-            # messages.success(request, f"Material updated!")
-            # return redirect("/")
 
     context = {'form':form}
     return render(request, 'siteWeb/addMaterial.html', context)
-
 
 
 # show single material
 class MaterialDetailView(DetailView):
     model = Material
     template_name = "siteWeb/material.html"
+
 
 # Delete Material
 class DeleteCrudMaterial(View):
@@ -249,14 +243,14 @@ def add_to_loan(request, slug):
         else:
             loan.materials.add(loan_material)
             messages.info(request, loan_material)
-            return redirect("material", slug=slug)
+            return redirect("/")
 
     else:
         loan_date = timezone.now()
         loan = Loan.objects.create(user=request.user, creation_date_loan=loan_date)
         loan.materials.add(loan_material)
         messages.info(request, "This item was added to your cart.")
-        return redirect("material", slug=slug)
+        return redirect("/")
 
 
 #@login_required
@@ -347,6 +341,46 @@ class LoanSummaryView(LoginRequiredMixin, View):
             return redirect("/")
 
 
+class EditLoanSummaryView(LoginRequiredMixin, View):
+    def get(self, *args, **kwargs):
+        try:
+            active_loan = Loan.objects.get(user=self.request.user, ordered=False)
+
+            active_loan_materials = active_loan.materials.all()
+            active_loan_materials.update(ordered=False)
+            for active_material in active_loan_materials:
+                active_material.delete()
+            active_loan.delete()
+
+            loan = Loan.objects.get(id=kwargs['id'])
+            loan.ordered = False
+            loan.user = self.request.user
+
+            loan_materials = loan.materials.all()
+            loan_materials.update(ordered=False)
+
+            loan.save()
+
+            context = {
+                'object': loan
+            }
+            return render(self.request, 'siteWeb/loan_summary.html', context)
+        except ObjectDoesNotExist:
+            loan = Loan.objects.get(id=kwargs['id'])
+            loan.ordered = False
+            loan.user = self.request.user
+
+            loan_materials = loan.materials.all()
+            loan_materials.update(ordered=False)
+
+            loan.save()
+
+            context = {
+                'object': loan
+            }
+            return render(self.request, 'siteWeb/loan_summary.html', context)
+
+
 class loan_form(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
         try:
@@ -396,7 +430,7 @@ class loan_form(LoginRequiredMixin, View):
 
 # Show Loans
 def showLoan(request):
-    loan_all = Loan.objects.all()
+    loan_all = Loan.objects.filter(ordered=True)
     paginator = Paginator(loan_all, per_page=5)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)

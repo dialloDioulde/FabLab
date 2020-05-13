@@ -20,7 +20,7 @@
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ loan_material.material.name }}</td>
-                    <td>{{ loan_material.material.id }}</td>
+                    <td>{{ loan_material.material.barcode }}</td>
                     <td>
                         {% if loan_material.material.type.material_type != 'unique' %}
                             <a href="{% url 'remove-material-from-loan' loan_material.material.slug  %}"><i class="material-icons">remove_circle</i></a>

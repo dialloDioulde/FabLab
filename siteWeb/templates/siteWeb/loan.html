@@ -8,7 +8,7 @@
             <strong>LOANER : {{loan_loaner.loaner.first_name}} {{loan_loaner.loaner.last_name}}</strong> <br> <br>
             <strong>EMAIL LOANER : {{loan_loaner.loaner.email}}</strong> <br> <br>
             <strong>STAFF : {{loan_loaner.user.last_name}} {{loan_loaner.user.first_name}}</strong> <br> <br>
-            <strong>CREATION DTAE : {{loan_loaner.creation_date_loan}}</strong> <br> <br>
+            <strong>CREATION DATE : {{loan_loaner.creation_date_loan}}</strong> <br> <br>
         </div>
         <table class="table table-responsive col-md-6 mt-2 ml-4">
             <thead class="bg-info">
@@ -24,6 +24,7 @@
             {% endfor %}
             </tbody>
         </table>
+        <a href="../edit-loan-summary/{{loan_loaner.id}}">Edit</a>
     </div>
 </div>
 <div class="row">

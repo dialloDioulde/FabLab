@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from siteWeb import views
-from siteWeb.views import DeleteCrudMaterial
+from siteWeb.views import DeleteCrudMaterial, EditLoanSummaryView
 from siteWeb.crudAjaxLoanerViews import LoanerView, CreateCrudLoaner, DeleteCrudLoaner, UpdateCrudLoaner
 from siteWeb.crudAjaxTypeViews import TypeView, CreateCrudType, UpdateCrudType, DeleteCrudType
 from siteWeb.crudAjaxMatViews import  CreateCrudMaterial, UpdateCrudMaterial, DeleteCrudMaterial
@@ -53,6 +53,7 @@ urlpatterns = [
     path("add-one-material/<slug>", views.add_one_material, name='add-one-material'),
     path("remove-material-from-loan/<slug>", views.remove_single_item_from_loan, name='remove-material-from-loan'),
     path("loan-summary/", LoanSummaryView.as_view(), name="loan-summary"),
+    path("edit-loan-summary/<int:id>", EditLoanSummaryView.as_view(), name="edit-loan-summary"),
     path("loan/", loan_form.as_view(), name="loan"),
 
     path("accounts/register/", views.register, name="register"),

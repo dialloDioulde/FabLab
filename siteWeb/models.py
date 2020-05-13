@@ -37,7 +37,7 @@ class Type(models.Model):
         (TYPE_UNIQUE, 'unique'),
     )
     material_type = models.CharField(max_length=250, choices=TYPE_CHOICES, default=TYPE_GENERIC)
-    name_type = models.CharField(max_length=250)
+    name_type = models.CharField(max_length=250, unique=True)
     description = models.TextField(blank=True)
     creation_date_type = models.DateTimeField(auto_now_add=True)
     unavailable = models.BooleanField(default=False)
@@ -98,8 +98,6 @@ class Loan(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     returned = models.BooleanField(default=False)
-
-    slug = models.SlugField(max_length=250, null=True, blank=True)
 
     creation_date_loan = models.DateTimeField(default=timezone.now)
     expected_return_date = models.DateField(blank=True, null=True)
