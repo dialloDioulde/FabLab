@@ -43,6 +43,7 @@ from siteWeb import views
 from siteWeb.views import (MaterialDetailView, LoanSummaryView, loan_form,)
 
 urlpatterns = [
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('tinymce/', include('tinymce.urls')),
     path('admin/', admin.site.urls),
     path("", views.homepage, name="homepage"),

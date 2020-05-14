@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'siteWeb',
     'crispy_forms',
     'tinymce',
+    'django.contrib.admindocs',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
