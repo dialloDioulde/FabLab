@@ -2,11 +2,12 @@
 {% block content %}
 <main>
     <div class = "container mt-5">
+        <h4>Edit Profile</h4>
         <form method = "POST">
             {% csrf_token %}
             {{ form.as_p  }}
             <br>
-            <button class = "btn" type = "submit">EDIT PROFILE</button>
+            <button class = "btn blue-grey darken-1" type = "submit">EDIT PROFILE</button>
         </form>
     </div>
 </main>

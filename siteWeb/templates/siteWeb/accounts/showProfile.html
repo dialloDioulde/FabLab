@@ -2,7 +2,7 @@
 {% block content %}
 <main>
     <div class = "container mt-5">
-        <h2>MY PROFILE</h2>
+        <h4>MY PROFILE</h4>
         <p>
             USERNAME : {{user.username}} <br> <br>
             FIRST NAME : {{user.first_name}} <br> <br>
@@ -11,10 +11,9 @@
 
         </p>
         <div class="d-flex">
-            <a class="btn btn-primary mt-4" href="/accounts/editProfile">Edit Profile</a>
-            <a class="btn btn-primary mt-4 ml-2" href="/accounts/change-password">CHANGE PASSWORD</a>
+            <a class="btn btn-primary mt-4 blue-grey darken-1" href="/accounts/editProfile">Edit Profile</a>
+            <a class="btn btn-primary mt-4 ml-2 blue-grey darken-1" href="/accounts/change-password">CHANGE PASSWORD</a>
         </div>
-
     </div>
 </main>
 <footer>

@@ -13,7 +13,8 @@ from django.views.generic import ListView, DetailView, View
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.mixins import LoginRequiredMixin
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
-from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan, formUnique, EditProfileForm
+from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan, formUnique, \
+    EditProfileForm
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -45,7 +46,7 @@ def homepage(request):
                   context={"materials": materials, "search_term": search_term})
 
 
-#----------------------------------------------------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------------------------------------------------#
 
 # Register
 def register(request):
@@ -66,7 +67,7 @@ def register(request):
                     # print(form.error_messages[message])
                     messages.error(request, f"{message} : {form.error_messages[message]}")
         form = NewUserForm
-        return render(request,"siteWeb/accounts/register.html", context={"form": form})
+        return render(request, "siteWeb/accounts/register.html", context={"form": form})
 
 
 # Login
@@ -138,7 +139,7 @@ def change_password(request):
             return render(request, "siteWeb/accounts/changePassword.html", args)
 
 
-#----------------------------------------------------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------------------------------------------------#
 # Add Material
 @login_required
 def addMaterial(request):
@@ -173,7 +174,6 @@ def addMaterial(request):
 
 
 def updateMaterial(request, id):
-
     mat = Material.objects.get(id=id)
     form = formMaterial(instance=mat)
 
@@ -206,7 +206,7 @@ def updateMaterial(request, id):
                 messages.success(request, f"New Material created")
                 return redirect("homepage")
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'siteWeb/addMaterial.html', context)
 
 
@@ -220,14 +220,14 @@ class MaterialDetailView(DetailView):
 class DeleteCrudMaterial(View):
     def get(self, request):
         id_material = request.GET.get('id', None)
-        Material.objects.get(id = id_material).delete()
+        Material.objects.get(id=id_material).delete()
         data = {'deleted': True}
         return JsonResponse(data)
 
 
-#----------------------------------------------------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------------------------------------------------#
 
-#@login_required
+# @login_required
 def add_to_loan(request, slug):
     material = get_object_or_404(Material, slug=slug)
     loan_material, created = LoanMaterial.objects.get_or_create(material=material, user=request.user, ordered=False)
@@ -253,7 +253,7 @@ def add_to_loan(request, slug):
         return redirect("/")
 
 
-#@login_required
+# @login_required
 def add_one_material(request, slug):
     material = get_object_or_404(Material, slug=slug)
     loan_material, created = LoanMaterial.objects.get_or_create(material=material, user=request.user, ordered=False)
@@ -279,7 +279,7 @@ def add_one_material(request, slug):
         return redirect("material", slug=slug)
 
 
-#@login_required
+# @login_required
 def remove_from_loan(request, slug):
     material = get_object_or_404(Material, slug=slug)
     material_query = Loan.objects.filter(user=request.user, ordered=False)
@@ -351,7 +351,6 @@ class EditLoanSummaryView(LoginRequiredMixin, View):
             for active_material in active_loan_materials:
                 active_material.delete()
             active_loan.delete()
-
             loan = Loan.objects.get(id=kwargs['id'])
             loan.ordered = False
             loan.user = self.request.user
@@ -365,6 +364,7 @@ class EditLoanSummaryView(LoginRequiredMixin, View):
                 'object': loan
             }
             return render(self.request, 'siteWeb/loan_summary.html', context)
+
         except ObjectDoesNotExist:
             loan = Loan.objects.get(id=kwargs['id'])
             loan.ordered = False
@@ -419,56 +419,38 @@ class loan_form(LoginRequiredMixin, View):
                     material.save()
 
                 messages.success(self.request, f" Loan saved successfully")
-                return redirect("allLoan")
+                return redirect(homepage)
             else:
                 messages.info(self.request, "Please fill in the required fields")
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active loan")
         return redirect("loan-summary")
 
-#----------------------------------------------------------------------------------------------------------------------#
-#-------------------------------LOANS----------------------------------------------------------------------------------#
 
-# Show Loans
-def showLoan(request):
+# ----------------------------------------------------------------------------------------------------------------------#
+# -------------------------------LOANS----------------------------------------------------------------------------------#
+
+# All Loans
+def allLoan(request):
     loan_all = Loan.objects.filter(ordered=True)
     paginator = Paginator(loan_all, per_page=5)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
-    loan_not_ret = Loan.objects.filter(returned=False)
-    now = timezone.now()
-    paginator_2 = Paginator(loan_not_ret, per_page=5)
-    page_number_2 = request.GET.get('page', 1)
-    page_obj_2 = paginator.get_page(page_number_2)
+    return render(request, 'siteWeb/all_Loan.html',
+                  {'loan_all': page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number)})
 
-    loan_surpassed = Loan.objects.filter(returned=False, expected_return_date__lt=now).order_by('expected_return_date')
-    paginator_3 = Paginator(loan_surpassed, per_page=5)
-    page_number_3 = request.GET.get('page', 1)
-    page_obj_3 = paginator.get_page(page_number_3)
-
-    return render(request, 'siteWeb/showLoan.html', {'loan_all': page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number),
-                                                     'loan_not_ret': page_obj_2.object_list, 'paginator_2': paginator_2, 'page_number_2': int(page_number_2),
-                                                     'loan_surpassed': page_obj_3.object_list, 'paginator_3': paginator_3, 'page_number_3': int(page_number_3)})
-
-
-# All Loan
-def allLoan(request):
-    loan_all = Loan.objects.all()
-    paginator = Paginator(loan_all, per_page=5)
-    page_number = request.GET.get('page', 1)
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, 'siteWeb/all_Loan.html', {'loan_all': page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number)})
 
 # Loan Not Returned
 def notReturnedLoan(request):
-    loan_not_ret = Loan.objects.filter(returned=False)
+    loan_not_ret = Loan.objects.filter(returned=False, ordered=True)
     paginator_2 = Paginator(loan_not_ret, per_page=5)
     page_number_2 = request.GET.get('page', 1)
     page_obj_2 = paginator_2.get_page(page_number_2)
 
-    return render(request, 'siteWeb/loan_not_returned.html',{'loan_not_ret': page_obj_2.object_list, 'paginator_2': paginator_2, 'page_number_2': int(page_number_2)})
+    return render(request, 'siteWeb/loan_not_returned.html',
+                  {'loan_not_ret': page_obj_2.object_list, 'paginator_2': paginator_2,
+                   'page_number_2': int(page_number_2)})
 
 
 # Loan Surpassed
@@ -479,39 +461,39 @@ def LoanSurpassed(request):
     page_number_3 = request.GET.get('page', 1)
     page_obj_3 = paginator_3.get_page(page_number_3)
 
-    return render(request, 'siteWeb/loan_surpassed.html', {'loan_surpassed': page_obj_3.object_list, 'paginator_3': paginator_3, 'page_number_3': int(page_number_3)})
+    return render(request, 'siteWeb/loan_surpassed.html',
+                  {'loan_surpassed': page_obj_3.object_list, 'paginator_3': paginator_3,
+                   'page_number_3': int(page_number_3)})
 
 
-
-#show loan
+# Show loan
 def loan(request, id):
     loan = Loan.objects.get(id=id)
     loan_liste = loan.materials.all().order_by("-creation_date_loan_mat")
-    paginator = Paginator(loan_liste, per_page= 10)
+    paginator = Paginator(loan_liste, per_page=10)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
-    return render(request, 'siteWeb/loan.html', {'loan_materials': page_obj.object_list, 'loan_loaner': loan, 'paginator': paginator, 'page_number': int(page_number)})
+    return render(request, 'siteWeb/loan.html',
+                  {'loan_materials': page_obj.object_list, 'loan_loaner': loan, 'paginator': paginator,
+                   'page_number': int(page_number)})
 
 
 # Update loaner
 def updateLoan(request, id):
     loan = Loan.objects.get(id=id)
-    loan.returned = True
+    if not loan.returned:
+        loan.returned = True
+    else:
+        loan.returned = False
+    loan.return_date = timezone.now()
     loan.save()
     return redirect('allLoan')
 
 
-#def deleteLoan(request, id):
- #   loan = Loan.objects.get(id=id)
-  #  loan.delete()
-   # messages.success(request, f"Loan Deleted successfully")
-    #return redirect('allLoan')
-
-
 # Delete Loan
 class DeleteCrudLoan(View):
-    def  get(self, request):
+    def get(self, request):
         id_loan = request.GET.get('id', None)
-        Loan.objects.get(id = id_loan).delete()
+        Loan.objects.get(id=id_loan).delete()
         data = {'deleted': True}
         return JsonResponse(data)

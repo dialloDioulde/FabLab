@@ -71,7 +71,7 @@ urlpatterns = [
     path('updateMaterial/<int:id>', views.updateMaterial, name='updateMaterial'),
     path('DeleteCrudMaterial', DeleteCrudMaterial.as_view(), name='DeleteCrudMaterial'),
 
-    path('showLoan', views.showLoan, name='showLoan'),
+    # path('showLoan', views.showLoan, name='showLoan'),
     path('allLoan', views.allLoan, name='allLoan'),
     path('notReturnedLoan', views.notReturnedLoan, name='notReturnedLoan'),
     path('LoanSurpassed', views.LoanSurpassed, name='LoanSurpassed'),
