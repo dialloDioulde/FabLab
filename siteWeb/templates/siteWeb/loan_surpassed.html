@@ -18,6 +18,15 @@
             <br>
             <center><h3>LOANS SURPASSED</h3></center>
             <br>
+            <center>
+                <a class="btn btn-success" href="allLoan">All Loans</a>
+                <a class="btn btn-success" href="notReturnedLoan">Not Returned</a>
+                <a class="btn btn-success" href="LoanSurpassed" disabled>Surpassed</a>
+            </center>
+            <br>
+            <p>Type something in the input field to search the table for first names, last names or emails:</p>
+            <input class="form-control" id="myInput" type="text" placeholder="Search..">
+            <br>
             <div class="table-responsive table-body" id="table3">
                 <table id="loanTable" class="table container-fluid table-responsive">
                     <thead class="bg-info">
@@ -32,7 +41,7 @@
                     </tr>
                     </thead>
                     {% for loan in loan_surpassed %}
-                    <tbody id="myTable3">
+                    <tbody id="myTable">
                     <tr id="loan-{{loan.id}}">
                         <td>{{loan.loaner.last_name}}</td>
                         <td>{{loan.loaner.first_name}}</td>
@@ -68,7 +77,7 @@
             </div>
         </div>
         <center>
-            <a class="btn btn-success" href="allLoan">RETOUR</a>
+<!--            <a class="btn btn-success" href="allLoan">RETOUR</a>-->
         </center>
         <br>
     </div>

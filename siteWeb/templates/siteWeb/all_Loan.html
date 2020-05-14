@@ -8,7 +8,6 @@
 <head>
     <script src="{% static 'jquery/external/jquery/tableSearch.js' %}"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 </head>
 <main>
     {% if user.is_authenticated %}
@@ -19,7 +18,7 @@
             <center><h3>ALL LOANS</h3></center>
             <br>
             <center>
-                <a class="btn btn-success" href="allLoan">All Loans</a>
+                <a class="btn btn-success" href="allLoan" disabled>All Loans</a>
                 <a class="btn btn-success" href="notReturnedLoan">Not Returned</a>
                 <a class="btn btn-success" href="LoanSurpassed">Surpassed</a>
             </center>
@@ -41,7 +40,7 @@
                     </tr>
                     </thead>
                     {% for loan in loan_all %}
-                    <tbody id="myTable1">
+                    <tbody id="myTable">
                     <tr id="loan-{{loan.id}}">
                         <td>{{loan.loaner.last_name}}</td>
                         <td>{{loan.loaner.first_name}}</td>
