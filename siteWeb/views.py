@@ -179,15 +179,18 @@ def updateMaterial(request, id):
 
     if request.method == 'POST':
         form = formMaterial(request.POST, instance=mat)
+        mat_type = Type.objects.get(id=mat.type.id)
+
+        if mat_type.material_type == 'unique':
+            mat_type.unavailable = False
+            mat_type.save()
 
         if form.is_valid():
-            mat_type = Type.objects.get(id=mat.type.id)
-
             type = form.cleaned_data.get('type')
 
             if type.material_type == 'unique':
-                mat_type.unavailable = False
-                mat_type.save()
+                # mat_type.unavailable = False
+                # mat_type.save()
                 try:
                     Material.objects.get(type=type)
                     messages.error(request, f"Existing unique type.")
@@ -195,9 +198,9 @@ def updateMaterial(request, id):
                     messages.error(request, f"Error! Multiple Unique Materials.")
                     return redirect(homepage)
                 except ObjectDoesNotExist:
-                    mat_type_unique = Type.objects.get(id=type.id)
-                    mat_type_unique.unavailable = True
-                    mat_type_unique.save()
+                    type_unique = Type.objects.get(id=type.id)
+                    type_unique.unavailable = True
+                    type_unique.save()
                     form.save()
                     messages.success(request, f"New Material created")
                     return redirect("homepage")
