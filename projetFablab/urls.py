@@ -79,7 +79,6 @@ urlpatterns = [
 
     path('loan_id/<int:id>',views.loan, name='loan_id'),
     path('updateLoan/<int:id>',views.updateLoan, name='updateLoan'),
-    #path('deleteLoan/<int:id>', views.deleteLoan, name='deleteLoan'),
     path('DeleteCrudLoan',DeleteCrudLoan.as_view(), name="DeleteCrudLoan"),
 
 

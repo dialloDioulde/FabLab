@@ -421,7 +421,7 @@ class loan_form(LoginRequiredMixin, View):
                 for material in loan_materials:
                     material.save()
 
-                messages.success(self.request, f" Loan saved successfully")
+                messages.success(self.request, f"Loan saved successfully")
                 return redirect(homepage)
             else:
                 messages.info(self.request, "Please fill in the required fields")
@@ -490,7 +490,7 @@ def updateLoan(request, id):
         loan.returned = False
     loan.return_date = timezone.now()
     loan.save()
-    return redirect('allLoan')
+    return redirect("loan_id",id=id)
 
 
 # Delete Loan
