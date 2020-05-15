@@ -16,7 +16,7 @@ from django.core.paginator import Paginator
 def indexView(request):
     form = formMaterial()
     material = Material.objects.all()
-    paginator = Paginator(material, per_page=7)
+    paginator = Paginator(material, per_page=6)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     return render(request, 'siteWeb/crudMaterial/ajaxCrudMat.html', {"form": form, "materials": page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number)})
