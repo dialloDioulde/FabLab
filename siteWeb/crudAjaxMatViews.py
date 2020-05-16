@@ -10,61 +10,17 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 
 
-
-
 # Show Material
 def indexView(request):
+    """
+    **Context**
+    \nView all the materials and their information as a table.
+    :param request: This request object contains information set by entities present before a view method.
+    :return: Table with information of materials.
+    """
     form = formMaterial()
     material = Material.objects.all()
     paginator = Paginator(material, per_page=6)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     return render(request, 'siteWeb/crudMaterial/ajaxCrudMat.html', {"form": form, "materials": page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number)})
-
-
-
-
-# Create Material
-def CreateCrudMaterial(request):
-    if request.is_ajax and request.method == "POST":
-        form = formMaterial(request.POST)
-        if form.is_valid():
-            instance = form.save()
-            ser_instance = serializers.serialize('json', [ instance, ])
-            return JsonResponse({"instance": ser_instance}, status=200)
-        else:
-            return JsonResponse({"error": form.errors}, status=400)
-    return JsonResponse({"error": ""}, status=400)
-
-
-# Update Material
-class UpdateCrudMaterial(View):
-    def get(self, request):
-        barcode = request.GET.get('barcode', None)
-        material_name = request.GET.get('name', None)
-        type = request.GET.get('type', None)
-
-        obj = Material.objects.get(barcode = barcode)
-        obj.name = material_name
-        obj.id = barcode
-        obj.type = type
-
-        obj.save()
-
-        material = {'barcode': obj.id, 'name': obj.name, 'type': obj.type}
-
-        data = {
-            'material': material
-        }
-        return JsonResponse(data)
-
-
-# Delete Material
-class DeleteCrudMaterial(View):
-    def get(self, request):
-        id_material = request.GET.get('id', None)
-        Material.objects.get(id = id_material).delete()
-        data = {'deleted': True}
-        return JsonResponse(data)
-
-

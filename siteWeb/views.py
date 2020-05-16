@@ -25,6 +25,14 @@ from django.contrib.auth.models import User
 
 # Homepage
 def homepage(request):
+    """
+    Homepage, where materials are displayed. A search bar is placed for the user to be able to search for materials.
+    \nWhen more than 8 materials are in the DB, then a pagination is placed.
+
+    :param request: This request object contains information set by entities present before a view method.
+    :return: Webpage *home.html*, displaying list of *materials*.
+
+    """
     materials = Material.objects.all()
     search_term = ""
 
@@ -50,8 +58,17 @@ def homepage(request):
 
 # Register
 def register(request):
+    """
+    **Context**
+    \nRegister a new Staff Member. Only the Administrator has the possibility to create a new Account.
+
+    :param request:  This request object contains information set by entities present before a view method.
+    :return: If the user is not the superuser, then there is a redirection to /login.
+        Elsewise, the redirection brings you to /homepage and the form is saved as a parameter sent as a context.
+    """
+
     # automatically, it's a GET request
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or not request.user.is_superuser:
         return redirect("../../accounts/login")
     else:
         if request.method == "POST":
@@ -72,6 +89,15 @@ def register(request):
 
 # Login
 def login_request(request):
+    """
+        **Context**
+        \nA user that already has an account (previously create by the Admin OR the actual Admin himself) can login.
+        \nDifferent type of functionalities are possible once the user is logged in.
+
+        :param request:  This request object contains information set by entities present before a view method.
+        :return: If the user is not authenaticated, then there is a redirection to /login.
+            Elsewise, the redirection brings you to /homepage and the form is saved as a parameter sent as a context.
+    """
     if request.user.is_authenticated:
         return redirect("../../")
     else:
@@ -97,6 +123,13 @@ def login_request(request):
 # Logout
 # @login_required
 def logout_request(request):
+    """
+        **Context**
+        \nA user that has logged in prior to this step, can also logout.
+
+        :param request:  This request object contains information set by entities present before a view method.
+        :return: Once the log out is successful, the redirection brings you to homepage.
+    """
     logout(request)
     messages.info(request, "Logged out successfully!")
     return redirect("homepage")
@@ -104,12 +137,27 @@ def logout_request(request):
 
 # Show Profile
 def showProfile(request):
+    """
+    **Context**
+    \nA page where the personal authenticated user's information is shown, such as: username, first and last name, email.
+
+    :param request: This request object contains information set by entities present before a view method.
+    :return: redirection to the /showProfile page.
+    """
     context = {'user': request.user}
     return render(request, "siteWeb/accounts/showProfile.html", context)
 
 
 # Edit Profile
 def editProfile(request):
+    """
+    **Context**
+    \nModifying the authenticated user's information, such as changing the username, first and last name or email.
+
+    :param request: This request object contains information set by entities present before a view method.
+    :return: If the form is valid, the redirection brings you to the personal page of the authenticated user.
+    """
+
     if request.method == "POST":
         form = EditProfileForm(request.POST, instance=request.user)
 
@@ -123,6 +171,14 @@ def editProfile(request):
 
 
 def change_password(request):
+    """
+    **Context**
+    \nOnce the user is authenticated, he has the possibility to change the password, by putting once the old password
+    and twice the new one. Once the change is saved, the user will be able to authenticate using the new password.
+
+    :param request: This request object contains information set by entities present before a view method.
+    :return: If the change is successful, the redirection brings you to the homepage.
+    """
     if not request.user.is_authenticated:
         return redirect("../../accounts/login")
     else:
@@ -132,7 +188,10 @@ def change_password(request):
                 form.save()
                 update_session_auth_hash(request, form.user)
                 messages.success(request, f"Password Changed Successfully!")
-                return redirect("homepage")
+                return redirect(homepage)
+            else:
+                messages.info(request, f"Password Unmatch! Try again.")
+                return redirect("change-password")
         else:
             form = PasswordChangeForm(user=request.user)
             args = {'form': form}
@@ -143,6 +202,16 @@ def change_password(request):
 # Add Material
 @login_required
 def addMaterial(request):
+    """
+    **Context**
+    \nAdding a new Material, requires to fill a form with different fields such as name, barcode and choosing a type.
+    \nIf the chosen type of the material is a UNIQUE one, the type gets removed form the dropdown where the user
+    is able to choose between the types available (ONE and ONLY ONE material can be created out of a UNIQUE Type).
+    \nIf the type is GENERIC, the number of materials created is not taken into consideration.
+
+    :param request: This request object contains information set by entities present before a view method.
+    :return: If the Material is added successfully, then the redirection brings you to the homepage.
+    """
     if not request.user.is_authenticated:
         return redirect("../../accounts/login")
     else:
@@ -172,8 +241,18 @@ def addMaterial(request):
             form = formMaterial()
         return render(request, 'siteWeb/addMaterial.html', {'form': form})
 
-
+@login_required
 def updateMaterial(request, id):
+    """
+    **Context**
+    \nThe modification of an existing material is possible. The edit of the name, barcode and also Type can be done during
+    this step. Whenever a Type is changed, there is a check to see if the old type or the new is a UNIQUE one.
+    If either of them is UNIQUE, the (respective) old or new type gets added or removed from the list of available types to choose from.
+
+    :param request: This request object contains information set by entities present before a view method.
+    :param id: ID of the material that is about to be modified.
+    :return: Updates material with specified ID and redirects to homepage.
+    """
     mat = Material.objects.get(id=id)
     form = formMaterial(instance=mat)
 
@@ -189,8 +268,6 @@ def updateMaterial(request, id):
             type = form.cleaned_data.get('type')
 
             if type.material_type == 'unique':
-                # mat_type.unavailable = False
-                # mat_type.save()
                 try:
                     Material.objects.get(type=type)
                     messages.error(request, f"Existing unique type.")
@@ -202,11 +279,11 @@ def updateMaterial(request, id):
                     type_unique.unavailable = True
                     type_unique.save()
                     form.save()
-                    messages.success(request, f"New Material created")
+                    messages.success(request, f"Material Edited Successfully!")
                     return redirect("homepage")
             else:
                 form.save()
-                messages.success(request, f"New Material created")
+                messages.success(request, f"Material Edited Successfully!")
                 return redirect("homepage")
 
     context = {'form': form}
@@ -215,12 +292,21 @@ def updateMaterial(request, id):
 
 # show single material
 class MaterialDetailView(DetailView):
+    """
+    **Context**
+    \nViewing the information of a specific material, such as name, barcode, type, description of type and image.
+    \nWhen logged in, other functionalities are added, such as buttons to edit material, add/remove to loan.
+    """
     model = Material
     template_name = "siteWeb/material.html"
 
 
 # Delete Material
 class DeleteCrudMaterial(View):
+    """
+    **Context**
+    \nRemoving a material from the DB. Delete the specific object.
+    """
     def get(self, request):
         id_material = request.GET.get('id', None)
         Material.objects.get(id=id_material).delete()
@@ -232,6 +318,16 @@ class DeleteCrudMaterial(View):
 
 # @login_required
 def add_to_loan(request, slug):
+    """
+    **Context**
+    \nA material can be added to the Loan. Whenever this step is done, the material added is going to be visible to the
+    card in the navigation bar on the top right.
+
+    :param request: This request object contains information set by entities present before a view method.
+    :param slug: Refers to the Material; it's an identification to a specific material.
+    :return: Whenever the material is added to an active Loan, then a redirection to homepage takes place, leaving space
+        to the user to add more materials to the loan.
+    """
     material = get_object_or_404(Material, slug=slug)
     loan_material, created = LoanMaterial.objects.get_or_create(material=material, user=request.user, ordered=False)
     material_query = Loan.objects.filter(user=request.user, ordered=False)
@@ -239,7 +335,6 @@ def add_to_loan(request, slug):
         loan = material_query[0]
         # check if the order item is in the order
         if loan.materials.filter(material__slug=material.slug).exists():
-            # loan_material.quantity += 1
             loan_material.save()
             messages.info(request, "Material Already exists in Loan.")
             return redirect("/")
@@ -258,6 +353,15 @@ def add_to_loan(request, slug):
 
 # @login_required
 def add_one_material(request, slug):
+    """
+    **Context*
+    \nModify the quantity of the material. Add it by one, whenever the button is pressed.
+
+    :param request: This request object contains information set by entities present before a view method.
+    :param slug: Refers to the Material; it's an identification to a specific material.
+    :return: If the augmentation of the quantity is successful, the redirection brings you to the same page: /loan-summary,
+        where all the materials and the corresponding quantities added to the active order are.
+    """
     material = get_object_or_404(Material, slug=slug)
     loan_material, created = LoanMaterial.objects.get_or_create(material=material, user=request.user, ordered=False)
     material_query = Loan.objects.filter(user=request.user, ordered=False)
@@ -306,6 +410,15 @@ def remove_from_loan(request, slug):
 
 @login_required
 def remove_single_item_from_loan(request, slug):
+    """
+    **Context**
+    \nRemove an existing material from Loan (that was added to it to previous steps).
+
+    :param request: This request object contains information set by entities present before a view method.
+    :param slug: Refers to the Material; it's an identification to a specific material.
+    :return: If the removal of the material from the loan is successful, the redirection brings you to the same page: /loan-summary,
+        where the list of the materials that are left with the corresponding quantities added to the active order are shown.
+    """
     material = get_object_or_404(Material, slug=slug)
     material_query = Loan.objects.filter(user=request.user, ordered=False)
     if material_query.exists():
@@ -332,6 +445,14 @@ def remove_single_item_from_loan(request, slug):
 
 
 class LoanSummaryView(LoginRequiredMixin, View):
+    """
+            **Context**
+            \nWhen a user is authenaticated, he can have ONE and ONE ONLY active loan. Whenever the materials are added,
+            they are visible to the /loan-summary page in a form of a list with the corresponding quantity for each material
+            that is going to the loan.
+
+            :return: Shows the list of materials at /loan-summary.
+    """
     def get(self, *args, **kwargs):
         try:
             loan = Loan.objects.get(user=self.request.user, ordered=False)
@@ -345,6 +466,16 @@ class LoanSummaryView(LoginRequiredMixin, View):
 
 
 class EditLoanSummaryView(LoginRequiredMixin, View):
+    """
+           **Context**
+           \nModification of the Loan. Whenever a loan is saved, a new object is placed into the DB and another one is automatically created.
+           Since only ONE loan can be opened and be active for the user to make modifications, it's necessary to re-activate
+           an already-saved Loan.
+           \nThe list of the materials is added to the Loan and it's accessible at /loan-summary.
+           \nThe quantities and the materials themselves can be modified. So can the Loaner and the Returned Date.
+
+           :return: /loan-summary with the list of materials existing on the desired to be modified loan
+    """
     def get(self, *args, **kwargs):
         try:
             active_loan = Loan.objects.get(user=self.request.user, ordered=False)
@@ -385,6 +516,15 @@ class EditLoanSummaryView(LoginRequiredMixin, View):
 
 
 class loan_form(LoginRequiredMixin, View):
+    """
+           **Context**
+           \nForm to add to the active Loan, the Loaner and the Expected return Date.
+           \nIf the values already exist (update case), than the object gets those values by setting instance to the loan.
+           If not, the Values are empty and needed to be filled.
+
+           :return: Whenever the last values (loaner and expected return date) are added to the Loan, a Loan object is saved
+               into the DB. Redirection brings the user to homepage if saving is successful.
+    """
     def get(self, *args, **kwargs):
         try:
             loan = Loan.objects.get(user=self.request.user, ordered=False)
@@ -435,6 +575,13 @@ class loan_form(LoginRequiredMixin, View):
 
 # All Loans
 def allLoan(request):
+    """
+    **Context**
+    \nShow all Loans that were ever saved.
+
+    :param request:  This request object contains information set by entities present before a view method.
+    :return: Table of all the loan objects ever created, shown at /allLoan.
+    """
     loan_all = Loan.objects.filter(ordered=True)
     paginator = Paginator(loan_all, per_page=5)
     page_number = request.GET.get('page', 1)
@@ -446,6 +593,15 @@ def allLoan(request):
 
 # Loan Not Returned
 def notReturnedLoan(request):
+    """
+        **Context**
+        \nShow Loans that are considered as *Not returned*, which means that the Loaner did not bring back the materials
+        to FabLab physically. Once they do, the Loan that corresponds to this Loaner and those specific materials, is
+        registered as returned.
+
+        :param request:  This request object contains information set by entities present before a view method.
+        :return: Table of not returned loan objects, shown at /NotReturnedLoan.
+    """
     loan_not_ret = Loan.objects.filter(returned=False, ordered=True)
     paginator_2 = Paginator(loan_not_ret, per_page=5)
     page_number_2 = request.GET.get('page', 1)
@@ -458,6 +614,15 @@ def notReturnedLoan(request):
 
 # Loan Surpassed
 def LoanSurpassed(request):
+    """
+        **Context**
+        \nShow Loans that are whose return date has surpassed and yet they are not returned, which means that the Loaner
+        did not bring back the materials in time to FabLab physically. Once they do, the Loan that corresponds to this
+        Loaner and those specific materials, is registered as returned.
+
+        :param request: This request object contains information set by entities present before a view method.
+        :return: Table of not returned whose expected return date has surpassed loan objects, shown at /SurpassedLoan.
+    """
     now = timezone.now()
     loan_surpassed = Loan.objects.filter(returned=False, expected_return_date__lt=now).order_by('expected_return_date')
     paginator_3 = Paginator(loan_surpassed, per_page=5)
@@ -471,8 +636,16 @@ def LoanSurpassed(request):
 
 # Show loan
 def loan(request, id):
+    """
+    **Context**
+    \nShow details of specific loan, such as: name of Loaner, expected return date, list of materials etc.
+
+    :param request:  This request object contains information set by entities present before a view method.
+    :param id: ID that corresponds to specific Loan.
+    :return: A page with details of specific loan.
+    """
     loan = Loan.objects.get(id=id)
-    loan_liste = loan.materials.all().order_by("-creation_date_loan_mat")
+    loan_liste = loan.materials.all().order_by("creation_date_loan_mat")
     paginator = Paginator(loan_liste, per_page=10)
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
@@ -483,18 +656,31 @@ def loan(request, id):
 
 # Update loaner
 def updateLoan(request, id):
+    """
+    **Context**
+    \nMark Loan as Returned (True) and also the date when it was returned. If already TRUE, mark it as (False).
+
+    :param request:  This request object contains information set by entities present before a view method.
+    :param id: ID that corresponds to specific Loan.
+    :return: Redirect to the same page of details of a specific loan whose Return value whe just changed.
+    """
     loan = Loan.objects.get(id=id)
     if not loan.returned:
         loan.returned = True
+        loan.return_date = timezone.now()
     else:
         loan.returned = False
-    loan.return_date = timezone.now()
+        loan.return_date = None
     loan.save()
-    return redirect("loan_id",id=id)
+    return redirect("loan_id", id=id)
 
 
 # Delete Loan
 class DeleteCrudLoan(View):
+    """
+    **Context**
+    \nDelete a Loan from the DB.
+    """
     def get(self, request):
         id_loan = request.GET.get('id', None)
         Loan.objects.get(id=id_loan).delete()

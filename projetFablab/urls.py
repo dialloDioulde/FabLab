@@ -21,7 +21,6 @@ from siteWeb import views
 from siteWeb.views import DeleteCrudMaterial, EditLoanSummaryView
 from siteWeb.crudAjaxLoanerViews import LoanerView, CreateCrudLoaner, DeleteCrudLoaner, UpdateCrudLoaner
 from siteWeb.crudAjaxTypeViews import TypeView, CreateCrudType, UpdateCrudType, DeleteCrudType
-from siteWeb.crudAjaxMatViews import  CreateCrudMaterial, UpdateCrudMaterial, DeleteCrudMaterial
 from siteWeb import crudAjaxMatViews
 from siteWeb import crudAjaxLoanerViews
 from siteWeb import crudAjaxTypeViews
@@ -72,7 +71,6 @@ urlpatterns = [
     path('updateMaterial/<int:id>', views.updateMaterial, name='updateMaterial'),
     path('DeleteCrudMaterial', DeleteCrudMaterial.as_view(), name='DeleteCrudMaterial'),
 
-    # path('showLoan', views.showLoan, name='showLoan'),
     path('allLoan', views.allLoan, name='allLoan'),
     path('notReturnedLoan', views.notReturnedLoan, name='notReturnedLoan'),
     path('LoanSurpassed', views.LoanSurpassed, name='LoanSurpassed'),
@@ -97,10 +95,6 @@ urlpatterns = [
 
 
     path('MaterialView', crudAjaxMatViews.indexView, name='MaterialView'),
-    path('CreateCrudMaterial', crudAjaxMatViews.CreateCrudMaterial , name='CreateCrudMaterial'),
-    path('UpdateCrudMaterial', UpdateCrudMaterial.as_view(), name='UpdateCrudMaterial'),
-    path('DeleteCrudMaterial', DeleteCrudMaterial.as_view(), name='DeleteCrudMaterial'),
-
 
 
 

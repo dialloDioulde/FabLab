@@ -11,6 +11,12 @@ from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, form
 
 # Show Loaner
 def LoanerView(request):
+    """
+    **Context**
+    \nShow a list of all Loaners that exist on a table.
+    :param request: This request object contains information set by entities present before a view method.
+    :return: Table with information of all Loaners.
+    """
     form = formLoaner()
     loaner = Loaner.objects.all()
     paginator = Paginator(loaner, per_page=6)
@@ -19,9 +25,12 @@ def LoanerView(request):
     return render(request, 'siteWeb/loaner/ajaxCrudLoaner.html', {"form": form, "loaners": page_obj.object_list, 'paginator': paginator, 'page_number': int(page_number)})
 
 
-
 # Create Loaner
 class CreateCrudLoaner(View):
+    """
+    **Context**
+    \nCreation of a Loaner. They represent the person who is going to borrow the materials from the FabLab inventory.
+    """
     def get(self, request):
         last_name = request.GET.get('last_name', None)
         first_name = request.GET.get('first_name', None)
@@ -42,6 +51,10 @@ class CreateCrudLoaner(View):
 
 # Delete Loaner
 class DeleteCrudLoaner(View):
+    """
+        **Context**
+        \nRemoval of an existing Loaner. They represent the person who is going to borrow the materials from the FabLab inventory.
+        """
     def get(self, request):
         id_loaner = request.GET.get('id', None)
         Loaner.objects.get(id = id_loaner).delete()
@@ -51,6 +64,10 @@ class DeleteCrudLoaner(View):
 
 # Update Loaner
 class UpdateCrudLoaner(View):
+    """
+    **Context**
+    \nModify the information of a specific Loaner.
+    """
     def  get(self, request):
         id = request.GET.get('id_loaner', None)
 
