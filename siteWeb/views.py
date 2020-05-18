@@ -188,7 +188,7 @@ def change_password(request):
                 form.save()
                 update_session_auth_hash(request, form.user)
                 messages.success(request, f"Password Changed Successfully!")
-                return redirect(homepage)
+                return redirect("showProfile")
             else:
                 messages.info(request, f"Password Unmatch! Try again.")
                 return redirect("change-password")
