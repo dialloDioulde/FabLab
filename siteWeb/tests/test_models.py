@@ -44,7 +44,7 @@ class TestsModels(TestCase):
         Material.objects.create(name = 'Tablette', barcode = "AA876BG", type = Type.objects.get(id=1))
         LoanMaterial.objects.create(user = test_user1, material = Material.objects.get(id=1), quantity = 5)
 
-        #Loan.objects.create(user = test_user1, loaner = Loaner.objects.get(id=1), materials = LoanMaterial.objects.get(id=1))
+        #Loan.objects.create(user = test_user1, loaner = Loaner.objects.get(id=1)).materials.set(LoanMaterial.objects.get(id=1))
         #print(Loan)
 
 
@@ -253,7 +253,6 @@ class TestsModels(TestCase):
     # End of the Test of the get_absolute_url() function of the Material Models
 
 
-
     # Start of the Loan Material Models Label Fields test
     def test_user_label(self):
         loan_material = LoanMaterial.objects.get(id=1)
@@ -281,7 +280,6 @@ class TestsModels(TestCase):
         self.assertEquals(field_label, 'creation date loan mat')
 
     # End of the Loan Material Models Label Fields test
-
 
 
     # Start of the  Loan Material Models Field Length test
