@@ -44,7 +44,7 @@ class TestsModels(TestCase):
         Material.objects.create(name = 'Tablette', barcode = "AA876BG", type = Type.objects.get(id=1))
         LoanMaterial.objects.create(user = test_user1, material = Material.objects.get(id=1), quantity = 5)
 
-        #Loan.objects.create(user = test_user1, loaner = Loaner.objects.get(id=1)).materials.set(LoanMaterial.objects.get(id=1))
+        #Loan.objects.create(user = test_user1, loaner = Loaner.objects.get(id=1)), Material.set(LoanMaterial.objects.get(id=1), expected_return_date= '12/06/2020')
         #print(Loan)
 
 
