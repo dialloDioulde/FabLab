@@ -68,10 +68,16 @@ If your app has a custom user model, you'll need to create a new superuser for t
       
       15 - Delete Loans
       
+      16 - Frontend implementation
+      
+      17 - Unit Tests
+      
+      18 - Integration Tests
+      
 
 #TO DO:
 
-    Frontend implementation, Unit Tests, Integrations and Documentation Writing.
+    Documentation Writing.
     
     
     
