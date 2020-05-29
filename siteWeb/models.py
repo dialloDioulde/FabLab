@@ -61,7 +61,7 @@ class Type(models.Model):
             In other words, FabLab owns only ONE Material of this SPECIFIC TYPE.
         :param TYPE_GENERIC: Represents a type, which once created, can correspond to multiple Materials.
             FabLab owns different type of Materials of the same model or brand.
-        :param material_type: While creating a Type, you get to choose if the Type is Unique or Generic. This is possible thanks to *choices*.
+        :param material_type: d
         :param name_type: Name of the Type.
         :param description: Brief description of the Type.
         :param creation_date_type: Date when the Type was Created.

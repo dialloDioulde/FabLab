@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -10,10 +11,12 @@ from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, form
 
 
 # Show Loaner
+@login_required
 def LoanerView(request):
     """
     **Context**
     \nShow a list of all Loaners that exist on a table.
+
     :param request: This request object contains information set by entities present before a view method.
     :return: Table with information of all Loaners.
     """

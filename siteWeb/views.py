@@ -13,8 +13,7 @@ from django.views.generic import ListView, DetailView, View
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.mixins import LoginRequiredMixin
 from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
-from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan, formUnique, \
-    EditProfileForm
+from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan, EditProfileForm
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -36,9 +35,10 @@ def homepage(request):
     materials = Material.objects.all()
     search_term = ""
 
+    #search bar: show material after search based on name and barcode
     if 'search' in request.GET:
         search_term = request.GET['search']
-        materials = (materials.filter(name__icontains=search_term) | materials.filter(id__icontains=search_term))
+        materials = (materials.filter(name__icontains=search_term) | materials.filter(barcode__icontains=search_term))
 
         if search_term == "":
             search_term = "No match."
@@ -75,13 +75,11 @@ def register(request):
             form = NewUserForm(request.POST)
             if form.is_valid():
                 # things are filled out like theyre supposed to
-                user = form.save()
                 username = form.cleaned_data.get('username')
                 messages.success(request, f"New Account Created:{username}")
                 return redirect("homepage")
             else:
                 for message in form.error_messages:
-                    # print(form.error_messages[message])
                     messages.error(request, f"{message} : {form.error_messages[message]}")
         form = NewUserForm
         return render(request, "siteWeb/accounts/register.html", context={"form": form})
@@ -102,6 +100,7 @@ def login_request(request):
         return redirect("../../")
     else:
         if request.method == "POST":
+            #automatically generated authentication form
             form = AuthenticationForm(request, data=request.POST)
             if form.is_valid():
                 username = form.cleaned_data.get('username')
@@ -121,7 +120,7 @@ def login_request(request):
 
 
 # Logout
-# @login_required
+@login_required
 def logout_request(request):
     """
         **Context**
@@ -136,6 +135,7 @@ def logout_request(request):
 
 
 # Show Profile
+@login_required
 def showProfile(request):
     """
     **Context**
@@ -149,6 +149,7 @@ def showProfile(request):
 
 
 # Edit Profile
+@login_required
 def editProfile(request):
     """
     **Context**
@@ -159,6 +160,7 @@ def editProfile(request):
     """
 
     if request.method == "POST":
+        #show form to Edit Profile with instance set to the information of authenticated
         form = EditProfileForm(request.POST, instance=request.user)
 
         if form.is_valid():
@@ -170,6 +172,7 @@ def editProfile(request):
         return render(request, "siteWeb/accounts/editProfile.html", context)
 
 
+@login_required
 def change_password(request):
     """
     **Context**
@@ -183,6 +186,7 @@ def change_password(request):
         return redirect("../../accounts/login")
     else:
         if request.method == "POST":
+            #form set set as a Password Change Form which the infomation of the user authenticated
             form = PasswordChangeForm(data=request.POST, user=request.user)
             if form.is_valid():
                 form.save()
@@ -219,7 +223,9 @@ def addMaterial(request):
             form = formMaterial(request.POST, request.FILES)
             if form.is_valid():
                 type = form.cleaned_data.get('type')
+                #check if type is unique
                 if type.material_type == 'unique':
+                    #if so, set type as unavailable so it won't be available to create another material with the same type
                     type.unavailable = True
                     type.save()
                     from django.core.exceptions import ObjectDoesNotExist
@@ -291,6 +297,7 @@ def updateMaterial(request, id):
 
 
 # show single material
+# @login_required
 class MaterialDetailView(DetailView):
     """
     **Context**
@@ -302,6 +309,7 @@ class MaterialDetailView(DetailView):
 
 
 # Delete Material
+# @login_required
 class DeleteCrudMaterial(View):
     """
     **Context**
@@ -316,7 +324,7 @@ class DeleteCrudMaterial(View):
 
 # ----------------------------------------------------------------------------------------------------------------------#
 
-# @login_required
+@login_required
 def add_to_loan(request, slug):
     """
     **Context**
@@ -351,7 +359,7 @@ def add_to_loan(request, slug):
         return redirect("/")
 
 
-# @login_required
+@login_required
 def add_one_material(request, slug):
     """
     **Context*
@@ -386,7 +394,7 @@ def add_one_material(request, slug):
         return redirect("material", slug=slug)
 
 
-# @login_required
+@login_required
 def remove_from_loan(request, slug):
     material = get_object_or_404(Material, slug=slug)
     material_query = Loan.objects.filter(user=request.user, ordered=False)
@@ -444,6 +452,7 @@ def remove_single_item_from_loan(request, slug):
         return redirect("material", slug=slug)
 
 
+# @login_required
 class LoanSummaryView(LoginRequiredMixin, View):
     """
             **Context**
@@ -464,7 +473,7 @@ class LoanSummaryView(LoginRequiredMixin, View):
             messages.warning(self.request, "You do not have an active order")
             return redirect("/")
 
-
+# @login_required
 class EditLoanSummaryView(LoginRequiredMixin, View):
     """
            **Context**
@@ -574,6 +583,7 @@ class loan_form(LoginRequiredMixin, View):
 # -------------------------------LOANS----------------------------------------------------------------------------------#
 
 # All Loans
+@login_required
 def allLoan(request):
     """
     **Context**
@@ -592,6 +602,7 @@ def allLoan(request):
 
 
 # Loan Not Returned
+@login_required
 def notReturnedLoan(request):
     """
         **Context**
@@ -613,6 +624,7 @@ def notReturnedLoan(request):
 
 
 # Loan Surpassed
+@login_required
 def LoanSurpassed(request):
     """
         **Context**
@@ -635,6 +647,7 @@ def LoanSurpassed(request):
 
 
 # Show loan
+@login_required
 def loan(request, id):
     """
     **Context**
@@ -655,6 +668,7 @@ def loan(request, id):
 
 
 # Update loaner
+@login_required
 def updateLoan(request, id):
     """
     **Context**

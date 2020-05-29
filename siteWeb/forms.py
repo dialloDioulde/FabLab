@@ -8,59 +8,64 @@ from django.views.generic.edit import CreateView
 # Formualire d'Insciption d'Utilisateur
 class formLoaner(forms.ModelForm):
     class Meta:
+        # model generated based on table Loaner
         model = Loaner
+        # show specific fields on the automatically generated form (based on model)
         fields = ['last_name', 'first_name', 'email','establishment']
 
 
 # Formulaire d'Ajout Des Type De Materiels
 class formType(forms.ModelForm):
     class Meta:
+        # model generated based on table Type
         model = Type
-        exclude = ['creation_date_type']
-
-
-# Formulaire d'Ajout De Materiels Uniques
-class formUnique(forms.ModelForm):
-    class Meta:
-        model = Material
-        fields = ['name','barcode', 'material_picture']
+        # exculde field form showing on the automatically generated form (based on model)
+        exclude = ['creation_date_type', 'unavailable']
 
 
 # Formulaire d'Ajout De Materiels
 class formMaterial(forms.ModelForm):
+    # on the type field of the model Material, the field (drowdown) type is going to have filters applied to them
     type = forms.ModelChoiceField(queryset=Type.objects.filter(unavailable=False).order_by('material_type'))
 
     class Meta:
+        # model generated based on table Material
         model = Material
+        # show specific fields on the automatically generated form (based on model)
         fields = ['name','barcode','type', 'material_picture']
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['type'].queryset = Type.objects.filter(material_type='generic')
 
 
 class formLoanMaterial(forms.ModelForm):
     class Meta:
+        # model generated based on table LoanMaterial
         model = LoanMaterial
+        # show specific fields on the automatically generated form (based on model)
         fields = ['material','quantity']
 
 
 # Formulaire d'Ajout d'un Emprunt
 class formLoan(forms.ModelForm):
     class Meta:
+        # model generated based on table Loan
         model = Loan
+        # show specific fields on the automatically generated form (based on model)
         fields = ['loaner','materials','expected_return_date', 'return_date']
 
 
 class NewUserForm(UserCreationForm):
+    # automatically generated Creation Form
+    # create a New User. Form to add a new Staff Member
     email = forms.EmailField(required=True)
     establishment = forms.CharField(required=True)
 
     class Meta:
+        # model generated based on table User
         model = User
+        # show specific fields on the automatically generated form (based on model)
         fields = ("username", "email", "establishment", "password1", "password2")
 
     def save(self, commit=True):
+        # save user
         user = super(NewUserForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
         user.establishment = self.cleaned_data['establishment']
@@ -71,21 +76,25 @@ class NewUserForm(UserCreationForm):
 
 # Edit Profile
 class EditProfileForm(UserChangeForm):
+    # automatically generated Change Form
     class Meta:
+        # model generated based on table User
         model = User
+        # show specific fields on the automatically generated form (based on model)
         fields = ("username", "first_name", "last_name", "email")
 
 
-
 class DateInput(forms.DateInput):
-    input_type =  'date'
+    input_type = 'date'
 
 
-#Ajouter loaner to Loan
+# Ajouter loaner to Loan
 class formLoan(forms.ModelForm):
     expected_return_date = forms.DateField(widget=DateInput)
 
     class Meta:
+        # model generated based on table Loan
         model = Loan
+        # show specific fields on the automatically generated form (based on model)
         fields = ('loaner', 'expected_return_date')
 
