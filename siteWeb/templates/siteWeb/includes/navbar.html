@@ -18,6 +18,8 @@
         <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="hide-on-med-and-down">
             <li><a href="/"><img src="../../images/None/logo.jpg" height="60" width="120"/></a></li>
+            <li class="blue-grey darken-4" ><a href="/addMaterial">HOME</a></li>
+            <li class="blue-grey darken-4" ><a href="/addMaterial">CHARTER</a></li>
             {% if user.is_superuser %}
 <!--                <li class="green darken-4" ><a href="/accounts/register">Register</a></li>-->
                 <li><a href="/admin">ADMIN</a></li>
@@ -25,6 +27,7 @@
             {% if user.is_authenticated %}
 <!--                <li class="blue-grey darken-4" ><a href="/TypeView">View Types</a></li>-->
 <!--                <li class="blue-grey darken-4" ><a href="/LoanerView">View Loaners</a></li>-->
+                <li class="blue-grey darken-4" ><a href="/addMaterial">USER MANUAL</a></li>
                 <li class="blue-grey darken-4" ><a href="/allLoan">DASHBOARD</a></li>
                 <li class="blue-grey darken-4" ><a href="/addMaterial">ADD MATERIAL</a></li>
             {% endif %}

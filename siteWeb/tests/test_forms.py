@@ -83,7 +83,6 @@ class TestsForms(TestCase):
     def test_loan_form_valid_data(self):
         form = formLoan(data={'user': self.user.pk, 'loaner': self.loaner.pk, 'materials': self.material_data.pk , 'expected_return_date': '12/06/2020'})
         self.assertTrue(form.is_valid())
-        #form.save()
 
     def test_loan_form_no_data(self):
         form = formLoan(data={})

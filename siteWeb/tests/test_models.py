@@ -244,14 +244,6 @@ class TestsModels(TestCase):
 
     # End of the Test of the str() function of the Material Models
 
-    # Start Test of the get_absolute_url() function of the Material Models
-    #def test_get_absolute_url(self):
-        #material = Material.objects.get(id=1)
-        #expected_object_material = f'{material.name} (id:  {material.id})'
-        #self.assertEquals(str(material.get_absolute_url), "Material: " + expected_object_material)
-
-    # End of the Test of the get_absolute_url() function of the Material Models
-
 
     # Start of the Loan Material Models Label Fields test
     def test_user_label(self):
