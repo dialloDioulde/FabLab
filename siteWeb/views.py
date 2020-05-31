@@ -16,6 +16,8 @@ from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfi
 from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan, EditProfileForm
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_protect
 
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserChangeForm
@@ -57,6 +59,10 @@ def homepage(request):
 # ----------------------------------------------------------------------------------------------------------------------#
 
 # Register
+
+@cache_page(60 * 15)
+@csrf_protect
+@login_required
 def register(request):
     """
     **Context**
@@ -68,21 +74,19 @@ def register(request):
     """
 
     # automatically, it's a GET request
-    if not request.user.is_authenticated or not request.user.is_superuser:
-        return redirect("../../accounts/login")
-    else:
-        if request.method == "POST":
-            form = NewUserForm(request.POST)
-            if form.is_valid():
-                # things are filled out like theyre supposed to
-                username = form.cleaned_data.get('username')
-                messages.success(request, f"New Account Created:{username}")
-                return redirect("homepage")
-            else:
-                for message in form.error_messages:
-                    messages.error(request, f"{message} : {form.error_messages[message]}")
-        form = NewUserForm
-        return render(request, "siteWeb/accounts/register.html", context={"form": form})
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            # things are filled out like theyre supposed to
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"New Account Created:{username}")
+            return redirect("homepage")
+        else:
+            for message in form.error_messages:
+                messages.error(request, f"{message} : {form.error_messages[message]}")
+    form = NewUserForm
+    return render(request, "siteWeb/accounts/register.html", context={"form": form})
 
 
 # Login
@@ -261,7 +265,7 @@ def updateMaterial(request, id):
     form = formMaterial(instance=mat)
 
     if request.method == 'POST':
-        form = formMaterial(request.POST,request.FILES,instance=mat)
+        form = formMaterial(request.POST, request.FILES, instance=mat)
         mat_type = Type.objects.get(id=mat.type.id)
 
         if mat_type.material_type == 'unique':
@@ -471,6 +475,7 @@ class LoanSummaryView(LoginRequiredMixin, View):
             messages.warning(self.request, "You do not have an active order")
             return redirect("/")
 
+
 # @login_required
 class EditLoanSummaryView(LoginRequiredMixin, View):
     """
@@ -492,32 +497,35 @@ class EditLoanSummaryView(LoginRequiredMixin, View):
             for active_material in active_loan_materials:
                 active_material.delete()
             active_loan.delete()
-            loan = Loan.objects.get(id=kwargs['id'])
-            loan.ordered = False
-            loan.user = self.request.user
 
-            loan_materials = loan.materials.all()
-            loan_materials.update(ordered=False)
+            loan_one = Loan.objects.get(id=kwargs['id'])
+            loan_one.ordered = False
+            loan_one.user = self.request.user
 
-            loan.save()
+            loan_materials_one = loan_one.materials.all()
+            loan_materials_one.update(user=self.request.user)
+            loan_materials_one.update(ordered=False)
+
+            loan_one.save()
 
             context = {
-                'object': loan
+                'object': loan_one
             }
             return render(self.request, 'siteWeb/loan_summary.html', context)
 
         except ObjectDoesNotExist:
-            loan = Loan.objects.get(id=kwargs['id'])
-            loan.ordered = False
-            loan.user = self.request.user
+            loan_two = Loan.objects.get(id=kwargs['id'])
+            loan_two.ordered = False
+            loan_two.user = self.request.user
 
-            loan_materials = loan.materials.all()
-            loan_materials.update(ordered=False)
+            loan_materials_two = loan_two.materials.all()
+            loan_materials_two.update(user=self.request.user)
+            loan_materials_two.update(ordered=False)
 
-            loan.save()
+            loan_two.save()
 
             context = {
-                'object': loan
+                'object': loan_two
             }
             return render(self.request, 'siteWeb/loan_summary.html', context)
 
