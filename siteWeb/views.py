@@ -216,36 +216,34 @@ def addMaterial(request):
     :param request: This request object contains information set by entities present before a view method.
     :return: If the Material is added successfully, then the redirection brings you to the homepage.
     """
-    if not request.user.is_authenticated:
-        return redirect("../../accounts/login")
-    else:
-        if request.method == 'POST':
-            form = formMaterial(request.POST, request.FILES)
-            if form.is_valid():
-                type = form.cleaned_data.get('type')
-                #check if type is unique
-                if type.material_type == 'unique':
-                    #if so, set type as unavailable so it won't be available to create another material with the same type
-                    type.unavailable = True
-                    type.save()
-                    from django.core.exceptions import ObjectDoesNotExist
-                    try:
-                        Material.objects.get(type=type)
-                        messages.error(request, f"Existing unique type.")
-                    except MultipleObjectsReturned:
-                        return redirect(homepage)
-                        messages.error(request, f"Error!")
-                    except ObjectDoesNotExist:
-                        form.save()
-                        messages.success(request, f"New Material created")
-                        return redirect("homepage")
-                else:
+    if request.method == 'POST':
+        form = formMaterial(request.POST, request.FILES)
+        if form.is_valid():
+            type = form.cleaned_data.get('type')
+
+            #check if type is unique
+            if type.material_type == 'unique':
+                #if so, set type as unavailable so it won't be available to create another material with the same type
+                type.unavailable = True
+                type.save()
+                from django.core.exceptions import ObjectDoesNotExist
+                try:
+                    Material.objects.get(type=type)
+                    messages.error(request, f"Existing unique type.")
+                except MultipleObjectsReturned:
+                    return redirect(homepage)
+                    messages.error(request, f"Error!")
+                except ObjectDoesNotExist:
                     form.save()
                     messages.success(request, f"New Material created")
                     return redirect("homepage")
-        else:
-            form = formMaterial()
-        return render(request, 'siteWeb/addMaterial.html', {'form': form})
+            else:
+                form.save()
+                messages.success(request, f"New Material created")
+                return redirect("homepage")
+    else:
+        form = formMaterial()
+    return render(request, 'siteWeb/addMaterial.html', {'form': form})
 
 @login_required
 def updateMaterial(request, id):
@@ -263,7 +261,7 @@ def updateMaterial(request, id):
     form = formMaterial(instance=mat)
 
     if request.method == 'POST':
-        form = formMaterial(request.POST, instance=mat)
+        form = formMaterial(request.POST,request.FILES,instance=mat)
         mat_type = Type.objects.get(id=mat.type.id)
 
         if mat_type.material_type == 'unique':
