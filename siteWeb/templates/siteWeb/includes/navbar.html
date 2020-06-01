@@ -53,27 +53,26 @@
 
     <ul class="sidenav" id="slide-out">
             {% if user.is_superuser %}
-                <li class="green darken-4" ><a href="/accounts/register">Register</a></li>
-                <li><a href="/admin">Admin</a></li>
+<!--                <li class="green darken-4" ><a href="/accounts/register">Register</a></li>-->
+                <li><a class="blue-grey darken-2" href="/admin">Admin</a></li>
             {% endif %}
             {% if user.is_authenticated %}
-                <li class="blue-grey darken-4" ><a href="/TypeView">View Types</a></li>
-                <li class="blue-grey darken-4" ><a href="/LoanerView">View Loaners</a></li>
-                <li class="blue-grey darken-4" ><a href="/allLoan">View Loans</a></li>
-                <li class="blue-grey darken-2" ><a href="/addMaterial">Add Material</a></li>
+                <li class="blue-grey darken-2" ><a href="/addMaterial">USER MANUAL</a></li>
+                <li class="blue-grey darken-2" ><a href="/allLoan">DASHBOARD</a></li>
+                <li class="blue-grey darken-2" ><a href="/addMaterial">ADD MATERIAL</a></li>
             {% endif %}
-        {% if user.is_authenticated %}
-            <li><a href="../../loan-summary">
-                    <span class="trigger red darken-4 ml-2">  {{ request.user|loan_materials_count }}   </span>
-                    <i class="material-icons right">add_shopping_cart</i>
-                    <span class="clear fix d-none d-sm-inline-block">   Loan</span>
-                </a>
-            </li>
-            <li><a href="/showLoan" class = "btn dropdown-button red darken-4">{{user.username|title}}</a></li>
-            <li><a href="/logout">Logout</a></li>
-        {% else %}
-             <li><a href="/accounts/login">Login</a></li>
-      {% endif %}
+            {% if user.is_authenticated %}
+                <li><a href="../../loan-summary">
+                        <span class="trigger red darken-4 ml-2">  {{ request.user|loan_materials_count }}   </span>
+                        <i class="material-icons right">add_shopping_cart</i>
+                        <span class="clear fix d-none d-sm-inline-block">   Loan</span>
+                    </a>
+                </li>
+                <li><a href="/showLoan" class = "btn dropdown-button red darken-4">{{user.username|title}}</a></li>
+                <li><a href="/logout" class="blue-grey darken-2">Logout</a></li>
+            {% else %}
+                 <li><a href="/accounts/login" class="blue-grey darken-2">Login</a></li>
+          {% endif %}
     </ul>
 
     <script type="text/javascript">
