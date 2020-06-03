@@ -18,6 +18,7 @@ from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.cache import cache_page
 from django.views.decorators.csrf import csrf_protect
+import datetime
 
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserChangeForm
@@ -559,24 +560,28 @@ class loan_form(LoginRequiredMixin, View):
             if form.is_valid():
                 expected_return = form.cleaned_data.get('expected_return_date')
 
-                loan.ordered = True
-                loan.save()
+                if(expected_return < datetime.datetime.now().date()):
+                    messages.warning(self.request, "Please pick the right date!")
+                    return redirect("loan")
+                else:
+                    loan.ordered = True
+                    loan.save()
 
-                loan.expected_return_date = expected_return
-                loan.save()
+                    loan.expected_return_date = expected_return
+                    loan.save()
 
-                loan.loaner = form.cleaned_data.get('loaner')
-                loan.save()
+                    loan.loaner = form.cleaned_data.get('loaner')
+                    loan.save()
 
-                loan.user = self.request.user
-                loan.save()
+                    loan.user = self.request.user
+                    loan.save()
 
-                loan_materials = loan.materials.all()
-                loan_materials.update(ordered=True)
-                for material in loan_materials:
-                    material.save()
+                    loan_materials = loan.materials.all()
+                    loan_materials.update(ordered=True)
+                    for material in loan_materials:
+                        material.save()
 
-                messages.success(self.request, f"Loan saved successfully")
+                    messages.success(self.request, f"Loan saved successfully")
                 return redirect(homepage)
             else:
                 messages.info(self.request, "Please fill in the required fields")
