@@ -96,6 +96,15 @@ urlpatterns = [
 
     path('MaterialView', crudAjaxMatViews.indexView, name='MaterialView'),
 
+    path('userManual', views.userManual, name='userManual'),
+    path('userManualUser', views.userManualUser, name='userManualUser'),
+    path('userManualLoaner', views.userManualLoaner, name='userManualLoaner'),
+    path('userManualType', views.userManualType, name='userManualType'),
+    path('userManualMaterial', views.userManualMaterial, name='userManualMaterial'),
+    path('userManualLoanMaterial', views.userManualLoanMaterial, name='userManualLoanMaterial'),
+    path('userManualLoan', views.userManualLoan, name='userManualLoan'),
+
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

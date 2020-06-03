@@ -1,0 +1,131 @@
+{% extends "siteWeb/header_secondary.html" %}
+{% block content %}
+<main>
+    <div class="container mt-5  red lighten-5">
+        <div class="row border">
+            <div class="col-md-6 ml-4 mt-2 pt-1">
+                <h4 style="margin-left: 5px;">USER MANUAL</h4>
+            </div>
+        </div>
+
+        <div style="margin-left: 5px;">
+            <p style="margin-left: 5px;">
+                <strong>
+                    In this page you can find the procedure allowing to CREATE, DISPLAY the list of users,
+                    EDIT and DELETE a User.
+                </strong>
+            </p>
+
+            <h4> 1. USER LOGIN :</h4>
+            <p style="margin-left: 5px;">
+                1. To log in, go to <strong> www.fabmstic-loans.com </strong> : <br> <br>
+                2 - Click on LOGIN. <br><br>
+                3 - Enter your Identfiant and the corresponding Password. <br><br>
+                4 - Click on LOGIN to Connect. <br><br>
+
+            </p>
+        </div>
+
+        <div style="margin-left: 5px; margin-top: 5px;">
+            <h4> 2. DISPLAY THE LIST OF USERS :</h4>
+            <p style="margin-left: 5px;">
+                1 - To be able to display the list of users, you must be an Administrator and must be logged in.
+                <br><br>
+                2 - Then click on the <strong> ADMIN tab </strong> located in the navigation bar to access the DJANGO
+                Administration
+                Area.<br><br>
+                2 - Now click on the <strong> USERS table </strong> to see the list of Users. <br><br>
+                3 - And the list of users is displayed, on this same page you can see the <strong>ADD USER </strong>
+                button which allows you to add a new user. <br><br>
+            </p>
+        </div>
+
+        <div style="margin-left: 5px; margin-top: 5px;">
+            <h4> 3. ADD NEW USER :</h4>
+            <p style="margin-left: 5px;">
+                1 - To be able to display the list of users, you must be an Administrator and must be logged in.
+                <br><br>
+                2 - Then click on the <strong> ADMIN tab </strong> located in the navigation bar to access the DJANGO
+                Administration
+                Area.<br><br>
+                2 - Now click on the <strong> USERS table </strong> to see the list of Users. <br><br>
+                3 - And the list of users is displayed, on this same page you can see the <strong>ADD USER </strong>
+                button which allows you to add a new user. <br><br>
+                4 - To create a new user click on the <strong> ADD USER </strong> button. <br><br>
+                5 - Fill in all the fields present in the form and click on the SAVE button to complete the CREATION of
+                the user.
+            </p>
+        </div>
+
+
+        <div style="margin-left: 5px; margin-top: 5px;">
+            <h4> 4. EDIT USER INFORMATION :</h4>
+            <p style="margin-left: 5px;">
+                <strong>IMPORTANT</strong> : this small section explains the procedure to follow to <strong>assign one
+                or more status </strong>to a user.<br><br>
+                1 - To be able to display the list of users, you must be an Administrator and must be logged in.
+                <br><br>
+                2 - Then click on the <strong> ADMIN tab </strong> located in the navigation bar to access the DJANGO
+                Administration
+                Area.<br><br>
+                3 - Now click on the <strong> USERS table </strong> to see the list of Users. <br><br>
+                4 - Click on the name of the user you want to edit and the edit page containing the information of the
+                entered user will be displayed. <br><br>
+                5 - Edit the field or fields concerned and click on the <strong>SAVE</strong> button to save the
+                modifications made.
+            </p>
+        </div>
+
+        <div style="margin-left: 5px; margin-top: 5px;">
+            <h4> 5. EDIT YOUR PROFILE :</h4>
+            <p style="margin-left: 5px;">
+                IMPORTANT : This section allows each user to edit their profile so they can change their username, last
+                name, first name and email. Each user can only modify their profile.<br><br>
+                1 - To access this functionality, you must be logged in.
+                <br><br>
+                2 - Once you are connected click on your <strong> username </strong> visible in the navigation bar and
+                your profile will be displayed.<br><br>
+                3 - Click on the <strong> EDIT PROFILE </strong>button to access the edit page of your profile.<br><br>
+                4 - Edit the field or fields concerned and click on <strong> EDIT PROFILE </strong>button to save your
+                changes.<br><br>
+            </p>
+        </div>
+
+        <div style="margin-left: 5px; margin-top: 5px;">
+            <h4> 6. CHANGE YOUR PASSWORD :</h4>
+            <p style="margin-left: 5px;">
+                IMPORTANT : This section allows each user to edit their profile so they can change their username, last
+                name, first name and email. Each user can only modify their profile.<br><br>
+                1 - To access this functionality, you must be logged in.
+                <br><br>
+                2 - Once you are connected click on your <strong> username </strong> visible in the navigation bar and
+                your profile will be displayed.<br><br>
+                3 - Click on the <strong> CHANGE PASSWORD </strong>button to access the change password page.<br><br>
+                4 - The password change page has three fields to fill in : <strong>current password, new password,
+                confirm password</strong>.<br><br>
+                5 - complete all fields and click on <strong> CHANGE PASSWORD </strong>button to save your
+                changes.<br><br>
+            </p>
+        </div>
+
+        <div style="margin-left: 5px; margin-top: 5px;">
+            <h4> 7. FORGOT YOUR PASSWORD :</h4>
+            <p style="margin-left: 5px;">
+                1. To log in, go to <strong> www.fabmstic-loans.com </strong> : <br> <br>
+                2 - Click on LOGIN. <br><br>
+                3 - Enter your Identfiant and the corresponding Password. <br><br>
+                4 - If you forget your password, click on the <strong>RESET PASSWORD</strong> button. <br><br>
+                5 - You will be redirected to a new page, enter the email address for your account and click on the
+                <strong>RESET MY PASSWORD</strong> button to receive the link allowing you to create a new password.<br><br>
+                6 - Fill in the fields : new password, confirm password click on the <strong>CHANGE MY PASSWORD </strong>button.
+
+            </p>
+        </div>
+
+    </div>
+</main>
+<footer>
+    {% include "siteWeb/includes/footer.html" %}
+</footer>
+{% endblock %}
+k %}

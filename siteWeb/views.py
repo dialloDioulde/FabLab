@@ -706,3 +706,32 @@ class DeleteCrudLoan(View):
         Loan.objects.get(id=id_loan).delete()
         data = {'deleted': True}
         return JsonResponse(data)
+
+
+# Usual Manual
+
+def userManual(request):
+    return render(request, 'siteWeb/userManual/user_manual.html')
+
+
+def userManualUser(request):
+    return render(request, 'siteWeb/userManual/user.html')
+
+
+def userManualLoaner(request):
+    return render(request, 'siteWeb/userManual/loaner.html')
+
+
+def userManualType(request):
+    return render(request, 'siteWeb/userManual/type.html')
+
+def userManualMaterial(request):
+    return render(request, 'siteWeb/userManual/material.html')
+
+
+def userManualLoanMaterial(request):
+    return render(request, 'siteWeb/userManual/loan_material.html')
+
+
+def userManualLoan(request):
+    return render(request, 'siteWeb/userManual/loan.html')

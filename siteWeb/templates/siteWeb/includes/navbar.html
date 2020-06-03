@@ -27,7 +27,7 @@
             {% if user.is_authenticated %}
 <!--                <li class="blue-grey darken-4" ><a href="/TypeView">View Types</a></li>-->
 <!--                <li class="blue-grey darken-4" ><a href="/LoanerView">View Loaners</a></li>-->
-                <li class="blue-grey darken-4" ><a href="/addMaterial">USER MANUAL</a></li>
+                <li class="blue-grey darken-4" ><a href="{% url 'userManual' %}">USER MANUAL</a></li>
                 <li class="blue-grey darken-4" ><a href="/allLoan">DASHBOARD</a></li>
                 <li class="blue-grey darken-4" ><a href="/addMaterial">ADD MATERIAL</a></li>
             {% endif %}

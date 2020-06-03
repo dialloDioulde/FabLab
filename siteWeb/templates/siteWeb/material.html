@@ -1,18 +1,22 @@
 {% extends "siteWeb/header_secondary.html" %}
 {% block content %}
 <main>
-<div class = "container">
-        <div class="card-content black-text">
-            <span class="card-title" style="font-size:270%">{{ object.name }}</span>
-            <p class="card-title" style="font-size:100%">Barcode: {{ object.barcode }}</p>
-            <p style="font-size:120%">{{ object.type }}</p>
-            <p> Description: {{ object.type.description }}</p>
-            <img src="../../images/{{object.material_picture}}" width="300">
-            {% if user.is_authenticated %}
-                <br><br><a href="{{ object.get_add_to_loan_url }}" class = "btn dropdown-button green darken-4">Add to Loan</a>
-                <a href="{{ object.get_remove_from_loan_url }}" class = "btn dropdown-button red darken-4">Remove From Cart</a>
-                <a href=" /updateMaterial/{{object.id}} " class = "btn dropdown-button blue-grey darken-4"> Edit Material </a>
-            {% endif %}
+    <div class="container mt-5">
+        <div class="row" style="margin-top: 5px;">
+            <div class="card-content black-text">
+                <span class="card-title ml-5" style="font-size:270%"> {{ object.name }} </span>
+                <p class="card-title ml-5 mt-2" style="font-size:100%">BARCODE : {{ object.barcode }}</p>
+                <p style="font-size:120%" class="ml-5">TYPE : {{ object.type }}</p>
+                <p class="ml-5"> DESCRIPTION : {{ object.type.description }}</p>
+                <img src="../../images/{{object.material_picture}}" width="400"  style="margin-bottom: 5px;">
+                {% if user.is_authenticated %}
+                <div class="d-flex mb-4 ml-5" style="margin-top: 5px;">
+                    <a href="{{ object.get_add_to_loan_url }}" class="btn btn-primary darken-4 mr-2">Add to Loan</a>
+                    <a href="{{ object.get_remove_from_loan_url }}" class="btn dropdown-button red darken-4 mr-2">Remove From Cart</a>
+                    <a href=" /updateMaterial/{{object.id}} " class="btn dropdown-button yellow darken-4"> Edit Material </a>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </main>
