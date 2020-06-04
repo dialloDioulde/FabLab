@@ -104,6 +104,9 @@ urlpatterns = [
     path('userManualLoanMaterial', views.userManualLoanMaterial, name='userManualLoanMaterial'),
     path('userManualLoan', views.userManualLoan, name='userManualLoan'),
 
+    path('homeFabmstic', views.homeFabmstic, name='homeFabmstic'),
+    path('charterFabmstic', views.charterFabmstic, name='charterFabmstic'),
+
 
 
 

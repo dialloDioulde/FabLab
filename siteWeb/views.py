@@ -713,8 +713,8 @@ class DeleteCrudLoan(View):
         return JsonResponse(data)
 
 
-# Usual Manual
 
+# Usual Manual
 def userManual(request):
     return render(request, 'siteWeb/userManual/user_manual.html')
 
@@ -740,3 +740,13 @@ def userManualLoanMaterial(request):
 
 def userManualLoan(request):
     return render(request, 'siteWeb/userManual/loan.html')
+
+
+
+# Home
+def homeFabmstic(request):
+    return render(request, 'siteWeb/fabmstic.html')
+
+# Charter
+def charterFabmstic(request):
+    return render(request, 'siteWeb/charter.html')
