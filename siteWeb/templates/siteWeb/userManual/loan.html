@@ -1,27 +1,48 @@
 {% extends "siteWeb/header_secondary.html" %}
 {% block content %}
 <main>
-    <div class="container mt-5">
+    <div class="container mt-5  red lighten-5">
         <div class="row border">
             <div class="col-md-6 ml-4 mt-2 pt-1">
-                <h4>USER MANUAL</h4>
+                <h4 style="margin-left: 5px;">USER MANUAL</h4>
             </div>
         </div>
 
-        <p>
-            <strong>
-                Welcome to your Training Space ! <br>
-                In this section you have the commands for all the Features as well as the Commands for their implementation.
-            </strong>
-        </p>
+        <div style="margin-left: 5px;">
+            <p style="margin-left: 5px; font-size: 20px;">
+                <strong>
+                    In this page you can find the procedure allowing to CREATE, DISPLAY the list of Loans Materials,
+                    EDIT and DELETE a loan material. <br><br>
+                    All the operations that can be carried out on loans materials are accessible to all users with an
+                    account.
+                </strong>
+            </p>
 
-        <p>
-            <strong>
-                Just click on the name of the feature to access the page that describes it and details the procedures for implementing it.
-            </strong>
-        </p>
-
-
+            <h4> 1. CREATE A LOAN MATERIAL :</h4>
+            <p style="margin-left: 5px; font-size: 20px;">
+                1 - To access this functionality, you must be logged in.<br> <br>
+                2 - To Create a <strong>Loan Material</strong> click on the LOGO of the website visible in the
+                navigation bar.<br><br>
+                3 - All Materials available for a Loan will be displayed.<br><br>
+                4 - Click on the <strong>ADD TO LOAN</strong> button of the Material to be loaned to create the <strong>loan
+                basket</strong>.<br><br>
+                5 - Click on the <strong>LOAN</strong> button visible in the navigation bar to display the Materials
+                basket. <br><br>
+                6 - To add the quantity of a Material in the current basket click on the + button present in the
+                QUANTITY column and corresponding to the Material concerned.<br><br>
+                7 - To reduce the quantity of Material in the current basket click on the - button present in the
+                <strong>QUANTITY column</strong> and corresponding to the Material concerned.<br><br>
+                8 - To delete a Material from the basket of the current Loan, click on the icon symbolizing the delete
+                button located in the <strong>COMMANDS column</strong> and corresponding to the Material concerned.<br><br>
+                9 - Once the basket of Materials is displayed if you want to add a new Material to the current loan
+                click on the <strong>CONTINUE ADDING</strong> button.<br><br>
+                10 - Finally to create the loan of Materials it is necessary to associate a Borrower with the
+                Loan.<br><br>
+                11 - Click on the <strong>PROCEED TO CHECKOUT</strong> button to add the <strong>BORROWER</strong> and enter an <strong>EXPECTED RETURN DATE</strong> for
+                the Borrowed Materials.<br><br>
+                12 - Click on the <strong>SAVE LOAN</strong> button to complete the Loan Creation.<br><br>
+            </p>
+        </div>
 
     </div>
 </main>
@@ -29,4 +50,3 @@
     {% include "siteWeb/includes/footer.html" %}
 </footer>
 {% endblock %}
-k %}

@@ -33,11 +33,11 @@
                     <tr>
                         <th scope="col" class="col-md-1">SURNAME</th>
                         <th scope="col" class="col-md-1">NAME</th>
-                        <th scope="col" class="col-md-1">EMAIL</th>
+                        <th scope="col" class="col-md-1 text-center">EMAIL</th>
                         <th scope="col" class="col-md-1">RETURNED</th>
-                        <th scope="col" class="col-md-2">CREATION DATE</th>
-                        <th scope="col" class="col-md-2">RETURN DATE</th>
-                        <th scope="col" class="col-md-2 text-center">ACTIONS</th>
+                        <th scope="col" class="col-md-3">CREATION DATE</th>
+                        <th scope="col" class="col-md-3">RETURN DATE</th>
+                        <th scope="col" class="col-md-3 text-center">ACTIONS</th>
                     </tr>
                     </thead>
                     {% for loan in loan_not_ret %}
@@ -57,7 +57,7 @@
                                 <span><i class="far fa-edit"></i></span> EDIT
                             </a>
 
-                            <button class="btn btn-danger ml-3" onClick="deleteLoan({{loan.id}})">
+                            <button class="btn btn-danger ml-2" onClick="deleteLoan({{loan.id}})">
                                 <span><i class="far fa-trash-alt"></i></span> DELETE
                             </button>
                         </td>

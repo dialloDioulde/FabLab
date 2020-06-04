@@ -1,26 +1,85 @@
 {% extends "siteWeb/header_secondary.html" %}
 {% block content %}
 <main>
-    <div class="container mt-5">
+    <div class="container mt-5  red lighten-5">
         <div class="row border">
             <div class="col-md-6 ml-4 mt-2 pt-1">
-                <h4>USER MANUAL</h4>
+                <h4 style="margin-left: 5px;">USER MANUAL</h4>
             </div>
         </div>
 
-        <p>
-            <strong>
-                Welcome to your Training Space ! <br>
-                In this section you have the commands for all the Features as well as the Commands for their implementation.
-            </strong>
-        </p>
+        <div style="margin-left: 5px;">
+            <p style="margin-left: 5px; font-size: 20px;">
+                <strong>
+                    In this page you can find the procedure allowing to CREATE, DISPLAY the list of Materials,
+                    EDIT and DELETE a material. <br><br>
+                    All the operations that can be carried out on materials are accessible to all users with an account.
+                </strong>
+            </p>
 
-        <p>
-            <strong>
-                Just click on the name of the feature to access the page that describes it and details the procedures for implementing it.
-            </strong>
-        </p>
+            <h4> 1. CREATE A MATERIAL :</h4>
+            <p style="margin-left: 5px; font-size: 20px;">
+                1 - To access this functionality, you must be logged in.<br> <br>
+                2 - Click on the <strong>DASHBOARD</strong> tab located in the navigation bar.<br><br>
+                3 - You will be redirected to the page containing the list of all the Loans already made on the website.
+                <br><br>
+                4 - Move the mouse cursor completely to the left and click on the MATERIAL tab to access the list of all
+                registered materials. <br><br>
+                5 - You also have access to the functionalities allowing to CREATE a Material, to EDIT the information
+                of a Material and to DELETE a Material.<br><br>
+                6 - To create a Material click on the <strong>ADD MATERIAL</strong> button, Fill in the fields : <strong><br>
+                NAME, BARCODE, TYPE, MATERIAL PICTURE </strong> and click on the <strong>SUBMIT MATERIAL</strong> button to complete the creation of the new material.<br><br>
+                7 - <strong>PLEASE NOTE</strong> : <br>
+                A single TYPE can only be associated with one and only MATERIAL. <br>
+                A generic TYPE can be associated with several MATERIALS.<br><br>
+            </p>
+        </div>
 
+        <div style="margin-left: 5px; margin-top: 5px;">
+            <h4> 2. SHOW LIST OF TMATERIALS :</h4>
+            <p style="margin-left: 5px; font-size: 20px;">
+                1 - To access this functionality, you must be logged in.<br> <br>
+                2 - Click on the <strong>DASHBOARD</strong> tab located in the navigation bar.<br><br>
+                3 - You will be redirected to the page containing the list of all the Loans already made on the website.
+                <br><br>
+                4 - Move the mouse cursor completely to the left and click on the MATERIAL tab to access the list of all
+                registered materials. <br><br>
+                5 - You also have access to the functionalities allowing to CREATE a Material, to EDIT the information
+                of a Material and to DELETE a Material.<br><br>
+            </p>
+        </div>
+
+        <div style="margin-left: 5px; margin-top: 5px;">
+            <h4> 3. EDIT A MATERIAL :</h4>
+            <p style="margin-left: 5px; font-size: 20px;">
+                1 - To access this functionality, you must be logged in.<br> <br>
+                2 - Click on the <strong>DASHBOARD</strong> tab located in the navigation bar.<br><br>
+                3 - You will be redirected to the page containing the list of all the Loans already made on the website.
+                <br><br>
+                4 - Move the mouse cursor completely to the left and click on the MATERIAL tab to access the list of all
+                registered materials. <br><br>
+                5 - You also have access to the functionalities allowing to CREATE a Material, to EDIT the information
+                of a Material and to DELETE a Material.<br><br>
+                6 - Click on the <strong>EDIT</strong> button the material to edit to display its edit form with this information previously entered.<br><br>
+                7 - Edit the field (s) concerned by the edition and click on the <strong>SUBMIT MATERIAL </strong>button to save your modifications.
+            </p>
+        </div>
+
+        <div style="margin-left: 5px; margin-top: 5px;">
+            <h4> 4. DELETE A MATERIAL :</h4>
+            <p style="margin-left: 5px; font-size: 20px;">
+                1 - To access this functionality, you must be logged in.<br> <br>
+                2 - Click on the <strong>DASHBOARD</strong> tab located in the navigation bar.<br><br>
+                3 - You will be redirected to the page containing the list of all the Loans already made on the website.
+                <br><br>
+                4 -  Move the mouse cursor completely to the left and click on the MATERIAL tab to access the list of all
+                registered materials. <br><br>
+                5 - You also have access to the functionalities allowing to CREATE a Material, to EDIT the information
+                of a Material and to DELETE a Material.<br><br>
+                6 - Click the DELETE material button to delete.<br><br>
+                7 - You will be asked to confirm the deletion, click OK to complete the action or click CANCEL to cancel the deletion.<br><br>
+            </p>
+        </div>
 
 
     </div>
@@ -29,4 +88,3 @@
     {% include "siteWeb/includes/footer.html" %}
 </footer>
 {% endblock %}
-k %}
