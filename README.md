@@ -14,6 +14,7 @@ MIHALI Kristi
 
 #### Remarque
 
+Ce projet a été développé sous la supervision de M. Lemasson.
 
 #### Requirements
 Django==3.0.5
