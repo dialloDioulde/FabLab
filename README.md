@@ -59,10 +59,11 @@ selenium==3.14.0
 * [x] 2 - **Formulaire** de Type / de Matériel / d'Emprunteur / d'Emprunt
 * [x] 3 - **CRUD** Type / Matériel / Emprunteur / Emprunt
 * [x] 4 - Fichiers **média** pour les matériels
-* [x] 5 - **Identification Auth** && Package d’administration (**Utilisanteur / Administrateur**)
+* [x] 5 - **django.contrib.auth*** && Niveaux d'utilisateurs (**Utilisanteur / Administrateur**)
 * [x] 6 - Intégration graphique responsive en utilisant **Fontawesome** 
 * [x] 7 - Utilisation du framework Django **Ajax/JQuery**
-* [x] 8 - Tests unitaires (Commande: ```$coverage run --source='.' manage.py test``` pour voir le réslutat)
+* [x] 8 - Réinitialisation du mot de passe (Password Reset View)
+* [x] 9 - Tests unitaires (Commande: ```$coverage run --source='.' manage.py test``` pour voir le réslutat)
 
 #### Tâche non réalisé
 * [ ] 1 - Avoir le form du Matériel et Type sur le même page. 
