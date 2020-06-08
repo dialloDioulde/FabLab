@@ -1,83 +1,104 @@
-# FabLab
+       
+ # Projet TER
+Bonjour,
 
-1.Grab a copy of the project.
+Voici notre projet compte rendu TER.
 
-    git clone new_project.git
+Vous pouvez trouver notre code source sur Github 
+https://github.com/dialloDioulde/FabLab
 
-2.Create a virtual environment and install dependencies.
+#### Group
+MAMADOU Diallo
+MIHALI Kristi
 
-    mkvirtualenv new_project
+
+#### Remarque
+
+
+#### Requirements
+Django==3.0.5
+django-tinymce4-lite==1.7.5
+selenium==3.14.0
+
+
+#### Installation
+
+1) Grab a copy of the project.
+
+       ``` git clone new_project.git```
+        
+2) Create a virtual environment and install dependencies.
+
+        ```mkvirtualenv new_project```
     or
-    virtualenv new_project (in mac)
-    pip install -r requirements.txt
-
-3.Duplicate new_project/new_project/local_settings_example.py and save as local_settings.py.
-
-4. Enter your database settings in local_settings.py.
-
-5. Initialize your database.
-
-        python ./manage.py syncdb
-        python ./manage.py migrate
-If your app has a custom user model, you'll need to create a new superuser for the admin.
-
-    python ./manage.py createsuperuser
-
-6.Run the development server to verify everything is working.
-
-    python ./manage.py runserver
-
-
-
-
-#DONE:
-
-      1- Display materials
-
-      2- Pagination
-
-      3- User Levels
-
-      4- Create a Loan
-
-      5- Add materials to the loan
-
-        5.1- Display list of materials on Loan
-
-        5.2- Modify quantity of material
-
-            -if type of material is UNIQUE: quantity cannot be modified
-
-      6- Add Loaner and expected Return Date to the Loan
-
-      7- Create Type/Material/Loaner
-
-      8- Display all Type/Material/Loaner on a table
-
-      9- Modify Loaner
-      
-      10- Change Password
+        ```virtualenv new_project (in mac)```
+        ```pip install -r requirements.txt```
+        
+3) Duplicate 
+       ``` new_project/new_project/local_settings_example.py ```
+    and save as 
+        ```local_settings.py.```
+4) Enter your database settings in 
+        ```local_settings.py.```
     
-      11- Forget Password
-      
-      12 - Display Loans
-      
-      13 - Modify Material/Type
-      
-      14 - Delete Type/Material/Loaner
-      
-      15 - Delete Loans
-      
-      16 - Frontend implementation
-      
-      17 - Unit Tests
-      
-      18 - Integration Tests
-      
+5) Initialize your database.
 
-#TO DO:
+       ``` python ./manage.py syncdb```
+        ```python ./manage.py migrate```
+        
+   If your app has a custom user model, you'll need to create a new superuser for the admin.
 
-    Documentation Writing.
-    
+       ``` python ./manage.py createsuperuser```
+       
+7) Run the development server to verify everything is working.
+
+        ```python ./manage.py runserver```
+
+#### Tâche réalisé
+* [x] 1 - **Pages** Accueil / Profil de l'utilisateur / un matériel
+* [x] 2 - **Formulaire** de Type / de Matériel / d'Emprunteur / d'Emprunt
+* [x] 3 - **CRUD** Type / Matériel / Emprunteur / Emprunt
+* [x] 4 - Fichiers **média** pour les matériels
+* [x] 5 - **Identification Auth** && Package d’administration (**Utilisanteur / Administrateur**)
+* [x] 6 - Intégration graphique responsive en utilisant **Fontawesome** 
+* [x] 7 - Utilisation du framework Django **Ajax/JQuery**
+* [x] 8 - Tests unitaires (Commande: ```$coverage run --source='.' manage.py test``` pour voir le réslutat)
+
+#### Tâche non réalisé
+* [ ] 1 - Avoir le form du Matériel et Type sur le même page. 
+
+#### Démonstration
+
+###### Page d'accueil - https://projet-laravel.zhangzhao.fr
+<img src="https://imgur.com/pKxAHI3.png"/>
+
+###### Page d'un matériel 
+<img src="https://imgur.com/EoJL5EL.png"/>
+###### Page contact  - https://projet-laravel.zhangzhao.fr/contact
+<img src="https://imgur.com/HSmELPj.png"/>
+
+###### Page register  - https://projet-laravel.zhangzhao.fr/register
+<img src="https://imgur.com/cKg4Wbc.png"/>
+
+###### Page login (Utilisateur)  - https://projet-laravel.zhangzhao.fr/login
+<img src="https://imgur.com/plviClK.png"/>
+
+###### Page dashboard (Utilisateur)  - https://projet-laravel.zhangzhao.fr/profile
+<img src="https://imgur.com/K3AniZt.png"/>
+
+###### Page modification d'un article (Utilisateur)  - https://projet-laravel.zhangzhao.fr/article/edit/15
+<img src="https://imgur.com/xoNiwib.png"/>
+
+###### Page création d'un article (Utilisateur)  - https://projet-laravel.zhangzhao.fr/create
+<img src="https://imgur.com/TCkVaTN.png"/>
+
+###### Page d'administrator voyager (Administrator)  - https://projet-laravel.zhangzhao.fr/admin/posts
+<img src="https://imgur.com/luTYbpl.png"/>
+<img src="https://imgur.com/vERJFiZ.png"/>
+<img src="https://imgur.com/67BqTXi.png"/>
+
+
+
+
     
     
