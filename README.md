@@ -98,6 +98,7 @@ selenium==3.14.0
 ###### Page Emprunt
 
 <a href="https://imgur.com/VWfG4NO"><img src="https://i.imgur.com/VWfG4NO.png" title="source: imgur.com" /></a>
+<img src="https://i.imgur.com/p03OkJa" title="source: imgur.com" />
 
 ###### Page Type
 <a href="https://imgur.com/nh7MXfQ"><img src="https://i.imgur.com/nh7MXfQ.png" title="source: imgur.com" /></a>
