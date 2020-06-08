@@ -11,9 +11,9 @@
                 <img src="../../images/{{object.material_picture}}" width="400"  style="margin-bottom: 5px;">
                 {% if user.is_authenticated %}
                 <div class="d-flex mb-4 ml-5" style="margin-top: 5px;">
-                    <a href="{{ object.get_add_to_loan_url }}" class="btn btn-primary darken-4 mr-2">Add to Loan</a>
-                    <a href="{{ object.get_remove_from_loan_url }}" class="btn dropdown-button red darken-4 mr-2">Remove From Cart</a>
-                    <a href=" /updateMaterial/{{object.id}} " class="btn dropdown-button yellow darken-4"> Edit Material </a>
+                    <a href="{{ object.get_add_to_loan_url }}" class="btn green darken-4 mr-2">Add to Loan</a>
+                    <a href="{{ object.get_remove_from_loan_url }}" class="btn red darken-4 mr-2">Remove From Cart</a>
+                    <a href=" /updateMaterial/{{object.id}} " class="btn grey darken-4 mr-2"> Edit Material </a>
                 </div>
                 {% endif %}
             </div>
