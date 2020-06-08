@@ -70,35 +70,44 @@ selenium==3.14.0
 
 #### Démonstration
 
-###### Page d'accueil - 
-<img src="https://i.imgur.com/nShpCF8.png" title="source: imgur.com" />
+###### Page d'accueil 
+
+<img src="https://i.imgur.com/fN443XB.png" title="source: imgur.com" />
+
 ###### Page d'un matériel 
-<img src="https://imgur.com/EoJL5EL.png"/>
-###### Page contact  - https://projet-laravel.zhangzhao.fr/contact
-<img src="https://imgur.com/HSmELPj.png"/>
+<img src="https://i.imgur.com/DUbVC5k.png" title="source: imgur.com" />
 
-###### Page register  - https://projet-laravel.zhangzhao.fr/register
-<img src="https://imgur.com/cKg4Wbc.png"/>
+###### Page création d'un emprunt 
+<img src="https://i.imgur.com/fBU29zr.png" title="source: imgur.com" />
+<img src="https://i.imgur.com/6WpqYlO.png" title="source: imgur.com" />
 
-###### Page login (Utilisateur)  - https://projet-laravel.zhangzhao.fr/login
-<img src="https://imgur.com/plviClK.png"/>
+###### Page profil de l'utilisateur 
+<img src="https://i.imgur.com/JIXZYzo.png" title="source: imgur.com" />
 
-###### Page dashboard (Utilisateur)  - https://projet-laravel.zhangzhao.fr/profile
-<img src="https://imgur.com/K3AniZt.png"/>
+###### Page register staff
+<img src="https://i.imgur.com/6D04b3m.png" title="source: imgur.com" />
 
-###### Page modification d'un article (Utilisateur)  - https://projet-laravel.zhangzhao.fr/article/edit/15
-<img src="https://imgur.com/xoNiwib.png"/>
+###### Page login 
 
-###### Page création d'un article (Utilisateur)  - https://projet-laravel.zhangzhao.fr/create
-<img src="https://imgur.com/TCkVaTN.png"/>
+<img src="https://i.imgur.com/OvEVHGt.png" title="source: imgur.com" />
 
-###### Page d'administrator voyager (Administrator)  - https://projet-laravel.zhangzhao.fr/admin/posts
-<img src="https://imgur.com/luTYbpl.png"/>
-<img src="https://imgur.com/vERJFiZ.png"/>
-<img src="https://imgur.com/67BqTXi.png"/>
+###### Page dashboard 
 
+<img src="https://i.imgur.com/wu75801.png" title="source: imgur.com" />
 
+###### Page Emprunt
 
+<a href="https://imgur.com/VWfG4NO"><img src="https://i.imgur.com/VWfG4NO.png" title="source: imgur.com" /></a>
 
-    
-    
+###### Page Type
+<a href="https://imgur.com/nh7MXfQ"><img src="https://i.imgur.com/nh7MXfQ.png" title="source: imgur.com" /></a>
+<a href="https://imgur.com/jMRkDjt"><img src="https://i.imgur.com/jMRkDjt.png" title="source: imgur.com" /></a>
+
+###### Page Emprunteur
+<a href="https://imgur.com/wNppPaV"><img src="https://i.imgur.com/wNppPaV.png" title="source: imgur.com" /></a>
+<a href="https://imgur.com/YfZCXes"><img src="https://i.imgur.com/YfZCXes.png" title="source: imgur.com" /></a>
+
+###### Page Matériel
+
+<a href="https://imgur.com/nShpCF8"><img src="https://i.imgur.com/nShpCF8.png" title="source: imgur.com" /></a>
+<a href="https://imgur.com/7iAarAe"><img src="https://i.imgur.com/7iAarAe.png" title="source: imgur.com" /></a>
