@@ -8,7 +8,7 @@ Vous pouvez trouver notre code source sur Github
 https://github.com/dialloDioulde/FabLab
 
 #### Group
-MAMADOU Diallo
+DIALLO Mamadou
 MIHALI Kristi
 
 
