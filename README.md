@@ -23,34 +23,34 @@ selenium==3.14.0
 
 #### Installation
 
-1) Grab a copy of the project.
+1) Obtenez une copie du projet.
 
        ``` git clone new_project.git```
         
-2) Create a virtual environment and install dependencies.
+2) Créer un environnement virtuel et installer des dépendances.
 
         ```mkvirtualenv new_project```
-    or
+    ou
         ```virtualenv new_project (in mac)```
         ```pip install -r requirements.txt```
         
-3) Duplicate 
+3) Dupliquer 
        ``` new_project/new_project/local_settings_example.py ```
-    and save as 
+    et de l'enregistrer sous 
         ```local_settings.py.```
-4) Enter your database settings in 
+4) Entrez les paramètres de votre base de données dans 
         ```local_settings.py.```
     
-5) Initialize your database.
+5) Initialisez votre base de données.
 
        ``` python ./manage.py syncdb```
         ```python ./manage.py migrate```
         
-   If your app has a custom user model, you'll need to create a new superuser for the admin.
+   Si votre application a un modèle d'utilisateur personnalisé, vous devrez créer un nouveau super-utilisateur pour l'administrateur.
 
        ``` python ./manage.py createsuperuser```
        
-7) Run the development server to verify everything is working.
+7) Lancez le serveur de développement pour vérifier que tout fonctionne.
 
         ```python ./manage.py runserver```
 
