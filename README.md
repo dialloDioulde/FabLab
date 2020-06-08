@@ -70,9 +70,8 @@ selenium==3.14.0
 
 #### Démonstration
 
-###### Page d'accueil - https://projet-laravel.zhangzhao.fr
-<img src="https://imgur.com/pKxAHI3.png"/>
-
+###### Page d'accueil - 
+<img src="https://i.imgur.com/nShpCF8.png" title="source: imgur.com" />
 ###### Page d'un matériel 
 <img src="https://imgur.com/EoJL5EL.png"/>
 ###### Page contact  - https://projet-laravel.zhangzhao.fr/contact
