@@ -26,34 +26,27 @@ selenium==3.14.0
 
 1) Obtenez une copie du projet.
 
-       ``` git clone new_project.git```
+       git clone new_project.git
         
 2) Créer un environnement virtuel et installer des dépendances.
 
-        ```mkvirtualenv new_project```
+        mkvirtualenv new_project
     ou
         ```virtualenv new_project (in mac)```
-        ```pip install -r requirements.txt```
-        
-3) Dupliquer 
-       ``` new_project/new_project/local_settings_example.py ```
-    et de l'enregistrer sous 
-        ```local_settings.py.```
-4) Entrez les paramètres de votre base de données dans 
-        ```local_settings.py.```
+    Après: 
+      ```pip3 install -r requirements.txt```
     
-5) Initialisez votre base de données.
+3) Initialisez votre base de données.
 
-       ``` python ./manage.py syncdb```
-        ```python ./manage.py migrate```
+        python3 ./manage.py migrate
         
    Si votre application a un modèle d'utilisateur personnalisé, vous devrez créer un nouveau super-utilisateur pour l'administrateur.
 
-       ``` python ./manage.py createsuperuser```
+        python3 ./manage.py createsuperuser
        
-7) Lancez le serveur de développement pour vérifier que tout fonctionne.
+4) Lancez le serveur de développement pour vérifier que tout fonctionne.
 
-        ```python ./manage.py runserver```
+        python3 ./manage.py runserver
 
 #### Tâche réalisé
 * [x] 1 - **Pages** Accueil / Profil de l'utilisateur / un matériel
