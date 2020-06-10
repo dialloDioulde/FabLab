@@ -17,8 +17,11 @@ MIHALI Kristi
 Ce projet a été développé sous la supervision de M. Lemasson.
 
 #### Requirements
+
 Django==3.0.5
+
 django-tinymce4-lite==1.7.5
+
 selenium==3.14.0
 
 
@@ -33,7 +36,9 @@ selenium==3.14.0
         mkvirtualenv new_project
     ou
         ```virtualenv new_project (in mac)```
+        
     Après: 
+    
       ```pip3 install -r requirements.txt```
     
 3) Initialisez votre base de données.
