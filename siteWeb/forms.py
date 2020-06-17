@@ -43,15 +43,6 @@ class formLoanMaterial(forms.ModelForm):
         fields = ['material','quantity']
 
 
-# Formulaire d'Ajout d'un Emprunt
-class formLoan(forms.ModelForm):
-    class Meta:
-        # model generated based on table Loan
-        model = Loan
-        # show specific fields on the automatically generated form (based on model)
-        fields = ['loaner','materials','expected_return_date', 'return_date']
-
-
 class NewUserForm(UserCreationForm):
     # automatically generated Creation Form
     # create a New User. Form to add a new Staff Member
@@ -95,6 +86,9 @@ class formLoan(forms.ModelForm):
     class Meta:
         # model generated based on table Loan
         model = Loan
+        labels = {
+            'loaner': 'Borrower',
+        }
         # show specific fields on the automatically generated form (based on model)
         fields = ('loaner', 'expected_return_date')
 

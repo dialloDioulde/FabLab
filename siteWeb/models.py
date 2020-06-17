@@ -57,11 +57,14 @@ class Type(models.Model):
         materials that the FabMSTIC owns.
         A Type is created to serve to the creation on Materials.
 
-        :param TYPE_UNIQUE: Represents a type, which once created, corresponds to ONE and ONLY ONE Material.
-            In other words, FabLab owns only ONE Material of this SPECIFIC TYPE.
-        :param TYPE_GENERIC: Represents a type, which once created, can correspond to multiple Materials.
-            FabLab owns different type of Materials of the same model or brand.
-        :param material_type: d
+        :param TYPE_UNIQUE: Represents a type, which once created, corresponds to different Materials.
+            In other words, FabLab owns can own multiple Materials with that name and corresponding to that brand.
+        :param TYPE_GENERIC: Represents a type, which once created, can only correspond to ONE Material.
+            A generic typeis a type of which one does not differentiate the instances. In other words,
+            FabMSTIC does not need to keep track of all the individual objects that can be created from this type;
+            it's only necessary to have the name of the type saved into the DB.
+
+        :param material_type: type unique or generic.
         :param name_type: Name of the Type.
         :param description: Brief description of the Type.
         :param creation_date_type: Date when the Type was Created.
@@ -88,9 +91,10 @@ class Type(models.Model):
 class Material(models.Model):
     """
         **Context**
-        \n A Material represents a physical object. It can be either Unique, which means it only exists once in the FabLab inventory
-        (and it corresponds to a Unique Type), or it can be Generic, meaning that FabLab owns multiple of this physical object
-        (and it corresponds to a Generic Type).
+        \n A Material represents a physical object. It can be either Generic, which means it only exists once in the FabLab inventory
+        (and it corresponds to a Generic Type), or it can be Unique, meaning that FabLab owns multiple objects which are the same,
+         but differenciate with one another from the name of the material and the barcode of this physical object
+        (and it corresponds to a Unique Type).
 
         :param name: Name of Material
         :param barcode: A Material has it's unique identification code.

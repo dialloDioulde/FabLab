@@ -213,9 +213,9 @@ def addMaterial(request):
     """
     **Context**
     \nAdding a new Material, requires to fill a form with different fields such as name, barcode and choosing a type.
-    \nIf the chosen type of the material is a UNIQUE one, the type gets removed form the dropdown where the user
-    is able to choose between the types available (ONE and ONLY ONE material can be created out of a UNIQUE Type).
-    \nIf the type is GENERIC, the number of materials created is not taken into consideration.
+    \nIf the chosen type of the material is a GENERIC one, the type gets removed form the dropdown where the user
+    is able to choose between the types available (ONE and ONLY ONE material can be created out of a GENERIC Type).
+    \nIf the type is UNIQUE, the number of materials created is not taken into consideration.
 
     :param request: This request object contains information set by entities present before a view method.
     :return: If the Material is added successfully, then the redirection brings you to the homepage.
@@ -254,8 +254,8 @@ def updateMaterial(request, id):
     """
     **Context**
     \nThe modification of an existing material is possible. The edit of the name, barcode and also Type can be done during
-    this step. Whenever a Type is changed, there is a check to see if the old type or the new is a UNIQUE one.
-    If either of them is UNIQUE, the (respective) old or new type gets added or removed from the list of available types to choose from.
+    this step. Whenever a Type is changed, there is a check to see if the old type or the new is a GENERIC one.
+    If either of them is GENERIC, the (respective) old or new type gets added or removed from the list of available types to choose from.
 
     :param request: This request object contains information set by entities present before a view method.
     :param id: ID of the material that is about to be modified.
@@ -283,9 +283,9 @@ def updateMaterial(request, id):
                     messages.error(request, f"Error! Multiple Generic Materials.")
                     return redirect(homepage)
                 except ObjectDoesNotExist:
-                    type_unique = Type.objects.get(id=type.id)
-                    type_unique.unavailable = True
-                    type_unique.save()
+                    type_generic = Type.objects.get(id=type.id)
+                    type_generic.unavailable = True
+                    type_generic.save()
                     form.save()
                     messages.success(request, f"Material Edited Successfully!")
                     return redirect("homepage")

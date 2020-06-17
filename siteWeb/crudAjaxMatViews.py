@@ -1,13 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, View, DeleteView
-from django.core import serializers
-from django.http import JsonResponse
-from siteWeb.models import LoanMaterial, Loaner, Loan, Material, Type, UserProfile
-from siteWeb.forms import formLoan, formType, formLoaner, formLoanMaterial, formMaterial, formLoan
-from django.template.loader import render_to_string
-from django.http import JsonResponse
+from siteWeb.models import  Material
+from siteWeb.forms import formMaterial
 from django.core.paginator import Paginator
 
 
