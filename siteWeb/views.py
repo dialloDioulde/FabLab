@@ -1,5 +1,4 @@
 import sys
-
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
@@ -227,14 +226,14 @@ def addMaterial(request):
             type = form.cleaned_data.get('type')
 
             #check if type is unique
-            if type.material_type == 'unique':
+            if type.material_type == 'generic':
                 #if so, set type as unavailable so it won't be available to create another material with the same type
                 type.unavailable = True
                 type.save()
                 from django.core.exceptions import ObjectDoesNotExist
                 try:
                     Material.objects.get(type=type)
-                    messages.error(request, f"Existing unique type.")
+                    messages.error(request, f"Existing generic type.")
                 except MultipleObjectsReturned:
                     return redirect(homepage)
                     messages.error(request, f"Error!")
@@ -269,19 +268,19 @@ def updateMaterial(request, id):
         form = formMaterial(request.POST, request.FILES, instance=mat)
         mat_type = Type.objects.get(id=mat.type.id)
 
-        if mat_type.material_type == 'unique':
+        if mat_type.material_type == 'generic':
             mat_type.unavailable = False
             mat_type.save()
 
         if form.is_valid():
             type = form.cleaned_data.get('type')
 
-            if type.material_type == 'unique':
+            if type.material_type == 'generic':
                 try:
                     Material.objects.get(type=type)
-                    messages.error(request, f"Existing unique type.")
+                    messages.error(request, f"Existing generic type.")
                 except MultipleObjectsReturned:
-                    messages.error(request, f"Error! Multiple Unique Materials.")
+                    messages.error(request, f"Error! Multiple Generic Materials.")
                     return redirect(homepage)
                 except ObjectDoesNotExist:
                     type_unique = Type.objects.get(id=type.id)
