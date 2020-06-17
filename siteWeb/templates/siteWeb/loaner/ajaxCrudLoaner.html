@@ -183,7 +183,7 @@ $("form#addloaner").submit(function() {
             dataType: 'json',
             success: function (data) {
                 if (data.loaner) {
-                  alert("Loaner is created");
+                  alert("Borrower is created");
                   location.reload(true);
                 }
 
@@ -191,7 +191,7 @@ $("form#addloaner").submit(function() {
         });
 
     } else {
-        alert("Loaner is not saved");
+        alert("Borrower is not saved");
     }
     $('form#addloaner').trigger("reset");
     return false;
@@ -228,14 +228,14 @@ $("form#updateLoaner").submit(function() {
             success: function (data) {
                 if (data.loaner) {
                   updateToLoanerTabel(data.loaner);
-                  alert("Loaner is updated");
+                  alert("Borrower is updated");
                   location.reload(true);
                 }
             }
         });
 
     } else {
-        alert("Loaner is not updated");
+        alert("Borrower is not updated");
     }
     //$('form#updateLoaner').trigger("reset");
     //$('#myModal').modal('hide');
@@ -292,7 +292,7 @@ function deleteLoaner(id) {
         success: function (data) {
             if (data.deleted) {
               $("#loanerTable #loaner-" + id).remove();
-              alert("Loaner is deleted");
+              alert("Borrower is deleted");
             }
         }
     });
